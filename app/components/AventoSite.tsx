@@ -244,7 +244,7 @@ export function Header() {
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
         <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo.png" alt="" /></span>
-        <span className="site-logo-wordmark"><span className="site-logo-avento"><span className="site-logo-letter-a">A</span>VENTO</span><span>MOTORS</span></span>
+        <span className="site-logo-wordmark"><span className="site-logo-avento">AVENTO</span><span>MOTORS</span></span>
       </Link>
       <nav aria-label="Головна навігація">
         <Link href="/cars">Обрати авто</Link>
@@ -293,16 +293,34 @@ function RangeFilter({
 
 function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue?: number; maxValue?: number; onMinChange: (value: string) => void; onMaxChange: (value: string) => void }) {
   const [open, setOpen] = useState(Boolean(minValue || maxValue));
+  const [target, setTarget] = useState<"min" | "max" | null>(null);
   const years = Array.from({ length: 17 }, (_, index) => 2010 + index);
   const summary = minValue && maxValue ? `${minValue} — ${maxValue}` : minValue ? `від ${minValue}` : maxValue ? `до ${maxValue}` : "Будь-який";
+  const chooseYear = (value: string) => {
+    if (target === "min") onMinChange(value);
+    if (target === "max") onMaxChange(value);
+    setTarget(null);
+  };
 
   return (
     <div className={open ? "range-filter year-filter is-open" : "range-filter year-filter"}>
       <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Рік</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
       <div className="range-dropdown">
-        <label><span>Мін.</span><select aria-label="Рік, мінімум" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)}><option value="">Будь-який</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
-        <label><span>Макс.</span><select aria-label="Рік, максимум" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)}><option value="">Будь-який</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
+        <label><span>Мін.</span><button type="button" className="range-choice-value" onClick={() => setTarget("min")}>{minValue ?? "Будь-який"}</button></label>
+        <label><span>Макс.</span><button type="button" className="range-choice-value" onClick={() => setTarget("max")}>{maxValue ?? "Будь-який"}</button></label>
+        {target && <div className="year-choice-list" aria-label={target === "min" ? "Оберіть мінімальний рік" : "Оберіть максимальний рік"}><button type="button" onClick={() => chooseYear("")}>Будь-який</button>{years.map((year) => <button className={(target === "min" ? minValue : maxValue) === year ? "is-selected" : ""} type="button" key={year} onClick={() => chooseYear(String(year))}>{year}</button>)}</div>}
       </div>
+    </div>
+  );
+}
+
+function BrandFilter({ value, onChange }: { value?: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className={open ? "range-filter brand-filter is-open" : "range-filter brand-filter"}>
+      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Марки</span><span className="range-summary">{value ? `"${value}"` : "Усі марки"}</span><span className="range-chevron" aria-hidden="true" /></button>
+      <div className="range-dropdown brand-choice-list" aria-label="Оберіть марку"><button type="button" className={!value ? "is-selected" : ""} onClick={() => { onChange(""); setOpen(false); }}>Усі марки</button>{brands.map((brand) => <button className={value === brand ? "is-selected" : ""} type="button" key={brand} onClick={() => { onChange(brand); setOpen(false); }}>{brand}</button>)}</div>
     </div>
   );
 }
@@ -366,14 +384,18 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
   };
 
   const clearFilter = (name: keyof CarFilters) => setFilters((current) => ({ ...current, [name]: undefined }));
+  const rangeLabel = (title: string, min?: number, max?: number, unit = "") => {
+    const value = (number: number) => unit === "₴" ? `₴${formatNumber.format(number)}` : `${formatNumber.format(number)}${unit ? ` ${unit}` : ""}`;
+    if (min && max) return `${title}: ${value(min)}–${value(max)}`;
+    if (min) return `${title}: ${value(min)} + більше`;
+    if (max) return `${title}: ${value(max)} + нижче`;
+    return null;
+  };
   const selectedFilters = [
-    ...(filters.brands ?? []).map((brand) => ({ key: `brand-${brand}`, label: `Марка «${brand}»`, remove: () => setFilters((current) => ({ ...current, brands: current.brands?.filter((item) => item !== brand) || undefined })) })),
-    ...(filters.minPrice ? [{ key: "minPrice", label: `Ціна від ${formatNumber.format(filters.minPrice)} грн`, remove: () => clearFilter("minPrice") }] : []),
-    ...(filters.maxPrice ? [{ key: "maxPrice", label: `Ціна до ${formatNumber.format(filters.maxPrice)} грн`, remove: () => clearFilter("maxPrice") }] : []),
-    ...(filters.minYear ? [{ key: "minYear", label: `Рік від ${filters.minYear}`, remove: () => clearFilter("minYear") }] : []),
-    ...(filters.maxYear ? [{ key: "maxYear", label: `Рік до ${filters.maxYear}`, remove: () => clearFilter("maxYear") }] : []),
-    ...(filters.minMileage ? [{ key: "minMileage", label: `Пробіг від ${formatNumber.format(filters.minMileage)} км`, remove: () => clearFilter("minMileage") }] : []),
-    ...(filters.maxMileage ? [{ key: "maxMileage", label: `Пробіг до ${formatNumber.format(filters.maxMileage)} км`, remove: () => clearFilter("maxMileage") }] : []),
+    ...(filters.brands ?? []).map((brand) => ({ key: `brand-${brand}`, label: `"${brand}"`, remove: () => setFilters((current) => ({ ...current, brands: current.brands?.filter((item) => item !== brand) || undefined })) })),
+    ...(rangeLabel("Ціна", filters.minPrice, filters.maxPrice, "₴") ? [{ key: "price", label: rangeLabel("Ціна", filters.minPrice, filters.maxPrice, "₴")!, remove: () => { clearFilter("minPrice"); clearFilter("maxPrice"); } }] : []),
+    ...(rangeLabel("Рік", filters.minYear, filters.maxYear) ? [{ key: "year", label: rangeLabel("Рік", filters.minYear, filters.maxYear)!, remove: () => { clearFilter("minYear"); clearFilter("maxYear"); } }] : []),
+    ...(rangeLabel("Пробіг", filters.minMileage, filters.maxMileage, "км") ? [{ key: "mileage", label: rangeLabel("Пробіг", filters.minMileage, filters.maxMileage, "км")!, remove: () => { clearFilter("minMileage"); clearFilter("maxMileage"); } }] : []),
   ];
 
   return (
@@ -398,7 +420,7 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
       </section>
 
       <section className="filters" aria-label="Фільтри автомобілів">
-        <label className="brand-filter">Марки<select value={filters.brands?.[0] ?? ""} onChange={(event) => setFilters((current) => ({ ...current, brands: event.target.value ? [event.target.value] : undefined }))}><option value="">Усі марки</option>{brands.map((brand) => <option key={brand} value={brand}>{brand}</option>)}</select></label>
+        <BrandFilter value={filters.brands?.[0]} onChange={(value) => setFilters((current) => ({ ...current, brands: value ? [value] : undefined }))} />
         <RangeFilter title="Ціна" unit="₴" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
         <YearFilter minValue={filters.minYear} maxValue={filters.maxYear} onMinChange={(value) => setFilter("minYear", value)} onMaxChange={(value) => setFilter("maxYear", value)} />
         <RangeFilter title="Пробіг" unit="км" minValue={filters.minMileage} maxValue={filters.maxMileage} onMinChange={(value) => setFilter("minMileage", value)} onMaxChange={(value) => setFilter("maxMileage", value)} />

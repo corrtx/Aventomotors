@@ -91,17 +91,17 @@ footer {
 
 .site-logo-mark {
   display: block;
-  width: 64px;
-  height: 54px;
+  width: 60px;
+  height: 50px;
   overflow: hidden;
 }
 
 .site-logo-mark img {
   display: block;
-  width: 150px;
+  width: 145px;
   max-width: none;
-  height: 150px;
-  transform: translate(-46px, -35px);
+  height: 145px;
+  transform: translate(-44px, -34px);
 }
 
 .site-logo-wordmark {
@@ -122,23 +122,6 @@ footer {
 .site-logo-avento {
   display: inline-flex;
   align-items: center;
-}
-
-.site-logo-letter-a {
-  position: relative;
-  display: inline-block;
-  font: inherit;
-  letter-spacing: inherit;
-}
-
-.site-logo-letter-a::after {
-  position: absolute;
-  top: 47%;
-  left: 15%;
-  width: 70%;
-  height: 0.16em;
-  background: var(--background);
-  content: "";
 }
 
 .site-header nav {
@@ -246,7 +229,7 @@ footer {
   transition: width 180ms ease, background-color 180ms ease;
 }
 
-.hero-dots button.is-active { width: 18px; background: #fff; }
+.hero-dots button.is-active { background: #fff; }
 
 .eyebrow {
   margin: 0 0 18px;
@@ -363,7 +346,7 @@ footer {
   display: grid;
   grid-template-columns: minmax(240px, 1.08fr) minmax(270px, 1.12fr) minmax(220px, 0.88fr) minmax(176px, 0.68fr);
   min-height: 232px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
@@ -515,6 +498,24 @@ footer {
 .rating-wrap:focus-within .rating-tooltip {
   opacity: 1;
   transform: translate(50%, 0);
+}
+
+.detail-rating-wrap .rating-tooltip {
+  right: -6px;
+  bottom: calc(100% + 14px);
+  left: auto;
+  transform: translate(0, 6px) rotate(-2deg);
+}
+
+.detail-rating-wrap .rating-tooltip::after {
+  right: 13px;
+  left: auto;
+  transform: translate(0, -5px) rotate(45deg);
+}
+
+.detail-rating-wrap:hover .rating-tooltip,
+.detail-rating-wrap:focus-within .rating-tooltip {
+  transform: translate(0, 0) rotate(-2deg);
 }
 
 .spec-list {
@@ -778,9 +779,9 @@ footer {
   position: relative;
   min-height: 50px;
   padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0d0f13;
 }
 
 .range-filter-toggle,
@@ -843,11 +844,11 @@ footer {
   box-shadow: 0 18px 35px rgb(0 0 0 / 0.3);
   opacity: 0;
   pointer-events: none;
-  transition: max-height 230ms ease, padding 230ms ease, border-color 230ms ease, opacity 180ms ease;
+  transition: max-height 460ms cubic-bezier(0.22, 1, 0.36, 1), padding 460ms cubic-bezier(0.22, 1, 0.36, 1), border-color 360ms ease, opacity 320ms ease;
 }
 
 .range-filter.is-open .range-dropdown {
-  max-height: 170px;
+  max-height: 220px;
   padding: 10px 12px;
   border-color: #343a45;
   opacity: 1;
@@ -901,23 +902,54 @@ footer {
   color: #101216;
 }
 
-.range-dropdown select {
+.range-choice-value {
   width: 100%;
   min-height: 36px;
   padding-inline: 10px;
-  border: 1px solid #d4d7dc;
-  border-radius: 0;
-  background: #f5f6f8;
-  color: #101216;
+  border: 1px solid #343a45;
+  border-radius: 2px;
+  background: #101217;
+  color: #e8ebef;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
 }
 
-.brand-filter {
-  min-width: 0;
+.year-choice-list,
+.brand-choice-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  max-height: 124px;
+  margin-top: 7px;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
-.brand-filter select {
-  min-height: 50px;
-  border-radius: 12px;
+.brand-choice-list {
+  grid-template-columns: 1fr 1fr;
+}
+
+.year-choice-list button,
+.brand-choice-list button {
+  min-height: 30px;
+  padding: 0 8px;
+  border: 1px solid #2f343e;
+  border-radius: 2px;
+  background: #11141a;
+  color: #c7ccd4;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.year-choice-list button:hover,
+.brand-choice-list button:hover,
+.year-choice-list button.is-selected,
+.brand-choice-list button.is-selected {
+  border-color: #5b8eff;
+  background: #17223a;
+  color: #fff;
 }
 
 .selected-filters {
@@ -1586,8 +1618,8 @@ footer strong {
   }
 
   .site-logo-mark {
-    width: 172px;
-    height: 44px;
+    width: 56px;
+    height: 46px;
   }
 
   .site-header nav {
