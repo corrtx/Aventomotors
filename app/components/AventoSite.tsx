@@ -5,7 +5,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
-import { brands, cars, cycleIndex, filterCars, type Car, type CarFilters } from "@/lib/catalog";
+import { brands, cars, cycleIndex, filterCars, selectPhotoIndex, type Car, type CarFilters } from "@/lib/catalog";
 
 type AventoSiteProps = {
   mode: "home" | "cars";
@@ -60,11 +60,28 @@ function BrandLink({ brand, compact = false }: { brand: string; compact?: boolea
 }
 
 function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
+  const [activePhoto, setActivePhoto] = useState(0);
+  const selectPhoto = (index: number) => setActivePhoto(selectPhotoIndex(index, car.gallery.length));
+
   return (
     <article className="car-card">
-      <Link className="photo-frame" href={`/cars/${car.id}`} aria-label={`Докладніше про ${car.brand} ${car.model}`}>
-        <img src={car.coverImage} alt={`${car.brand} ${car.model}`} loading="lazy" />
-      </Link>
+      <div className="card-photo-area">
+        <Link className="photo-frame" href={`/cars/${car.id}`} aria-label={`Докладніше про ${car.brand} ${car.model}`}>
+          <img src={car.gallery[activePhoto] ?? car.coverImage} alt={`${car.brand} ${car.model}`} loading="lazy" />
+        </Link>
+        <div className="card-photo-segments" aria-label={`Фотографії ${car.brand} ${car.model}`}>
+          {car.gallery.map((image, index) => (
+            <button
+              aria-label={`Показати фото ${index + 1}`}
+              className={index === activePhoto ? "card-photo-segment is-active" : "card-photo-segment"}
+              key={image}
+              onClick={() => selectPhoto(index)}
+              onFocus={() => selectPhoto(index)}
+              onMouseEnter={() => selectPhoto(index)}
+            />
+          ))}
+        </div>
+      </div>
 
       <div className="car-details">
         <div className="car-title-row">
@@ -90,7 +107,7 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
         <button className="action-primary" onClick={() => onAction("credit", car)}>У кредит</button>
         <button onClick={() => onAction("exchange", car)}>Обмін</button>
         <button onClick={() => onAction("reserve", car)}>Резерв</button>
-        <span>Безкоштовно на 24 години</span>
+        <span>Безкоштовний резерв до 24 годин</span>
       </div>
     </article>
   );
@@ -139,8 +156,11 @@ export function RequestModal({
           </div>
         ) : (
           <form onSubmit={onSubmit}>
-            <p className="modal-label">{car.brand} {car.model}</p>
             <h2 id="request-title">{actionLabels[action]}</h2>
+            <div className="request-car-identity">
+              <img src={car.coverImage} alt="" />
+              <span>{car.brand} {car.model}</span>
+            </div>
             <label>Ім’я<input name="name" autoComplete="name" required /></label>
             <label>Телефон<input name="phone" type="tel" autoComplete="tel" placeholder="+380" required /></label>
             {action === "credit" && (

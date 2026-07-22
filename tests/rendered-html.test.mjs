@@ -34,6 +34,8 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Про нас/);
   assert.match(html, /Ціна від/);
   assert.match(html, /У кредит від/);
+  assert.match(html, /card-photo-segments/);
+  assert.match(html, /Безкоштовний резерв до 24 годин/);
   assert.match(html, /Переглянути всі марки/);
   assert.match(html, /class="[^"]*all-brands-row"/);
   assert.match(html, /class="site-logo-mark"/);
@@ -101,6 +103,9 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /<option value="12">12 місяців<\/option>/);
   assert.match(site, /<option value="24">24 місяців<\/option>/);
   assert.match(site, /Ваш автомобіль/);
+  assert.match(site, /request-car-identity/);
+  assert.match(site, /card-photo-segment/);
+  assert.doesNotMatch(css, /\.photo-frame:hover img\s*\{[^}]*scale/);
   assert.match(site, /className="site-logo-mark"/);
   assert.match(css, /scroll-behavior:\s*smooth/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));

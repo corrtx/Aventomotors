@@ -282,9 +282,13 @@ footer {
   background: var(--surface);
 }
 
+.card-photo-area {
+  position: relative;
+  align-self: center;
+}
+
 .photo-frame {
   display: block;
-  align-self: center;
   width: calc(100% - 18px);
   aspect-ratio: 16 / 10;
   margin: 9px;
@@ -300,11 +304,30 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.photo-frame:hover img {
-  transform: scale(1.025);
+.card-photo-segments {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  left: 22px;
+  z-index: 2;
+  display: flex;
+  gap: 5px;
+}
+
+.card-photo-segment {
+  height: 3px;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: rgb(219 224 232 / 0.55);
+  cursor: pointer;
+}
+
+.card-photo-segment.is-active {
+  background: var(--blue);
 }
 
 .car-details,
@@ -961,14 +984,8 @@ footer strong {
   cursor: pointer;
 }
 
-.modal-label {
-  margin: 0 0 7px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
 .request-modal h2 {
-  margin: 0 0 30px;
+  margin: 0;
   font-size: 38px;
   font-weight: 610;
   letter-spacing: -0.055em;
@@ -977,6 +994,26 @@ footer strong {
 .request-modal form {
   display: grid;
   gap: 16px;
+}
+
+.request-car-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: #dfe3ea;
+  font-size: 13px;
+  font-weight: 620;
+}
+
+.request-car-identity img {
+  width: 54px;
+  height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .credit-fields {
