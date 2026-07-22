@@ -594,6 +594,184 @@ footer {
   padding-inline: 24px;
 }
 
+.car-detail {
+  padding-block: 46px 124px;
+}
+
+.detail-back {
+  display: inline-flex;
+  color: #9299a5;
+  font-size: 13px;
+  font-weight: 580;
+}
+
+.detail-back:hover {
+  color: #fff;
+}
+
+.detail-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-block: 74px 42px;
+}
+
+.detail-heading h1 {
+  max-width: 1050px;
+  margin: 0;
+  font-size: clamp(54px, 7vw, 104px);
+  font-weight: 590;
+  letter-spacing: -0.07em;
+  line-height: 0.94;
+}
+
+.detail-rating {
+  flex: 0 0 auto;
+  color: var(--blue);
+  font-size: 18px;
+  font-weight: 720;
+}
+
+.detail-gallery {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 12px;
+}
+
+.detail-gallery figure {
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.detail-gallery img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-data {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.detail-specs,
+.detail-offer {
+  padding: clamp(26px, 4vw, 54px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.detail-specs h2 {
+  margin: 0 0 28px;
+  font-size: 27px;
+  font-weight: 590;
+  letter-spacing: -0.04em;
+}
+
+.detail-specs dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 34px;
+  margin: 0;
+}
+
+.detail-specs dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  min-height: 48px;
+  padding-block: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.detail-specs dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.detail-specs dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 570;
+  text-align: right;
+}
+
+.detail-offer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detail-offer > span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.detail-offer > strong {
+  margin-top: 10px;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 650;
+  letter-spacing: -0.065em;
+  line-height: 1;
+}
+
+.detail-offer > p {
+  margin: 20px 0 28px;
+  color: var(--blue);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.detail-actions {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+}
+
+.detail-actions button {
+  min-height: 56px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #20242b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.detail-actions button:hover {
+  border-color: #414752;
+  background: #292e37;
+}
+
+.detail-actions .action-primary {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.detail-actions .action-primary:hover {
+  background: var(--blue-hover);
+}
+
+.detail-offer small {
+  margin-top: 13px;
+  color: #777f8b;
+  font-size: 10px;
+  text-align: center;
+}
+
 footer {
   display: flex;
   flex-direction: column;
@@ -734,6 +912,14 @@ footer strong {
   .brand-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  .detail-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .detail-data {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
@@ -777,6 +963,14 @@ footer strong {
 
   .brand-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .detail-heading {
+    align-items: flex-start;
+  }
+
+  .detail-specs dl {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -882,6 +1076,30 @@ footer strong {
 
   .request-modal {
     padding: 28px 20px 22px;
+  }
+
+  .car-detail {
+    padding-block: 34px 88px;
+  }
+
+  .detail-heading {
+    padding-block: 58px 30px;
+  }
+
+  .detail-heading h1 {
+    font-size: clamp(48px, 15vw, 72px);
+  }
+
+  .detail-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-gallery figure {
+    border-radius: 16px;
+  }
+
+  .detail-actions {
+    grid-template-columns: 1fr;
   }
 }
 
