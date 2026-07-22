@@ -126,26 +126,13 @@ footer {
 }
 
 .site-logo-avento i {
-  position: relative;
   display: inline-block;
-  width: 0.84em;
-  height: 0.82em;
+  width: 0.76em;
+  height: 0.78em;
   margin-top: -0.02em;
-  overflow: hidden;
-}
-
-.site-logo-avento i::before,
-.site-logo-avento i::after {
-  position: absolute;
-  bottom: 0;
-  width: 0.14em;
-  height: 1.02em;
   background: currentColor;
-  content: "";
+  clip-path: polygon(50% 0, 100% 100%, 82% 100%, 50% 28%, 18% 100%, 0 100%);
 }
-
-.site-logo-avento i::before { left: 0.16em; transform: rotate(29deg); transform-origin: bottom; }
-.site-logo-avento i::after { right: 0.16em; transform: rotate(-29deg); transform-origin: bottom; }
 
 .site-header nav {
   display: flex;
@@ -164,7 +151,7 @@ footer {
   position: relative;
   width: min(100%, 1600px);
   min-height: 0;
-  height: clamp(410px, 38vw, 570px);
+  height: clamp(450px, 43vw, 620px);
   margin-block: 28px 64px;
   overflow: hidden;
   border: 1px solid var(--line);
