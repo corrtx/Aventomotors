@@ -35,7 +35,7 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Ціна від/);
   assert.match(html, /У кредит від/);
   assert.match(html, /Переглянути всі марки/);
-  assert.match(html, /class="all-brands-row"/);
+  assert.match(html, /class="[^"]*all-brands-row"/);
   assert.match(html, /class="site-logo-mark"/);
   assert.match(html, /href="\/cars\/bmw-x5"/);
   assert.match(html, /src="\/cars\/bmw-x5-front\.png"/);

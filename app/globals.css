@@ -84,15 +84,24 @@ footer {
 .site-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: auto;
   height: 68px;
 }
 
-.site-logo img {
-  width: 54px;
+.site-logo-mark {
+  display: block;
+  width: 64px;
   height: 54px;
-  object-fit: contain;
+  overflow: hidden;
+}
+
+.site-logo-mark img {
+  display: block;
+  width: 150px;
+  max-width: none;
+  height: 150px;
+  transform: translate(-46px, -35px);
 }
 
 .site-logo span {
@@ -123,7 +132,12 @@ footer {
   align-items: center;
   gap: 8vw;
   min-height: calc(100svh - 84px);
-  padding-block: 48px 64px;
+  padding-block: 24px 82px;
+}
+
+.hero-copy,
+.hero .quick-search {
+  transform: translateY(-28px);
 }
 
 .eyebrow {
@@ -446,7 +460,7 @@ footer {
 
 .all-brands-row {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 24px;
 }
 
@@ -476,7 +490,7 @@ footer {
 
 .brand-reel:hover .brand-track,
 .brand-reel:focus-within .brand-track {
-  animation-play-state: paused;
+  animation-duration: 80s;
 }
 
 .brand-chip {
@@ -494,11 +508,10 @@ footer {
   cursor: pointer;
 }
 
-.brand-chip:hover,
-.brand-chip.selected {
-  border-color: #fff;
-  background: #f4f5f7;
-  color: #08090b;
+.brand-chip:hover {
+  border-color: #e5e7eb;
+  background: #fff;
+  color: #16181d;
 }
 
 .brand-chip.selected {
@@ -876,12 +889,13 @@ footer {
 footer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 9px;
   padding-block: 30px;
   border-top: 1px solid var(--line-soft);
   color: #6f7680;
   font-size: 12px;
+  text-align: center;
 }
 
 footer strong {
@@ -1090,9 +1104,15 @@ footer strong {
     height: 58px;
   }
 
-  .site-logo img {
-    width: 44px;
-    height: 44px;
+  .site-logo-mark {
+    width: 50px;
+    height: 42px;
+  }
+
+  .site-logo-mark img {
+    width: 118px;
+    height: 118px;
+    transform: translate(-36px, -28px);
   }
 
   .site-logo span {
@@ -1195,7 +1215,14 @@ footer strong {
     grid-template-columns: 1fr;
   }
 
-  .detail-gallery figure {
+  .detail-gallery-three > .gallery-tile,
+  .detail-gallery-four > .gallery-tile,
+  .detail-gallery-many > .gallery-tile {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .gallery-tile {
     border-radius: 16px;
   }
 

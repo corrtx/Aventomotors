@@ -162,7 +162,7 @@ export function Header() {
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
-        <img src="/avento-logo.png" alt="Avento Motors" />
+        <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo.png" alt="" /></span>
         <span>Avento Motors</span>
       </Link>
       <nav aria-label="Головна навігація">
