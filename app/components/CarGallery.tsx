@@ -23,8 +23,9 @@ function GalleryTile({ car, image, index, onOpen, remaining }: GalleryTileProps)
   );
 }
 
-export function CarGallery({ car }: { car: Car }) {
+export function CarGallery({ car, compact = false }: { car: Car; compact?: boolean }) {
   const [activeImage, setActiveImage] = useState<number | null>(null);
+  const [displayedImage, setDisplayedImage] = useState(0);
   const layout = getGalleryLayout(car.gallery);
   const shownImages = car.gallery.slice(0, 4);
   const remaining = car.gallery.length - 4;
@@ -46,6 +47,20 @@ export function CarGallery({ car }: { car: Car }) {
       return (current + offset + car.gallery.length) % car.gallery.length;
     });
   };
+
+  const show = (offset: number) => setDisplayedImage((current) => (current + offset + car.gallery.length) % car.gallery.length);
+
+  if (compact) {
+    return (
+      <>
+        <section className="detail-gallery detail-gallery-single" aria-label={`Фотографії ${car.brand} ${car.model}`}>
+          <button className="gallery-tile" onClick={() => setActiveImage(displayedImage)}><img src={car.gallery[displayedImage]} alt={`${car.brand} ${car.model}, фото ${displayedImage + 1}`} /></button>
+          {car.gallery.length > 1 && <><button className="gallery-switch gallery-switch-prev" onClick={() => show(-1)} aria-label="Попереднє фото"><span aria-hidden="true">‹</span></button><button className="gallery-switch gallery-switch-next" onClick={() => show(1)} aria-label="Наступне фото"><span aria-hidden="true">›</span></button></>}
+        </section>
+        {activeImage !== null && <GalleryViewer car={car} activeImage={activeImage} onClose={() => setActiveImage(null)} onMove={goTo} />}
+      </>
+    );
+  }
 
   if (layout === "two") {
     return (

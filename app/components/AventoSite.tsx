@@ -95,7 +95,7 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
         <Link className="photo-frame" href={`/cars/${car.id}`} aria-label={`Докладніше про ${car.brand} ${car.model}`}>
           <img src={car.gallery[activePhoto] ?? car.coverImage} alt={`${car.brand} ${car.model}`} loading="lazy" />
         </Link>
-        <div className="card-photo-segments" aria-label={`Фотографії ${car.brand} ${car.model}`}>
+        <div className="card-photo-zones" aria-label={`Фотографії ${car.brand} ${car.model}`}>
           {car.gallery.map((image, index) => (
             <button
               aria-label={`Показати фото ${index + 1}`}
@@ -106,6 +106,9 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
               onMouseEnter={() => selectPhoto(index)}
             />
           ))}
+        </div>
+        <div className="card-photo-segments" aria-hidden="true">
+          {car.gallery.map((image, index) => <span className={index === activePhoto ? "is-active" : ""} key={image} />)}
         </div>
       </div>
 
@@ -208,7 +211,8 @@ export function Header() {
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
-        <img className="site-logo-mark" src="/avento-logo.png" alt="" />
+        <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo.png" alt="" /></span>
+        <span className="site-logo-wordmark"><span className="site-logo-avento"><i aria-hidden="true" />VENTO</span><span>MOTORS</span></span>
       </Link>
       <nav aria-label="Головна навігація">
         <Link href="/cars">Обрати авто</Link>
@@ -225,9 +229,9 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (media.matches || heroSlides.length < 2) return;
-    const timer = window.setInterval(() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1)), 4000);
-    return () => window.clearInterval(timer);
-  }, [heroSlides.length]);
+    const timer = window.setTimeout(() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1)), 4000);
+    return () => window.clearTimeout(timer);
+  }, [activeSlide, heroSlides.length]);
 
   return (
     <>
@@ -237,8 +241,8 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
             <img src={image} alt="" />
           </div>
         ))}
-        <button className="hero-arrow hero-arrow-prev" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, -1))} aria-label="Попередній слайд">←</button>
-        <button className="hero-arrow hero-arrow-next" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1))} aria-label="Наступний слайд">→</button>
+        <button className="hero-arrow hero-arrow-prev" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, -1))} aria-label="Попередній слайд"><span aria-hidden="true">‹</span></button>
+        <button className="hero-arrow hero-arrow-next" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1))} aria-label="Наступний слайд"><span aria-hidden="true">›</span></button>
       </section>
 
       <section className="section-shell cars-section">

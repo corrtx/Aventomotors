@@ -81,10 +81,9 @@ test("renders a detailed car page with both local photos and actions", async () 
   assert.match(html, /У кредит/);
   assert.match(html, /Обмін/);
   assert.match(html, /Резерв/);
-  assert.match(html, /detail-gallery-two/);
-  assert.match(html, /detail-request-grid/);
-  assert.match(html, /detail-request-panel/);
-  assert.match(html, /detail-request-car/);
+  assert.match(html, /detail-top-layout/);
+  assert.match(html, /detail-gallery-single/);
+  assert.match(html, /detail-actions/);
   assert.match(html, /Безкоштовний резерв до 24 годин/);
   assert.doesNotMatch(html, /У наявності/i);
 });
