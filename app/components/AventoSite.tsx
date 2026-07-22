@@ -146,9 +146,10 @@ export function RequestModal({
             {action === "credit" && (
               <div className="credit-fields">
                 <label>Перший внесок<input name="deposit" type="number" min="0" placeholder="500 000" required /></label>
-                <label>Строк<select name="term" defaultValue="60"><option value="36">36 місяців</option><option value="48">48 місяців</option><option value="60">60 місяців</option></select></label>
+                <label>Строк<select name="term" defaultValue="60"><option value="6">6 місяців</option><option value="12">12 місяців</option><option value="24">24 місяців</option><option value="36">36 місяців</option><option value="48">48 місяців</option><option value="60">60 місяців</option></select></label>
               </div>
             )}
+            {action === "exchange" && <label>Ваш автомобіль<input name="trade-in-car" placeholder="Марка, модель, рік" required /></label>}
             <button className="submit-button" type="submit">Надіслати заявку</button>
           </form>
         )}
@@ -256,7 +257,7 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
         <label>Пробіг до<select value={filters.maxMileage ?? ""} onChange={(event) => setFilter("maxMileage", event.target.value)}><option value="">Без обмежень</option><option value="20000">20 000 км</option><option value="50000">50 000 км</option><option value="100000">100 000 км</option></select></label>
       </section>
 
-      <div className="results-heading"><h2>Автомобілі</h2><span>{filteredCars.length}</span></div>
+      <div className="results-heading"><h2>Автомобілі</h2></div>
       <div className="car-list">
         {filteredCars.length ? filteredCars.map((car) => <CarCard key={car.id} car={car} onAction={onAction} />) : <div className="empty-result"><p>За цими параметрами автомобілів немає.</p><button onClick={() => setFilters({})}>Скинути фільтри</button></div>}
       </div>

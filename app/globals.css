@@ -374,7 +374,7 @@ footer {
 .empty-result button {
   min-height: 48px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 12px;
   background: #20242b;
   color: #f7f8fa;
   font-size: 12px;
@@ -433,7 +433,7 @@ footer {
   min-height: 52px;
   padding: 0 24px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 12px;
   background: var(--surface);
   font-size: 13px;
   font-weight: 620;
@@ -561,17 +561,6 @@ footer {
 .filters {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 84px;
-}
-
-.results-heading span {
-  display: grid;
-  place-items: center;
-  min-width: 44px;
-  height: 44px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  color: var(--muted);
-  font-size: 13px;
 }
 
 .empty-result {
@@ -855,7 +844,7 @@ footer {
 .detail-actions button {
   min-height: 56px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 12px;
   background: #20242b;
   color: #fff;
   font-size: 13px;
@@ -996,7 +985,7 @@ footer strong {
   margin-top: 12px;
   padding-inline: 28px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 12px;
   color: #fff;
   cursor: pointer;
 }
