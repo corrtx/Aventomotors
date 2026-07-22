@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { cars, filterCars, getCarById, getGalleryLayout } from "../lib/catalog.ts";
+import { cars, cycleIndex, filterCars, getCarById, getGalleryLayout, selectPhotoIndex } from "../lib/catalog.ts";
 
 test("filters cars by brand", () => {
   const result = filterCars(cars, { brand: "BMW" });
@@ -44,4 +44,14 @@ test("selects the approved gallery layout from the photo count", () => {
   assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png"]), "three");
   assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png", "/cars/fourth.png"]), "four");
   assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png", "/cars/fourth.png", "/cars/fifth.png"]), "many");
+});
+
+test("wraps carousel navigation around both ends", () => {
+  assert.equal(cycleIndex(0, 2, -1), 1);
+  assert.equal(cycleIndex(1, 2, 1), 0);
+});
+
+test("keeps photo selection within gallery bounds", () => {
+  assert.equal(selectPhotoIndex(3, 2), 1);
+  assert.equal(selectPhotoIndex(-1, 2), 0);
 });

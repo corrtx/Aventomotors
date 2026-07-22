@@ -100,3 +100,11 @@ export function getGalleryLayout(images: readonly string[]): GalleryLayout {
   if (images.length === 4) return "four";
   return "many";
 }
+
+export function cycleIndex(current: number, length: number, offset: number) {
+  return length ? (current + offset + length) % length : 0;
+}
+
+export function selectPhotoIndex(index: number, length: number) {
+  return length ? Math.min(Math.max(index, 0), length - 1) : 0;
+}
