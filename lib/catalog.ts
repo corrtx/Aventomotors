@@ -17,6 +17,7 @@ export type Car = {
 
 export type CarFilters = {
   brand?: string;
+  brands?: string[];
   maxPrice?: number;
   minYear?: number;
   maxMileage?: number;
@@ -80,6 +81,7 @@ export const brands = [
 
 export function filterCars(items: Car[], filters: CarFilters) {
   return items.filter((car) => {
+    if (filters.brands?.length && !filters.brands.includes(car.brand)) return false;
     if (filters.brand && car.brand !== filters.brand) return false;
     if (filters.maxPrice && car.price > filters.maxPrice) return false;
     if (filters.minYear && car.year < filters.minYear) return false;

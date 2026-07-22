@@ -149,13 +149,13 @@ footer {
 
 .hero-carousel {
   position: relative;
-  width: min(100%, 1600px);
+  width: 100%;
   min-height: 0;
-  height: clamp(450px, 43vw, 620px);
-  margin-block: 28px 64px;
+  height: min(720px, calc(100svh - 84px));
+  margin-block: 0 64px;
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 28px;
+  border: 0;
+  border-radius: 0;
   background: #090b0e;
 }
 
@@ -200,6 +200,23 @@ footer {
 .hero-arrow:hover { background: rgb(7 9 12 / 0.78); }
 .hero-arrow-prev { left: 20px; }
 .hero-arrow-next { right: 20px; }
+
+.hero-more-link {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  z-index: 2;
+  padding: 13px 20px;
+  border: 1px solid rgb(255 255 255 / 0.34);
+  border-radius: 999px;
+  background: rgb(7 9 12 / 0.3);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 620;
+  transform: translateX(-50%);
+}
+
+.hero-more-link:hover { border-color: #fff; background: #fff; color: #111318; }
 
 .eyebrow {
   margin: 0 0 18px;
@@ -642,7 +659,7 @@ footer {
 }
 
 .choose-title {
-  margin: 110px 0 58px;
+  margin: 46px 0 30px;
 }
 
 .brand-grid {

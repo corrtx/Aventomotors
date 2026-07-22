@@ -223,7 +223,7 @@ export function Header() {
 }
 
 function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }) {
-  const heroSlides = ["/hero/avento-bmw-night.png", "/cars/bmw-x5-front.png"];
+  const heroSlides = ["/hero/avento-bmw-night.png", "/hero/avento-audi-night.png", "/hero/avento-range-rover-sunset.png"];
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -243,6 +243,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
         ))}
         <button className="hero-arrow hero-arrow-prev" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, -1))} aria-label="Попередній слайд"><span aria-hidden="true">‹</span></button>
         <button className="hero-arrow hero-arrow-next" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1))} aria-label="Наступний слайд"><span aria-hidden="true">›</span></button>
+        <Link className="hero-more-link" href="/cars">Дивитися більше</Link>
       </section>
 
       <section className="section-shell cars-section">
@@ -271,7 +272,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
 }
 
 function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
-  const [filters, setFilters] = useState<CarFilters>({ brand: initialBrand, maxPrice: initialMaxPrice });
+  const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice });
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
 
   const setFilter = (name: keyof CarFilters, value: string) => {
@@ -287,8 +288,12 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
         {brands.map((brand) => (
           <button
             key={brand}
-            className={filters.brand === brand ? "brand-chip selected" : "brand-chip"}
-            onClick={() => setFilters((current) => ({ ...current, brand: current.brand === brand ? undefined : brand }))}
+            className={filters.brands?.includes(brand) ? "brand-chip selected" : "brand-chip"}
+            onClick={() => setFilters((current) => {
+              const selected = current.brands ?? [];
+              const brands = selected.includes(brand) ? selected.filter((item) => item !== brand) : [...selected, brand];
+              return { ...current, brands: brands.length ? brands : undefined };
+            })}
           >
             <BrandMark brand={brand} /><span>{brand}</span>
           </button>
@@ -296,7 +301,7 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
       </section>
 
       <section className="filters" aria-label="Фільтри автомобілів">
-        <label>Марка<select value={filters.brand ?? ""} onChange={(event) => setFilter("brand", event.target.value)}><option value="">Усі марки</option>{brands.map((brand) => <option key={brand}>{brand}</option>)}</select></label>
+        <label>Марки<select value={filters.brands?.[0] ?? ""} onChange={(event) => setFilters((current) => ({ ...current, brands: event.target.value ? [event.target.value] : undefined }))}><option value="">Усі марки</option>{brands.map((brand) => <option key={brand}>{brand}</option>)}</select></label>
         <label>Максимальна ціна<select value={filters.maxPrice ?? ""} onChange={(event) => setFilter("maxPrice", event.target.value)}><option value="">Без обмежень</option><option value="2500000">2 500 000 ₴</option><option value="3500000">3 500 000 ₴</option><option value="5000000">5 000 000 ₴</option></select></label>
         <label>Рік від<select value={filters.minYear ?? ""} onChange={(event) => setFilter("minYear", event.target.value)}><option value="">Будь-який</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option></select></label>
         <label>Пробіг до<select value={filters.maxMileage ?? ""} onChange={(event) => setFilter("maxMileage", event.target.value)}><option value="">Без обмежень</option><option value="20000">20 000 км</option><option value="50000">50 000 км</option><option value="100000">100 000 км</option></select></label>

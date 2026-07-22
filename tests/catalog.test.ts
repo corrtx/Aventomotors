@@ -9,6 +9,16 @@ test("filters cars by brand", () => {
   assert.deepEqual(result.map((car) => car.brand), ["BMW"]);
 });
 
+test("filters cars by any of several selected brands", () => {
+  const result = filterCars([
+    { ...cars[0], brand: "Kia" },
+    { ...cars[1], brand: "Lexus" },
+    { ...cars[0], id: "audi-a3", brand: "Audi" },
+  ], { brands: ["Kia", "Lexus"] });
+
+  assert.deepEqual(result.map((car) => car.brand), ["Kia", "Lexus"]);
+});
+
 test("filters cars by maximum price", () => {
   const result = filterCars(cars, { maxPrice: 3_000_000 });
 
