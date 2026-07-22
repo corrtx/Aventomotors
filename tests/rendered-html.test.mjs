@@ -82,6 +82,10 @@ test("renders a detailed car page with both local photos and actions", async () 
   assert.match(html, /Обмін/);
   assert.match(html, /Резерв/);
   assert.match(html, /detail-gallery-two/);
+  assert.match(html, /detail-request-grid/);
+  assert.match(html, /detail-request-panel/);
+  assert.match(html, /detail-request-car/);
+  assert.match(html, /Безкоштовний резерв до 24 годин/);
   assert.doesNotMatch(html, /У наявності/i);
 });
 
@@ -106,6 +110,7 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /request-car-identity/);
   assert.match(site, /card-photo-segment/);
   assert.doesNotMatch(css, /\.photo-frame:hover img\s*\{[^}]*scale/);
+  assert.doesNotMatch(css, /\.gallery-tile:hover img\s*\{[^}]*scale/);
   assert.match(site, /className="site-logo-mark"/);
   assert.match(css, /scroll-behavior:\s*smooth/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));

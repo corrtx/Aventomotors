@@ -731,11 +731,6 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 300ms ease;
-}
-
-.gallery-tile:hover img {
-  transform: scale(1.02);
 }
 
 .gallery-more {
@@ -892,35 +887,65 @@ footer {
   font-weight: 650;
 }
 
-.detail-actions {
+.detail-request-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
 }
 
-.detail-actions button {
-  min-height: 56px;
+.detail-request-panel {
+  display: grid;
+  gap: 18px;
+  min-height: 220px;
+  padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #20242b;
+  border-radius: 18px;
+  background: var(--surface);
   color: #fff;
-  font-size: 13px;
-  font-weight: 650;
+  text-align: left;
   cursor: pointer;
 }
 
-.detail-actions button:hover {
+.detail-request-panel:hover {
   border-color: #414752;
   background: #292e37;
 }
 
-.detail-actions .action-primary {
-  border-color: var(--blue);
-  background: var(--blue);
+.detail-request-credit {
+  border-color: #2c5eaf;
+  background: #143a74;
 }
 
-.detail-actions .action-primary:hover {
-  background: var(--blue-hover);
+.detail-request-credit:hover { background: #19488c; }
+
+.detail-request-title {
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.detail-request-car {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e3e7ed;
+  font-size: 13px;
+  font-weight: 610;
+}
+
+.detail-request-car img {
+  width: 66px;
+  height: 46px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.detail-request-description {
+  align-self: end;
+  color: #aeb6c1;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .detail-offer small {
@@ -1163,18 +1188,8 @@ footer strong {
   }
 
   .site-logo-mark {
-    width: 50px;
-    height: 42px;
-  }
-
-  .site-logo-mark img {
-    width: 118px;
-    height: 118px;
-    transform: translate(-36px, -28px);
-  }
-
-  .site-logo-wordmark {
-    font-size: 11px;
+    width: 172px;
+    height: 44px;
   }
 
   .site-header nav {
@@ -1270,6 +1285,10 @@ footer strong {
   }
 
   .detail-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-request-grid {
     grid-template-columns: 1fr;
   }
 

@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useState } from "react";
 import Link from "next/link";
 import type { Car } from "@/lib/catalog";
@@ -44,13 +46,21 @@ export function CarDetailPage({ car }: { car: Car }) {
             <span>Ціна від</span>
             <strong>{formatNumber.format(car.price)} ₴</strong>
             <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
-            <div className="detail-actions">
-              <button className="action-primary" onClick={() => setRequest("credit")}>У кредит</button>
-              <button onClick={() => setRequest("exchange")}>Обмін</button>
-              <button onClick={() => setRequest("reserve")}>Резерв</button>
-            </div>
-            <small>Резерв безкоштовний протягом 24 годин</small>
           </div>
+        </section>
+
+        <section className="detail-request-grid" aria-label="Оформлення автомобіля">
+          {([
+            ["credit", "У кредит", "Розрахувати умови фінансування"],
+            ["exchange", "Обмін", "Оцінити свій автомобіль"],
+            ["reserve", "Резерв", "Безкоштовний резерв до 24 годин"],
+          ] as const).map(([action, title, description]) => (
+            <button className={`detail-request-panel detail-request-${action}`} key={action} onClick={() => setRequest(action)}>
+              <span className="detail-request-title">{title}</span>
+              <span className="detail-request-car"><img src={car.coverImage} alt="" /> <span>{car.brand} {car.model}</span></span>
+              <span className="detail-request-description">{description}</span>
+            </button>
+          ))}
         </section>
       </main>
 
