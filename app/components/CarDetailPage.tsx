@@ -6,6 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Car } from "@/lib/catalog";
 import { Header, RequestModal, type Action } from "./AventoSite";
+import { CarGallery } from "./CarGallery";
 
 const formatNumber = new Intl.NumberFormat("uk-UA");
 
@@ -26,16 +27,7 @@ export function CarDetailPage({ car }: { car: Car }) {
           <span className="detail-rating" aria-label={`Рейтинг ${car.rating} з 5`}>★ {car.rating}</span>
         </div>
 
-        <section className="detail-gallery" aria-label={`Фотографії ${car.brand} ${car.model}`}>
-          {car.gallery.map((image, index) => (
-            <figure key={image}>
-              <img
-                src={image}
-                alt={`${car.brand} ${car.model}, ${index === 0 ? "вигляд спереду" : "вигляд ззаду"}`}
-              />
-            </figure>
-          ))}
-        </section>
+        <CarGallery car={car} />
 
         <section className="detail-data">
           <div className="detail-specs">

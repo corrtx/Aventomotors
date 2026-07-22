@@ -635,24 +635,136 @@ footer {
 
 .detail-gallery {
   display: grid;
-  grid-template-columns: 1.3fr 0.9fr;
   gap: 12px;
 }
 
-.detail-gallery figure {
+.detail-gallery-two {
+  grid-template-columns: 1fr 1fr;
+}
+
+.detail-gallery-three,
+.detail-gallery-four,
+.detail-gallery-many {
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.9fr);
+}
+
+.gallery-side {
+  display: grid;
+  grid-template-rows: 1fr 0.56fr;
+  gap: 12px;
+}
+
+.gallery-lower-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gallery-tile {
+  position: relative;
+  display: block;
+  min-width: 0;
   aspect-ratio: 16 / 10;
-  margin: 0;
+  padding: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
+  cursor: pointer;
 }
 
-.detail-gallery img {
+.detail-gallery-three > .gallery-tile,
+.detail-gallery-four > .gallery-tile,
+.detail-gallery-many > .gallery-tile {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.gallery-tile img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.gallery-tile:hover img {
+  transform: scale(1.02);
+}
+
+.gallery-more {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 0.55);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 650;
+}
+
+.gallery-viewer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 0.9);
+}
+
+.gallery-viewer {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  width: min(1100px, 100%);
+  max-height: calc(100vh - 48px);
+}
+
+.gallery-viewer > img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 136px);
+  object-fit: contain;
+}
+
+.gallery-viewer-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.55);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.gallery-viewer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.gallery-viewer-controls button {
+  min-height: 44px;
+  padding-inline: 18px;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: 10px;
+  background: #1b1e24;
+  color: #fff;
+  cursor: pointer;
+}
+
+.gallery-viewer-controls span {
+  min-width: 56px;
+  color: #c4cad4;
+  font-size: 13px;
+  text-align: center;
 }
 
 .detail-data {

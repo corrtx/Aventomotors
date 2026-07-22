@@ -91,3 +91,12 @@ export function filterCars(items: Car[], filters: CarFilters) {
 export function getCarById(id: string) {
   return cars.find((car) => car.id === id);
 }
+
+export type GalleryLayout = "two" | "three" | "four" | "many";
+
+export function getGalleryLayout(images: readonly string[]): GalleryLayout {
+  if (images.length <= 2) return "two";
+  if (images.length === 3) return "three";
+  if (images.length === 4) return "four";
+  return "many";
+}
