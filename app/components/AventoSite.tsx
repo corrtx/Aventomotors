@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { FormEvent } from "react";
+import type { FormEvent, MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { brands, cars, cycleIndex, filterCars, selectPhotoIndex, type Car, type CarFilters } from "@/lib/catalog";
@@ -27,13 +27,28 @@ const formatNumber = new Intl.NumberFormat("uk-UA");
 const brandImages: Record<string, string> = {
   Audi: "/brands/audi.svg",
   BMW: "/brands/bmw.svg",
+  Chevrolet: "https://cdn.simpleicons.org/chevrolet",
+  Citroën: "https://cdn.simpleicons.org/citroen",
+  Ford: "https://cdn.simpleicons.org/ford",
+  Genesis: "https://cdn.simpleicons.org/genesis",
+  Honda: "https://cdn.simpleicons.org/honda",
   Hyundai: "/brands/hyundai.svg",
+  Infiniti: "https://cdn.simpleicons.org/infiniti",
   Kia: "/brands/kia.svg",
   "Land Rover": "/brands/land-rover.svg",
   Lexus: "/brands/lexus.png",
+  Mazda: "https://cdn.simpleicons.org/mazda",
   "Mercedes-Benz": "/brands/mercedes-benz.svg",
+  Mitsubishi: "https://cdn.simpleicons.org/mitsubishi",
+  Nissan: "https://cdn.simpleicons.org/nissan",
+  Opel: "https://cdn.simpleicons.org/opel",
+  Peugeot: "https://cdn.simpleicons.org/peugeot",
   Porsche: "/brands/porsche.svg",
+  Renault: "https://cdn.simpleicons.org/renault",
+  Subaru: "https://cdn.simpleicons.org/subaru",
+  Suzuki: "https://cdn.simpleicons.org/suzuki",
   "Škoda": "/brands/skoda.svg",
+  Tesla: "https://cdn.simpleicons.org/tesla",
   Toyota: "/brands/toyota.svg",
   Volkswagen: "/brands/volkswagen.svg",
   Volvo: "/brands/volvo.svg",
@@ -219,6 +234,12 @@ export function RequestModal({
 }
 
 export function Header() {
+  const scrollToAbout = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.pathname !== "/") return;
+    event.preventDefault();
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
@@ -227,7 +248,7 @@ export function Header() {
       </Link>
       <nav aria-label="Головна навігація">
         <Link href="/cars">Обрати авто</Link>
-        <Link href="/#about">Про нас</Link>
+        <Link href="/#about" onClick={scrollToAbout}>Про нас</Link>
       </nav>
     </header>
   );
@@ -242,25 +263,46 @@ function RangeFilter({
   onMaxChange,
 }: {
   title: string;
-  unit: "грн" | "км";
+  unit: "₴" | "км";
   minValue?: number;
   maxValue?: number;
   onMinChange: (value: string) => void;
   onMaxChange: (value: string) => void;
 }) {
   const [open, setOpen] = useState(Boolean(minValue || maxValue));
+  const summary = minValue && maxValue
+    ? `${formatNumber.format(minValue)} ${unit} — ${formatNumber.format(maxValue)} ${unit}`
+    : minValue
+      ? `від ${formatNumber.format(minValue)} ${unit}`
+      : maxValue
+        ? `до ${formatNumber.format(maxValue)} ${unit}`
+        : "Будь-яка";
 
   return (
     <div className={open ? "range-filter is-open" : "range-filter"}>
       <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}>
-        <span>{title}</span><span className="range-chevron" aria-hidden="true" />
+        <span>{title}</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" />
       </button>
-      {open && (
-        <div className="range-fields">
-          <label><span>Від</span><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input type="number" min="0" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
-          <label><span>До</span><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input type="number" min="0" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
-        </div>
-      )}
+      <div className="range-dropdown">
+        <label><span>Мін.</span><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, мінімум`} type="number" min="0" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
+        <label><span>Макс.</span><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, максимум`} type="number" min="0" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
+      </div>
+    </div>
+  );
+}
+
+function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue?: number; maxValue?: number; onMinChange: (value: string) => void; onMaxChange: (value: string) => void }) {
+  const [open, setOpen] = useState(Boolean(minValue || maxValue));
+  const years = Array.from({ length: 17 }, (_, index) => 2010 + index);
+  const summary = minValue && maxValue ? `${minValue} — ${maxValue}` : minValue ? `від ${minValue}` : maxValue ? `до ${maxValue}` : "Будь-який";
+
+  return (
+    <div className={open ? "range-filter year-filter is-open" : "range-filter year-filter"}>
+      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Рік</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
+      <div className="range-dropdown">
+        <label><span>Мін.</span><select aria-label="Рік, мінімум" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)}><option value="">Будь-який</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
+        <label><span>Макс.</span><select aria-label="Рік, максимум" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)}><option value="">Будь-який</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
+      </div>
     </div>
   );
 }
@@ -287,6 +329,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
         <button className="hero-arrow hero-arrow-prev" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, -1))} aria-label="Попередній слайд"><span aria-hidden="true">‹</span></button>
         <button className="hero-arrow hero-arrow-next" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1))} aria-label="Наступний слайд"><span aria-hidden="true">›</span></button>
         <Link className="hero-more-link" href="/cars">Дивитися більше</Link>
+        <div className="hero-dots" aria-label="Банери">{heroSlides.map((_, index) => <button className={index === activeSlide ? "is-active" : ""} key={index} onClick={() => setActiveSlide(index)} aria-label={`Перейти до банера ${index + 1}`} aria-current={index === activeSlide ? "true" : undefined} />)}</div>
       </section>
 
       <section className="section-shell cars-section">
@@ -323,7 +366,6 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
   };
 
   const clearFilter = (name: keyof CarFilters) => setFilters((current) => ({ ...current, [name]: undefined }));
-  const years = Array.from({ length: 17 }, (_, index) => 2010 + index);
   const selectedFilters = [
     ...(filters.brands ?? []).map((brand) => ({ key: `brand-${brand}`, label: `Марка «${brand}»`, remove: () => setFilters((current) => ({ ...current, brands: current.brands?.filter((item) => item !== brand) || undefined })) })),
     ...(filters.minPrice ? [{ key: "minPrice", label: `Ціна від ${formatNumber.format(filters.minPrice)} грн`, remove: () => clearFilter("minPrice") }] : []),
@@ -356,14 +398,9 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
       </section>
 
       <section className="filters" aria-label="Фільтри автомобілів">
-        <RangeFilter title="Ціна" unit="грн" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
-        <div className="year-filter">
-          <div className="filter-title">Рік</div>
-          <div className="range-fields">
-            <label><span>Від</span><select value={filters.minYear ?? ""} onChange={(event) => setFilter("minYear", event.target.value)}><option value="">2010</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
-            <label><span>До</span><select value={filters.maxYear ?? ""} onChange={(event) => setFilter("maxYear", event.target.value)}><option value="">2026</option>{years.map((year) => <option value={year} key={year}>{year}</option>)}</select></label>
-          </div>
-        </div>
+        <label className="brand-filter">Марки<select value={filters.brands?.[0] ?? ""} onChange={(event) => setFilters((current) => ({ ...current, brands: event.target.value ? [event.target.value] : undefined }))}><option value="">Усі марки</option>{brands.map((brand) => <option key={brand} value={brand}>{brand}</option>)}</select></label>
+        <RangeFilter title="Ціна" unit="₴" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
+        <YearFilter minValue={filters.minYear} maxValue={filters.maxYear} onMinChange={(value) => setFilter("minYear", value)} onMaxChange={(value) => setFilter("maxYear", value)} />
         <RangeFilter title="Пробіг" unit="км" minValue={filters.minMileage} maxValue={filters.maxMileage} onMinChange={(value) => setFilter("minMileage", value)} onMaxChange={(value) => setFilter("maxMileage", value)} />
       </section>
 

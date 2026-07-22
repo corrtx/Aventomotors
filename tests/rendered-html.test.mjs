@@ -43,6 +43,8 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /avento-bmw-night\.png/);
   assert.match(html, /aria-label="Попередній слайд"/);
   assert.match(html, /aria-label="Наступний слайд"/);
+  assert.match(html, /class="hero-dots"/);
+  assert.match(html, /aria-label="Перейти до банера 1"/);
   assert.match(html, /Щодня ми оновлюємо добірку/);
   assert.match(html, /href="\/cars\/bmw-x5"/);
   assert.match(html, /src="\/cars\/bmw-x5-front\.png"/);
@@ -65,6 +67,10 @@ test("renders the choose-car page with filters and a large back action", async (
   assert.match(html, /Ціна/);
   assert.match(html, /Рік/);
   assert.match(html, /Пробіг/);
+  assert.match(html, /Марки/);
+  assert.match(html, /Мін\./);
+  assert.match(html, /Макс\./);
+  assert.match(html, /₴/);
   assert.match(html, /2010/);
   assert.match(html, /2026/);
   assert.match(html, /BMW X5 xDrive30d/);
@@ -116,6 +122,10 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.doesNotMatch(css, /\.gallery-tile:hover img\s*\{[^}]*scale/);
   assert.match(site, /className="site-logo-mark"/);
   assert.match(site, /function RangeFilter/);
+  assert.match(site, /range-summary/);
+  assert.match(site, /className="range-dropdown"/);
+  assert.match(site, /scrollIntoView\(\{ behavior: "smooth" \}\)/);
+  assert.match(site, /Chevrolet: "https:\/\/cdn\.simpleicons\.org\/chevrolet"/);
   assert.match(site, /range-unit/);
   assert.match(site, /selected-filter-chip/);
   assert.match(site, /Оцінено за 38 пунктами від 0 до 5/);
@@ -124,6 +134,8 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(catalog, /"Tesla"/);
   assert.doesNotMatch(detail, /<p className="eyebrow">\{car\.brand\}<\/p>/);
   assert.match(css, /\.range-filter/);
+  assert.match(css, /\.range-dropdown/);
+  assert.match(css, /max-height: 0/);
   assert.match(css, /\.rating-tooltip::after/);
   assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
   assert.match(css, /scroll-behavior:\s*smooth/);

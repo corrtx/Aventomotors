@@ -91,17 +91,17 @@ footer {
 
 .site-logo-mark {
   display: block;
-  width: 82px;
-  height: 62px;
+  width: 64px;
+  height: 54px;
   overflow: hidden;
 }
 
 .site-logo-mark img {
   display: block;
-  width: 140px;
+  width: 150px;
   max-width: none;
-  height: auto;
-  transform: translate(-31px, -25px);
+  height: 150px;
+  transform: translate(-46px, -35px);
 }
 
 .site-logo-wordmark {
@@ -224,6 +224,29 @@ footer {
 }
 
 .hero-more-link:hover { border-color: #fff; background: #fff; color: #111318; }
+
+.hero-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
+.hero-dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.48);
+  cursor: pointer;
+  transition: width 180ms ease, background-color 180ms ease;
+}
+
+.hero-dots button.is-active { width: 18px; background: #fff; }
 
 .eyebrow {
   margin: 0 0 18px;
@@ -744,45 +767,42 @@ footer {
 }
 
 .filters {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 18px;
-  padding: 18px;
-  border-radius: 2px;
+  padding: 14px;
+  border-radius: 14px;
 }
 
 .range-filter,
 .year-filter {
-  min-height: 108px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  background: #0d0f13;
+  position: relative;
+  min-height: 50px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .range-filter-toggle,
 .filter-title {
   display: flex;
   width: 100%;
-  min-height: 32px;
-  align-items: flex-start;
+  min-height: 50px;
+  align-items: center;
   justify-content: space-between;
   padding: 0;
   border: 0;
   background: transparent;
   color: #f3f5f8;
-  font-size: 16px;
-  font-weight: 620;
+  font-size: 13px;
+  font-weight: 590;
   cursor: pointer;
-}
-
-.filter-title {
-  cursor: default;
 }
 
 .range-chevron {
   width: 11px;
   height: 11px;
-  margin: 7px 3px 0 12px;
+  margin: -4px 3px 0 12px;
   border-top: 2px solid #aeb5c0;
   border-left: 2px solid #aeb5c0;
   transform: rotate(45deg);
@@ -790,20 +810,56 @@ footer {
 }
 
 .range-filter.is-open .range-chevron {
-  margin-top: 1px;
+  margin-top: 3px;
   transform: rotate(225deg);
 }
 
-.range-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
+.range-summary {
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 520;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.range-fields label {
+.range-dropdown {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  left: 0;
+  z-index: 10;
   display: grid;
-  gap: 7px;
+  gap: 0;
+  max-height: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #171a20;
+  box-shadow: 0 18px 35px rgb(0 0 0 / 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height 230ms ease, padding 230ms ease, border-color 230ms ease, opacity 180ms ease;
+}
+
+.range-filter.is-open .range-dropdown {
+  max-height: 170px;
+  padding: 10px 12px;
+  border-color: #343a45;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.range-dropdown label {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 54px;
   color: #8d95a1;
   font-size: 11px;
   font-weight: 580;
@@ -811,7 +867,7 @@ footer {
 
 .range-input-shell {
   display: grid;
-  min-height: 54px;
+  min-height: 36px;
   grid-template-columns: auto 1fr;
   align-items: center;
   border: 1px solid #d4d7dc;
@@ -821,7 +877,7 @@ footer {
 }
 
 .range-unit {
-  padding-left: 14px;
+  padding-left: 10px;
   color: #9ca1a9;
   font-size: 13px;
   font-weight: 620;
@@ -831,8 +887,8 @@ footer {
 .range-input-shell input {
   width: 100%;
   min-width: 0;
-  height: 52px;
-  padding: 0 12px 0 8px;
+  height: 34px;
+  padding: 0 8px 0 6px;
   border: 0;
   outline: 0;
   background: transparent;
@@ -845,11 +901,23 @@ footer {
   color: #101216;
 }
 
-.year-filter select {
-  min-height: 54px;
+.range-dropdown select {
+  width: 100%;
+  min-height: 36px;
+  padding-inline: 10px;
+  border: 1px solid #d4d7dc;
   border-radius: 0;
   background: #f5f6f8;
   color: #101216;
+}
+
+.brand-filter {
+  min-width: 0;
+}
+
+.brand-filter select {
+  min-height: 50px;
+  border-radius: 12px;
 }
 
 .selected-filters {
