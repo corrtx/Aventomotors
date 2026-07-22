@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Car } from "@/lib/catalog";
-import { Header, RequestModal, type Action } from "./AventoSite";
+import { Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
 import { CarGallery } from "./CarGallery";
 
 const formatNumber = new Intl.NumberFormat("uk-UA");
@@ -19,10 +19,9 @@ export function CarDetailPage({ car }: { car: Car }) {
 
         <div className="detail-heading">
           <div>
-            <p className="eyebrow">{car.brand}</p>
             <h1>{car.brand} {car.model}</h1>
           </div>
-          <span className="detail-rating" aria-label={`Рейтинг ${car.rating} з 5`}>★ {car.rating}</span>
+          <RatingBadge rating={car.rating} detail />
         </div>
 
         <section className="detail-top-layout">

@@ -31,6 +31,12 @@ test("filters cars by minimum year and maximum mileage", () => {
   assert.deepEqual(result.map((car) => car.id), ["porsche-911"]);
 });
 
+test("filters cars by complete price, year, and mileage ranges", () => {
+  assert.deepEqual(filterCars(cars, { minPrice: 3_000_000 }).map((car) => car.id), ["porsche-911"]);
+  assert.deepEqual(filterCars(cars, { maxYear: 2022 }).map((car) => car.id), ["bmw-x5"]);
+  assert.deepEqual(filterCars(cars, { minMileage: 30_000 }).map((car) => car.id), ["bmw-x5"]);
+});
+
 test("ignores empty filters", () => {
   assert.equal(filterCars(cars, {}).length, cars.length);
 });

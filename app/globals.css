@@ -91,17 +91,17 @@ footer {
 
 .site-logo-mark {
   display: block;
-  width: 64px;
-  height: 54px;
+  width: 82px;
+  height: 62px;
   overflow: hidden;
 }
 
 .site-logo-mark img {
   display: block;
-  width: 150px;
+  width: 140px;
   max-width: none;
-  height: 150px;
-  transform: translate(-46px, -35px);
+  height: auto;
+  transform: translate(-31px, -25px);
 }
 
 .site-logo-wordmark {
@@ -122,16 +122,23 @@ footer {
 .site-logo-avento {
   display: inline-flex;
   align-items: center;
-  gap: 0.08em;
 }
 
-.site-logo-avento i {
+.site-logo-letter-a {
+  position: relative;
   display: inline-block;
-  width: 0.76em;
-  height: 0.78em;
-  margin-top: -0.02em;
-  background: currentColor;
-  clip-path: polygon(50% 0, 100% 100%, 82% 100%, 50% 28%, 18% 100%, 0 100%);
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.site-logo-letter-a::after {
+  position: absolute;
+  top: 47%;
+  left: 15%;
+  width: 70%;
+  height: 0.16em;
+  background: var(--background);
+  content: "";
 }
 
 .site-header nav {
@@ -439,6 +446,54 @@ footer {
   font-weight: 700;
 }
 
+.rating-wrap {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  cursor: help;
+}
+
+.rating-tooltip {
+  position: absolute;
+  right: 50%;
+  bottom: calc(100% + 12px);
+  width: max-content;
+  max-width: 230px;
+  padding: 9px 11px;
+  border: 1px solid #343943;
+  border-radius: 8px;
+  background: #1a1d23;
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.32);
+  color: #d7dbe2;
+  font-size: 11px;
+  font-weight: 520;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  transform: translate(50%, 5px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.rating-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 1px solid #343943;
+  border-bottom: 1px solid #343943;
+  background: #1a1d23;
+  content: "";
+  transform: translate(-50%, -5px) rotate(45deg);
+}
+
+.rating-wrap:hover .rating-tooltip,
+.rating-wrap:focus-within .rating-tooltip {
+  opacity: 1;
+  transform: translate(50%, 0);
+}
+
 .spec-list {
   margin: 0;
 }
@@ -649,8 +704,20 @@ footer {
   object-fit: contain;
 }
 
+.brand-monogram {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #cdd2da;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .choose-page {
-  padding-block: 56px 120px;
+  padding-block: 28px 120px;
 }
 
 .back-button {
@@ -659,12 +726,12 @@ footer {
 }
 
 .choose-title {
-  margin: 46px 0 30px;
+  margin: 24px 0 26px;
 }
 
 .brand-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 22px;
 }
@@ -672,12 +739,154 @@ footer {
 .brand-grid .brand-chip {
   min-width: 0;
   width: 100%;
+  min-height: 58px;
   text-align: left;
 }
 
 .filters {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-bottom: 84px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+  padding: 18px;
+  border-radius: 2px;
+}
+
+.range-filter,
+.year-filter {
+  min-height: 108px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: #0d0f13;
+}
+
+.range-filter-toggle,
+.filter-title {
+  display: flex;
+  width: 100%;
+  min-height: 32px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f3f5f8;
+  font-size: 16px;
+  font-weight: 620;
+  cursor: pointer;
+}
+
+.filter-title {
+  cursor: default;
+}
+
+.range-chevron {
+  width: 11px;
+  height: 11px;
+  margin: 7px 3px 0 12px;
+  border-top: 2px solid #aeb5c0;
+  border-left: 2px solid #aeb5c0;
+  transform: rotate(45deg);
+  transition: transform 180ms ease;
+}
+
+.range-filter.is-open .range-chevron {
+  margin-top: 1px;
+  transform: rotate(225deg);
+}
+
+.range-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.range-fields label {
+  display: grid;
+  gap: 7px;
+  color: #8d95a1;
+  font-size: 11px;
+  font-weight: 580;
+}
+
+.range-input-shell {
+  display: grid;
+  min-height: 54px;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border: 1px solid #d4d7dc;
+  border-radius: 0;
+  background: #f5f6f8;
+  overflow: hidden;
+}
+
+.range-unit {
+  padding-left: 14px;
+  color: #9ca1a9;
+  font-size: 13px;
+  font-weight: 620;
+  transition: color 140ms ease;
+}
+
+.range-input-shell input {
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  padding: 0 12px 0 8px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #101216;
+  font-size: 14px;
+}
+
+.range-input-shell:focus-within .range-unit,
+.range-input-shell.has-value .range-unit {
+  color: #101216;
+}
+
+.year-filter select {
+  min-height: 54px;
+  border-radius: 0;
+  background: #f5f6f8;
+  color: #101216;
+}
+
+.selected-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 42px;
+  margin: 0 0 58px;
+}
+
+.filters + .results-heading {
+  margin-top: 58px;
+}
+
+.selected-filter-chip {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 14px;
+  padding: 0 12px;
+  border: 1px solid #363b45;
+  border-radius: 0;
+  background: #12151a;
+  color: #e5e8ed;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.selected-filter-chip > span:last-child {
+  color: #8b929d;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.selected-filter-chip:hover {
+  border-color: #525965;
+  background: #181b21;
 }
 
 .empty-result {
@@ -701,7 +910,7 @@ footer {
 }
 
 .car-detail {
-  padding-block: 46px 124px;
+  padding-block: 24px 124px;
 }
 
 .detail-back {
@@ -720,7 +929,7 @@ footer {
   align-items: flex-end;
   justify-content: space-between;
   gap: 32px;
-  padding-block: 74px 42px;
+  padding-block: 34px 28px;
 }
 
 .detail-heading h1 {
@@ -872,7 +1081,7 @@ footer {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.75fr);
   gap: 12px;
-  height: min(520px, calc(100svh - 260px));
+  height: clamp(430px, 48vw, 520px);
 }
 
 .detail-specs,
@@ -881,6 +1090,10 @@ footer {
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
+}
+
+.detail-specs {
+  margin-top: 28px;
 }
 
 .detail-specs h2 {
@@ -926,7 +1139,10 @@ footer {
 
 .detail-gallery-single {
   position: relative;
-  height: 100%;
+  width: 100%;
+  height: clamp(430px, 48vw, 520px);
+  min-height: 0;
+  overflow: hidden;
 }
 
 .detail-gallery-single .gallery-tile {

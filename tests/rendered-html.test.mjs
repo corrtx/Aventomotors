@@ -62,9 +62,11 @@ test("renders the choose-car page with filters and a large back action", async (
   const html = await response.text();
   assert.match(html, /Обрати авто/);
   assert.match(html, /На головну/);
-  assert.match(html, /Максимальна ціна/);
-  assert.match(html, /Рік від/);
-  assert.match(html, /Пробіг до/);
+  assert.match(html, /Ціна/);
+  assert.match(html, /Рік/);
+  assert.match(html, /Пробіг/);
+  assert.match(html, /2010/);
+  assert.match(html, /2026/);
   assert.match(html, /BMW X5 xDrive30d/);
   assert.doesNotMatch(html, /results-heading[^>]*>.*<span>2<\/span>/s);
   assert.doesNotMatch(html, /У наявності/i);
@@ -89,11 +91,13 @@ test("renders a detailed car page with both local photos and actions", async () 
 });
 
 test("ships the finished visual system without starter artifacts", async () => {
-  const [css, layout, packageJson, site] = await Promise.all([
+  const [css, layout, packageJson, site, detail, catalog] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/components/AventoSite.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/CarDetailPage.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../lib/catalog.ts", import.meta.url), "utf8"),
     access(new URL("../public/avento-logo.png", import.meta.url)),
   ]);
 
@@ -111,6 +115,17 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.doesNotMatch(css, /\.photo-frame:hover img\s*\{[^}]*scale/);
   assert.doesNotMatch(css, /\.gallery-tile:hover img\s*\{[^}]*scale/);
   assert.match(site, /className="site-logo-mark"/);
+  assert.match(site, /function RangeFilter/);
+  assert.match(site, /range-unit/);
+  assert.match(site, /selected-filter-chip/);
+  assert.match(site, /Оцінено за 38 пунктами від 0 до 5/);
+  assert.match(site, /router\.push\(`\/cars\/\$\{car\.id\}`\)/);
+  assert.match(site, /site-logo-letter-a/);
+  assert.match(catalog, /"Tesla"/);
+  assert.doesNotMatch(detail, /<p className="eyebrow">\{car\.brand\}<\/p>/);
+  assert.match(css, /\.range-filter/);
+  assert.match(css, /\.rating-tooltip::after/);
+  assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
   assert.match(css, /scroll-behavior:\s*smooth/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });

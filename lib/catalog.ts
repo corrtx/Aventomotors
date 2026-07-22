@@ -18,8 +18,11 @@ export type Car = {
 export type CarFilters = {
   brand?: string;
   brands?: string[];
+  minPrice?: number;
   maxPrice?: number;
   minYear?: number;
+  maxYear?: number;
+  minMileage?: number;
   maxMileage?: number;
 };
 
@@ -67,13 +70,28 @@ export const cars: Car[] = [
 export const brands = [
   "Audi",
   "BMW",
+  "Chevrolet",
+  "Citroën",
+  "Ford",
+  "Genesis",
+  "Honda",
   "Hyundai",
+  "Infiniti",
   "Kia",
   "Land Rover",
   "Lexus",
+  "Mazda",
   "Mercedes-Benz",
+  "Mitsubishi",
+  "Nissan",
+  "Opel",
+  "Peugeot",
   "Porsche",
+  "Renault",
+  "Subaru",
+  "Suzuki",
   "Škoda",
+  "Tesla",
   "Toyota",
   "Volkswagen",
   "Volvo",
@@ -83,8 +101,11 @@ export function filterCars(items: Car[], filters: CarFilters) {
   return items.filter((car) => {
     if (filters.brands?.length && !filters.brands.includes(car.brand)) return false;
     if (filters.brand && car.brand !== filters.brand) return false;
+    if (filters.minPrice && car.price < filters.minPrice) return false;
     if (filters.maxPrice && car.price > filters.maxPrice) return false;
     if (filters.minYear && car.year < filters.minYear) return false;
+    if (filters.maxYear && car.year > filters.maxYear) return false;
+    if (filters.minMileage && car.mileage < filters.minMileage) return false;
     if (filters.maxMileage && car.mileage > filters.maxMileage) return false;
     return true;
   });
