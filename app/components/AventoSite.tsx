@@ -59,6 +59,32 @@ function BrandLink({ brand, compact = false }: { brand: string; compact?: boolea
   );
 }
 
+function BrandReel() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<Animation | null>(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const animation = track.animate(
+      [{ transform: "translateX(calc(-50% - 6px))" }, { transform: "translateX(0)" }],
+      { duration: 34_000, iterations: Infinity, easing: "linear" },
+    );
+    animationRef.current = animation;
+    return () => animation.cancel();
+  }, []);
+
+  const setSpeed = (rate: number) => {
+    if (animationRef.current) animationRef.current.playbackRate = rate;
+  };
+
+  return (
+    <div className="brand-reel" aria-label="Марки автомобілів" onPointerEnter={() => setSpeed(0.425)} onPointerLeave={() => setSpeed(1)} onFocus={() => setSpeed(0.425)} onBlur={() => setSpeed(1)}>
+      <div className="brand-track" ref={trackRef}>{[...brands, ...brands].map((item, index) => <BrandLink brand={item} compact key={`${item}-${index}`} />)}</div>
+    </div>
+  );
+}
+
 function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
   const [activePhoto, setActivePhoto] = useState(0);
   const selectPhoto = (index: number) => setActivePhoto(selectPhotoIndex(index, car.gallery.length));
@@ -233,9 +259,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
 
       <section className="brands-section">
         <div className="section-shell brand-heading"><h2>Марки</h2></div>
-        <div className="brand-reel" aria-label="Марки автомобілів">
-          <div className="brand-track">{[...brands, ...brands].map((item, index) => <BrandLink brand={item} compact key={`${item}-${index}`} />)}</div>
-        </div>
+        <BrandReel />
         <div className="section-shell all-brands-row"><Link className="all-brands-button" href="/cars">Переглянути всі марки</Link></div>
       </section>
     </>
