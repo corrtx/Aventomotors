@@ -35,6 +35,8 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Ціна від/);
   assert.match(html, /У кредит від/);
   assert.match(html, /Переглянути всі марки/);
+  assert.match(html, /class="all-brands-row"/);
+  assert.match(html, /class="site-logo-mark"/);
   assert.match(html, /href="\/cars\/bmw-x5"/);
   assert.match(html, /src="\/cars\/bmw-x5-front\.png"/);
   assert.match(html, /href="\/cars\/porsche-911"/);
@@ -57,6 +59,7 @@ test("renders the choose-car page with filters and a large back action", async (
   assert.match(html, /Рік від/);
   assert.match(html, /Пробіг до/);
   assert.match(html, /BMW X5 xDrive30d/);
+  assert.doesNotMatch(html, /results-heading[^>]*>.*<span>2<\/span>/s);
   assert.doesNotMatch(html, /У наявності/i);
 });
 
@@ -71,14 +74,16 @@ test("renders a detailed car page with both local photos and actions", async () 
   assert.match(html, /У кредит/);
   assert.match(html, /Обмін/);
   assert.match(html, /Резерв/);
+  assert.match(html, /detail-gallery-two/);
   assert.doesNotMatch(html, /У наявності/i);
 });
 
 test("ships the finished visual system without starter artifacts", async () => {
-  const [css, layout, packageJson] = await Promise.all([
+  const [css, layout, packageJson, site] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/AventoSite.tsx", import.meta.url), "utf8"),
     access(new URL("../public/avento-logo.png", import.meta.url)),
   ]);
 
@@ -87,6 +92,10 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /\.brand-track/);
   assert.match(layout, /<html lang="uk">/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(site, /<option value="6">6 місяців<\/option>/);
+  assert.match(site, /<option value="12">12 місяців<\/option>/);
+  assert.match(site, /<option value="24">24 місяців<\/option>/);
+  assert.match(site, /Ваш автомобіль/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 

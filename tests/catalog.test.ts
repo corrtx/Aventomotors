@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { cars, filterCars, getCarById } from "../lib/catalog.ts";
+import { cars, filterCars, getCarById, getGalleryLayout } from "../lib/catalog.ts";
 
 test("filters cars by brand", () => {
   const result = filterCars(cars, { brand: "BMW" });
@@ -37,4 +37,11 @@ test("returns a car with local card and gallery images", () => {
 
 test("returns undefined for an unknown car", () => {
   assert.equal(getCarById("missing-car"), undefined);
+});
+
+test("selects the approved gallery layout from the photo count", () => {
+  assert.equal(getGalleryLayout(cars[0].gallery), "two");
+  assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png"]), "three");
+  assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png", "/cars/fourth.png"]), "four");
+  assert.equal(getGalleryLayout([...cars[0].gallery, "/cars/third.png", "/cars/fourth.png", "/cars/fifth.png"]), "many");
 });
