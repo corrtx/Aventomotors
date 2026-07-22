@@ -39,6 +39,7 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Переглянути всі марки/);
   assert.match(html, /class="[^"]*all-brands-row"/);
   assert.match(html, /class="site-logo-mark"/);
+  assert.match(html, /src="\/avento-logo-mark\.png"/);
   assert.match(html, /class="[^"]*hero-carousel/);
   assert.match(html, /avento-bmw-night\.png/);
   assert.match(html, /aria-label="Попередній слайд"/);
@@ -103,6 +104,7 @@ test("ships the finished visual system without starter artifacts", async () => {
     readFile(new URL("../app/components/CarDetailPage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../lib/catalog.ts", import.meta.url), "utf8"),
     access(new URL("../public/avento-logo.png", import.meta.url)),
+    access(new URL("../public/avento-logo-mark.png", import.meta.url)),
   ]);
 
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
