@@ -84,18 +84,24 @@ footer {
 .site-logo {
   display: flex;
   align-items: center;
-  width: 188px;
+  gap: 12px;
+  width: auto;
   height: 68px;
 }
 
 .site-logo img {
-  width: 100%;
-  height: 100%;
+  width: 54px;
+  height: 54px;
   object-fit: contain;
 }
 
 .site-logo span {
-  display: none;
+  display: block;
+  color: #f5f6f8;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .site-header nav {
@@ -114,10 +120,10 @@ footer {
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(380px, 0.85fr);
-  align-items: end;
+  align-items: center;
   gap: 8vw;
-  min-height: 640px;
-  padding-block: 100px 82px;
+  min-height: calc(100svh - 84px);
+  padding-block: 48px 64px;
 }
 
 .eyebrow {
@@ -136,21 +142,6 @@ footer {
   font-weight: 590;
   letter-spacing: -0.075em;
   line-height: 0.88;
-}
-
-.hero-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 42px;
-}
-
-.hero-facts span {
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: #aab0ba;
-  font-size: 12px;
 }
 
 .quick-search,
@@ -257,14 +248,28 @@ footer {
 }
 
 .photo-frame {
+  display: block;
   align-self: center;
   width: calc(100% - 18px);
   aspect-ratio: 16 / 10;
   margin: 9px;
+  overflow: hidden;
   border: 1px solid #303540;
   border-radius: 16px;
   background: #0c0e12;
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.015);
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.photo-frame:hover img {
+  transform: scale(1.025);
 }
 
 .car-details,
@@ -291,6 +296,10 @@ footer {
   font-size: 19px;
   font-weight: 620;
   letter-spacing: -0.035em;
+}
+
+.car-title-row h3 a:hover {
+  color: #a8c4ff;
 }
 
 .rating {
@@ -401,15 +410,15 @@ footer {
 
 .about-copy {
   display: grid;
-  gap: 22px;
+  gap: 18px;
   align-content: end;
 }
 
 .about-copy p {
   margin: 0;
   color: #aeb4be;
-  font-size: 17px;
-  line-height: 1.65;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .brands-section {
@@ -417,7 +426,6 @@ footer {
   border-top: 1px solid var(--line-soft);
 }
 
-.all-brands-button,
 .back-button {
   display: inline-flex;
   align-items: center;
@@ -431,10 +439,25 @@ footer {
   font-weight: 620;
 }
 
-.all-brands-button:hover,
 .back-button:hover {
   border-color: #414752;
   background: var(--surface-strong);
+}
+
+.all-brands-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.all-brands-button {
+  color: #9299a5;
+  font-size: 14px;
+  font-weight: 590;
+}
+
+.all-brands-button:hover {
+  color: #fff;
 }
 
 .brand-reel {
@@ -462,10 +485,10 @@ footer {
   gap: 13px;
   min-height: 74px;
   padding: 11px 18px 11px 12px;
-  border: 1px solid var(--line);
+  border: 1px solid #e5e7eb;
   border-radius: 18px;
-  background: var(--surface);
-  color: #d9dce2;
+  background: #fff;
+  color: #16181d;
   font-size: 13px;
   font-weight: 570;
   cursor: pointer;
@@ -473,9 +496,9 @@ footer {
 
 .brand-chip:hover,
 .brand-chip.selected {
-  border-color: #4a5260;
-  background: var(--surface-strong);
-  color: #fff;
+  border-color: #fff;
+  background: #f4f5f7;
+  color: #08090b;
 }
 
 .brand-chip.selected {
@@ -493,13 +516,15 @@ footer {
   width: 46px;
   height: 46px;
   flex: 0 0 auto;
-  border: 1px solid #343a44;
-  border-radius: 13px;
-  background: #0b0d10;
-  color: #aeb5c0;
-  font-size: 11px;
-  font-weight: 720;
-  letter-spacing: 0.05em;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.brand-mark img {
+  display: block;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
 }
 
 @keyframes brand-scroll-right {
@@ -571,11 +596,19 @@ footer {
 
 footer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
   padding-block: 30px;
   border-top: 1px solid var(--line-soft);
   color: #6f7680;
   font-size: 12px;
+}
+
+footer strong {
+  color: #daddE3;
+  font-size: 15px;
+  font-weight: 620;
 }
 
 .modal-backdrop {
@@ -759,8 +792,16 @@ footer {
   }
 
   .site-logo {
-    width: 144px;
     height: 58px;
+  }
+
+  .site-logo img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .site-logo span {
+    font-size: 11px;
   }
 
   .site-header nav {
@@ -775,10 +816,6 @@ footer {
   .hero h1,
   .choose-title h1 {
     font-size: clamp(56px, 18vw, 82px);
-  }
-
-  .hero-facts {
-    display: grid;
   }
 
   .section-heading,

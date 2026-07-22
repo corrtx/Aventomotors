@@ -1,8 +1,9 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { brands, cars, filterCars, type Car, type CarFilters } from "@/lib/catalog";
 
@@ -12,7 +13,7 @@ type AventoSiteProps = {
   initialMaxPrice?: number;
 };
 
-type Action = "credit" | "exchange" | "reserve";
+export type Action = "credit" | "exchange" | "reserve";
 
 const actionLabels: Record<Action, string> = {
   credit: "У кредит",
@@ -22,14 +23,25 @@ const actionLabels: Record<Action, string> = {
 
 const formatNumber = new Intl.NumberFormat("uk-UA");
 
+const brandImages: Record<string, string> = {
+  Audi: "/brands/audi.svg",
+  BMW: "/brands/bmw.svg",
+  Hyundai: "/brands/hyundai.svg",
+  Kia: "/brands/kia.svg",
+  "Land Rover": "/brands/land-rover.svg",
+  Lexus: "/brands/lexus.png",
+  "Mercedes-Benz": "/brands/mercedes-benz.svg",
+  Porsche: "/brands/porsche.svg",
+  "Škoda": "/brands/skoda.svg",
+  Toyota: "/brands/toyota.svg",
+  Volkswagen: "/brands/volkswagen.svg",
+  Volvo: "/brands/volvo.svg",
+};
+
 function BrandMark({ brand }: { brand: string }) {
   return (
     <span className="brand-mark" aria-hidden="true">
-      {brand
-        .split(/\s+/)
-        .map((word) => word[0])
-        .join("")
-        .slice(0, 2)}
+      <img src={brandImages[brand]} alt="" />
     </span>
   );
 }
@@ -50,11 +62,13 @@ function BrandLink({ brand, compact = false }: { brand: string; compact?: boolea
 function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
   return (
     <article className="car-card">
-      <div className="photo-frame" role="img" aria-label={`Місце для фотографії ${car.brand} ${car.model}`} />
+      <Link className="photo-frame" href={`/cars/${car.id}`} aria-label={`Докладніше про ${car.brand} ${car.model}`}>
+        <img src={car.coverImage} alt={`${car.brand} ${car.model}`} loading="lazy" />
+      </Link>
 
       <div className="car-details">
         <div className="car-title-row">
-          <h3>{car.brand} {car.model}</h3>
+          <h3><Link href={`/cars/${car.id}`}>{car.brand} {car.model}</Link></h3>
           <span className="rating" aria-label={`Рейтинг ${car.rating} з 5`}>★ {car.rating}</span>
         </div>
         <dl className="spec-list">
@@ -82,7 +96,7 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
   );
 }
 
-function RequestModal({
+export function RequestModal({
   action,
   car,
   onClose,
@@ -143,11 +157,11 @@ function RequestModal({
   );
 }
 
-function Header() {
+export function Header() {
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
-        <Image src="/avento-logo.png" alt="Avento Motors" width={188} height={68} priority />
+        <img src="/avento-logo.png" alt="Avento Motors" />
         <span>Avento Motors</span>
       </Link>
       <nav aria-label="Головна навігація">
@@ -176,7 +190,6 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
         <div className="hero-copy">
           <p className="eyebrow">Avento Motors</p>
           <h1>Обрати авто</h1>
-          <div className="hero-facts"><span>24 роки роботи</span><span>Перевірка документів</span><span>Кредит та обмін</span></div>
         </div>
         <form className="quick-search" onSubmit={onSearch}>
           <label>Марка<select value={brand} onChange={(event) => setBrand(event.target.value)}><option value="">Усі марки</option>{brands.map((item) => <option key={item}>{item}</option>)}</select></label>
@@ -193,16 +206,19 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
       <section className="section-shell about-section" id="about">
         <div><p className="eyebrow">Про нас</p><h2>24 роки на автомобільному ринку</h2></div>
         <div className="about-copy">
-          <p>Avento Motors працює з автомобілями з 2002 року. Перед продажем ми перевіряємо документи, історію обслуговування та технічний стан кожного авто.</p>
-          <p>Допомагаємо порівняти умови кредитування, оцінити автомобіль для обміну та безкоштовно зарезервувати обране авто на 24 години.</p>
+          <p>З 2002 року Avento Motors працює з автомобілями різних класів — від міських моделей до преміальних седанів, кросоверів і спортивних авто.</p>
+          <p>Перед продажем ми звіряємо документи, історію обслуговування, пробіг і технічний стан. Результати перевірки пояснюємо покупцеві до оформлення угоди.</p>
+          <p>Допомагаємо порівняти програми кредитування, розрахувати щомісячний платіж та оцінити автомобіль для обміну.</p>
+          <p>Обране авто можна безкоштовно зарезервувати на 24 години. Команда супроводжує оформлення та відповідає на запитання щодо подальшого обслуговування.</p>
         </div>
       </section>
 
       <section className="brands-section">
-        <div className="section-shell brand-heading"><h2>Марки</h2><Link className="all-brands-button" href="/cars">Переглянути всі марки</Link></div>
+        <div className="section-shell brand-heading"><h2>Марки</h2></div>
         <div className="brand-reel" aria-label="Марки автомобілів">
           <div className="brand-track">{[...brands, ...brands].map((item, index) => <BrandLink brand={item} compact key={`${item}-${index}`} />)}</div>
         </div>
+        <div className="section-shell all-brands-row"><Link className="all-brands-button" href="/cars">Переглянути всі марки</Link></div>
       </section>
     </>
   );
@@ -255,7 +271,7 @@ export function AventoSite({ mode, initialBrand, initialMaxPrice }: AventoSitePr
     <div className="site-frame">
       <Header />
       <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} onAction={(action, car) => setRequest({ action, car })} />}</main>
-      <footer><span>Avento Motors</span><span>© 2026</span></footer>
+      <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>
   );
