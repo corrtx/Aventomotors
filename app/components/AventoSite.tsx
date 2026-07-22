@@ -5,7 +5,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
-import { brands, cars, filterCars, type Car, type CarFilters } from "@/lib/catalog";
+import { brands, cars, cycleIndex, filterCars, type Car, type CarFilters } from "@/lib/catalog";
 
 type AventoSiteProps = {
   mode: "home" | "cars";
@@ -162,8 +162,7 @@ export function Header() {
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
-        <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo.png" alt="" /></span>
-        <span className="site-logo-wordmark"><span>Avento</span><span>Motors</span></span>
+        <img className="site-logo-mark" src="/avento-logo.png" alt="" />
       </Link>
       <nav aria-label="Головна навігація">
         <Link href="/cars">Обрати авто</Link>
@@ -174,29 +173,26 @@ export function Header() {
 }
 
 function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }) {
-  const [brand, setBrand] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const heroSlides = ["/hero/avento-bmw-night.png", "/cars/bmw-x5-front.png"];
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const onSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const params = new URLSearchParams();
-    if (brand) params.set("brand", brand);
-    if (maxPrice) params.set("maxPrice", maxPrice);
-    window.location.href = `/cars${params.size ? `?${params}` : ""}`;
-  };
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches || heroSlides.length < 2) return;
+    const timer = window.setInterval(() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1)), 4000);
+    return () => window.clearInterval(timer);
+  }, [heroSlides.length]);
 
   return (
     <>
-      <section className="hero section-shell">
-        <div className="hero-copy">
-          <p className="eyebrow">Avento Motors</p>
-          <h1>Обрати авто</h1>
-        </div>
-        <form className="quick-search" onSubmit={onSearch}>
-          <label>Марка<select value={brand} onChange={(event) => setBrand(event.target.value)}><option value="">Усі марки</option>{brands.map((item) => <option key={item}>{item}</option>)}</select></label>
-          <label>Максимальна ціна<select value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)}><option value="">Без обмежень</option><option value="2500000">2 500 000 ₴</option><option value="3500000">3 500 000 ₴</option><option value="5000000">5 000 000 ₴</option></select></label>
-          <button type="submit">Знайти авто</button>
-        </form>
+      <section className="hero-carousel section-shell" aria-label="Avento Motors">
+        {heroSlides.map((image, index) => (
+          <div className={index === activeSlide ? "hero-slide is-active" : "hero-slide"} key={image} aria-hidden={index !== activeSlide}>
+            <img src={image} alt="" />
+          </div>
+        ))}
+        <button className="hero-arrow hero-arrow-prev" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, -1))} aria-label="Попередній слайд">←</button>
+        <button className="hero-arrow hero-arrow-next" onClick={() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1))} aria-label="Наступний слайд">→</button>
       </section>
 
       <section className="section-shell cars-section">
@@ -211,6 +207,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
           <p>Перед продажем ми звіряємо документи, історію обслуговування, пробіг і технічний стан. Результати перевірки пояснюємо покупцеві до оформлення угоди.</p>
           <p>Допомагаємо порівняти програми кредитування, розрахувати щомісячний платіж та оцінити автомобіль для обміну.</p>
           <p>Обране авто можна безкоштовно зарезервувати на 24 години. Команда супроводжує оформлення та відповідає на запитання щодо подальшого обслуговування.</p>
+          <p>Щодня ми оновлюємо добірку, щоб у ній залишалися автомобілі з прозорою історією, зрозумілими документами та реальною комплектацією. До перегляду можна порівняти варіанти, умови фінансування й орієнтовну оцінку вашого авто.</p>
         </div>
       </section>
 
