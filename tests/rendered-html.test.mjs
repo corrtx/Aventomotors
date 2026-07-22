@@ -35,6 +35,13 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Ціна від/);
   assert.match(html, /У кредит від/);
   assert.match(html, /Переглянути всі марки/);
+  assert.match(html, /href="\/cars\/bmw-x5"/);
+  assert.match(html, /src="\/cars\/bmw-x5-front\.png"/);
+  assert.match(html, /href="\/cars\/porsche-911"/);
+  assert.match(html, /src="\/cars\/porsche-911-front\.png"/);
+  assert.match(html, /З 2002 року/);
+  assert.match(html, /Продаж автомобілів · кредит · обмін · резерв/);
+  assert.doesNotMatch(html, /hero-facts/);
   assert.doesNotMatch(html, /codex-preview|Новий рівень руху|У наявності/i);
   assert.doesNotMatch(html, />\s*Каталог\s*</i);
 });
@@ -53,6 +60,20 @@ test("renders the choose-car page with filters and a large back action", async (
   assert.doesNotMatch(html, /У наявності/i);
 });
 
+test("renders a detailed car page with both local photos and actions", async () => {
+  const response = await render("/cars/bmw-x5");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /BMW X5 xDrive30d/);
+  assert.match(html, /bmw-x5-front\.png/);
+  assert.match(html, /bmw-x5-rear\.png/);
+  assert.match(html, /У кредит/);
+  assert.match(html, /Обмін/);
+  assert.match(html, /Резерв/);
+  assert.doesNotMatch(html, /У наявності/i);
+});
+
 test("ships the finished visual system without starter artifacts", async () => {
   const [css, layout, packageJson] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -67,4 +88,15 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(layout, /<html lang="uk">/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
+});
+
+test("ships local brand marks and user-provided car photos", async () => {
+  await Promise.all([
+    access(new URL("../public/brands/bmw.svg", import.meta.url)),
+    access(new URL("../public/brands/porsche.svg", import.meta.url)),
+    access(new URL("../public/cars/bmw-x5-front.png", import.meta.url)),
+    access(new URL("../public/cars/bmw-x5-rear.png", import.meta.url)),
+    access(new URL("../public/cars/porsche-911-front.png", import.meta.url)),
+    access(new URL("../public/cars/porsche-911-rear.png", import.meta.url)),
+  ]);
 });

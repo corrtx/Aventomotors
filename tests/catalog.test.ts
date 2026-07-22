@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { cars, filterCars } from "../lib/catalog.ts";
+import { cars, filterCars, getCarById } from "../lib/catalog.ts";
 
 test("filters cars by brand", () => {
   const result = filterCars(cars, { brand: "BMW" });
@@ -23,4 +23,18 @@ test("filters cars by minimum year and maximum mileage", () => {
 
 test("ignores empty filters", () => {
   assert.equal(filterCars(cars, {}).length, cars.length);
+});
+
+test("returns a car with local card and gallery images", () => {
+  const car = getCarById("porsche-911");
+
+  assert.equal(car?.coverImage, "/cars/porsche-911-front.png");
+  assert.deepEqual(car?.gallery, [
+    "/cars/porsche-911-front.png",
+    "/cars/porsche-911-rear.png",
+  ]);
+});
+
+test("returns undefined for an unknown car", () => {
+  assert.equal(getCarById("missing-car"), undefined);
 });

@@ -11,6 +11,8 @@ export type Car = {
   rating: number;
   price: number;
   monthlyPayment: number;
+  coverImage: string;
+  gallery: readonly string[];
 };
 
 export type CarFilters = {
@@ -34,6 +36,11 @@ export const cars: Car[] = [
     rating: 4.9,
     price: 2_390_000,
     monthlyPayment: 32_423,
+    coverImage: "/cars/bmw-x5-front.png",
+    gallery: [
+      "/cars/bmw-x5-front.png",
+      "/cars/bmw-x5-rear.png",
+    ],
   },
   {
     id: "porsche-911",
@@ -48,6 +55,11 @@ export const cars: Car[] = [
     rating: 4.8,
     price: 4_750_000,
     monthlyPayment: 64_850,
+    coverImage: "/cars/porsche-911-front.png",
+    gallery: [
+      "/cars/porsche-911-front.png",
+      "/cars/porsche-911-rear.png",
+    ],
   },
 ];
 
@@ -74,4 +86,8 @@ export function filterCars(items: Car[], filters: CarFilters) {
     if (filters.maxMileage && car.mileage > filters.maxMileage) return false;
     return true;
   });
+}
+
+export function getCarById(id: string) {
+  return cars.find((car) => car.id === id);
 }
