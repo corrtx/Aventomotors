@@ -13,6 +13,7 @@ type AventoSiteProps = {
   initialBrand?: string;
   initialMaxPrice?: number;
   initialSpecialOffer?: boolean;
+  specialOffersPage?: boolean;
 };
 
 export type Action = "credit" | "exchange" | "reserve";
@@ -31,7 +32,7 @@ const brandImages: Record<string, string> = {
   Chevrolet: "https://cdn.simpleicons.org/chevrolet",
   Citroën: "https://cdn.simpleicons.org/citroen",
   Ford: "https://cdn.simpleicons.org/ford",
-  Genesis: "https://cdn.simpleicons.org/genesis",
+  Genesis: "https://logos-world.net/wp-content/uploads/2021/03/Genesis-Logo.png",
   Honda: "https://cdn.simpleicons.org/honda",
   Hyundai: "/brands/hyundai.svg",
   Infiniti: "https://cdn.simpleicons.org/infiniti",
@@ -102,7 +103,7 @@ function BrandReel() {
   );
 }
 
-function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
+export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
   const router = useRouter();
   const [activePhoto, setActivePhoto] = useState(0);
   const selectPhoto = (index: number) => setActivePhoto(selectPhotoIndex(index, car.gallery.length));
@@ -141,8 +142,6 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
           <div><dt>КПП</dt><dd>{car.transmission}</dd></div>
           <div><dt>Двигун</dt><dd>{car.engine.toFixed(1)} л</dd></div>
           <div><dt>Привід</dt><dd>{car.drive}</dd></div>
-          <div><dt>Макс. швидкість</dt><dd>{car.topSpeed} км/год</dd></div>
-          <div><dt>0–100 км/год</dt><dd>{car.zeroToHundred.toFixed(1)} с</dd></div>
         </dl>
       </div>
 
@@ -259,7 +258,7 @@ export function Header() {
         <div className="catalog-subnav-inner">
           <Link href="/cars">Усі авто</Link>
           <Link href="/cars?condition=used">З пробігом</Link>
-          <Link href="/cars?specialOffer=true">Спецпропозиції</Link>
+          <Link href="/offers">Спецпропозиції</Link>
           <Link href="/sell">Викуп авто</Link>
         </div>
       </nav>
@@ -389,7 +388,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
   );
 }
 
-function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
+function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, specialOffersPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
   const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, specialOffer: initialSpecialOffer });
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
 
@@ -415,7 +414,7 @@ function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, onAction
   return (
     <div className="choose-page section-shell">
       <Link className="back-button" href="/">← На головну</Link>
-      <div className="choose-title"><h1>Обрати авто</h1></div>
+      <div className="choose-title"><h1>{specialOffersPage ? "Спецпропозиції" : "Обрати авто"}</h1></div>
 
       <section className="brand-grid" aria-label="Усі марки">
         {brands.map((brand) => (
@@ -444,19 +443,19 @@ function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, onAction
 
       <div className="results-heading"><h2>Автомобілі</h2></div>
       <div className="car-list">
-        {filteredCars.length ? filteredCars.map((car) => <CarCard key={car.id} car={car} onAction={onAction} />) : <div className="empty-result"><p>За цими параметрами автомобілів немає.</p><button onClick={() => setFilters({})}>Скинути фільтри</button></div>}
+        {filteredCars.length ? filteredCars.map((car) => <CarCard key={car.id} car={car} onAction={onAction} />) : <div className="empty-result"><p>{specialOffersPage ? "Тут поки що нічого немає." : "За цими параметрами автомобілів немає."}</p>{!specialOffersPage && <button onClick={() => setFilters({})}>Скинути фільтри</button>}</div>}
       </div>
     </div>
   );
 }
 
-export function AventoSite({ mode, initialBrand, initialMaxPrice, initialSpecialOffer }: AventoSiteProps) {
+export function AventoSite({ mode, initialBrand, initialMaxPrice, initialSpecialOffer, specialOffersPage }: AventoSiteProps) {
   const [request, setRequest] = useState<{ action: Action; car: Car } | null>(null);
 
   return (
     <div className="site-frame">
       <Header />
-      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialSpecialOffer={initialSpecialOffer} onAction={(action, car) => setRequest({ action, car })} />}</main>
+      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
       <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>

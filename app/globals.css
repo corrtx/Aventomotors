@@ -142,16 +142,27 @@ footer {
 }
 
 .catalog-subnav-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   width: min(1440px, calc(100% - 48px));
   min-height: 42px;
   align-items: center;
-  gap: 28px;
   margin-inline: auto;
   color: #9aa2ad;
   font-size: 12px;
   font-weight: 580;
 }
+
+.catalog-subnav a {
+  display: grid;
+  min-width: 0;
+  min-height: 42px;
+  place-items: center;
+  border-inline-left: 1px solid var(--line-soft);
+  text-align: center;
+}
+
+.catalog-subnav a:first-child { border-left: 0; }
 
 .catalog-subnav a:hover {
   color: #fff;
@@ -895,10 +906,10 @@ footer {
 }
 
 .range-bound {
-  padding-left: 10px;
+  padding-left: 8px;
   color: #9ca1a9;
-  font-size: 11px;
-  font-weight: 650;
+  font-size: 13px;
+  font-weight: 620;
   white-space: nowrap;
 }
 
@@ -1064,30 +1075,9 @@ footer {
 
 .sale-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
-
-.sale-card {
-  display: grid;
-  gap: 10px;
-  min-width: 0;
-  padding: 10px;
-  border: 1px solid var(--line);
-  background: #0d0f13;
-}
-
-.sale-card:hover { border-color: #4b5361; }
-
-.sale-card img {
-  width: 100%;
-  aspect-ratio: 1.72;
-  object-fit: cover;
-}
-
-.sale-card div { display: grid; gap: 4px; }
-.sale-card strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
-.sale-card span { color: #a7c7ff; font-size: 12px; }
 
 .buyout-page {
   padding-block: 64px 104px;
@@ -1118,7 +1108,7 @@ footer {
 
 .buyout-form {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1fr;
   gap: 8px;
 }
 
@@ -1141,7 +1131,17 @@ footer {
 }
 
 .buyout-form input:focus { border-color: var(--blue); }
-.buyout-form button { align-self: end; min-height: 46px; padding-inline: 18px; }
+.buyout-submit {
+  min-height: 46px;
+  border: 1px solid var(--blue);
+  border-radius: 0;
+  background: var(--blue);
+  color: #fff;
+  cursor: pointer;
+}
+
+.buyout-submit:hover { background: var(--blue-hover); }
+.buyout-submit:active { transform: none; }
 
 .buyout-success {
   display: grid;
@@ -1195,9 +1195,8 @@ footer {
   gap: 28px;
 }
 
-.buyout-steps article { border-top: 1px solid var(--line); padding-top: 16px; }
-.buyout-steps article > span { color: var(--blue); font-size: 12px; font-weight: 650; }
-.buyout-steps h3 { margin: 28px 0 12px; font-size: 20px; line-height: 1.15; }
+.buyout-steps article { padding-top: 0; }
+.buyout-steps h3 { margin: 0 0 12px; font-size: 20px; line-height: 1.15; }
 .buyout-steps p { margin: 0; color: #9da5af; font-size: 14px; line-height: 1.55; }
 
 .selected-filter-chip:hover {
@@ -1953,13 +1952,11 @@ footer strong {
 
   .catalog-subnav-inner {
     width: min(100% - 24px, 520px);
-    gap: 18px;
-    overflow-x: auto;
-    white-space: nowrap;
+    gap: 0;
   }
 
   .sale-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .buyout-page {

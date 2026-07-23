@@ -15,10 +15,10 @@ const documents = [
 ] as const;
 
 const steps = [
-  ["01", "Передаєте авто та документи", "Показуєте автомобіль і документи — решту організовує наша команда."],
-  ["02", "Оцінюємо автомобіль", "Проводимо огляд і називаємо вартість протягом 20 хвилин."],
-  ["03", "Пропонуємо ціну", "Ураховуємо стан авто та актуальну ситуацію на ринку."],
-  ["04", "Оформлюємо угоду", "Перевіряємо документи й допомагаємо швидко завершити оформлення."],
+  ["Передаєте свій автомобіль", "Надаєте автомобіль і необхідні документи. Усе інше — від оцінки до оформлення договору — виконають наші спеціалісти. Ви заощаджуєте час, кошти й нерви."],
+  ["Оцінюємо ваш автомобіль", "У найкоротші строки проведемо професійну оцінку. Увесь процес від надання автомобіля до отримання коштів може зайняти до однієї години."],
+  ["Пропонуємо найкращу ціну", "Враховуємо стан автомобіля та пропонуємо до 97% його ринкової вартості."],
+  ["Юридично оформлюємо угоду", "Забезпечуємо надійне оформлення з підписанням договору та оперативним отриманням коштів."],
 ] as const;
 
 function DocumentState({ value }: { value: boolean | "Бажано" }) {
@@ -48,7 +48,7 @@ export function SellCarPage() {
             <form className="buyout-form" onSubmit={onSubmit}>
               <label>Ім’я<input name="name" autoComplete="name" required /></label>
               <label>Номер телефону<input name="phone" type="tel" autoComplete="tel" placeholder="+380" required /></label>
-              <button className="action-primary" type="submit">Отримати оцінку</button>
+              <button className="buyout-submit" type="submit">Надіслати заявку</button>
             </form>
           )}
         </section>
@@ -64,7 +64,7 @@ export function SellCarPage() {
         <section className="buyout-process">
           <h2>Як це працює</h2>
           <div className="buyout-steps">
-            {steps.map(([number, title, text]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}
+            {steps.map(([title, text]) => <article key={title}><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </section>
       </main>
