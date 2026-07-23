@@ -1089,6 +1089,117 @@ footer {
 .sale-card strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .sale-card span { color: #a7c7ff; font-size: 12px; }
 
+.buyout-page {
+  padding-block: 64px 104px;
+}
+
+.buyout-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(480px, 0.9fr);
+  gap: 56px;
+  align-items: end;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.buyout-intro h1,
+.buyout-documents-section h2,
+.buyout-process h2 {
+  margin: 0;
+  font-size: clamp(34px, 4vw, 58px);
+  letter-spacing: -0.055em;
+}
+
+.buyout-intro p {
+  margin: 12px 0 0;
+  color: #b4bbc5;
+  font-size: 18px;
+}
+
+.buyout-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+}
+
+.buyout-form label {
+  display: grid;
+  gap: 8px;
+  color: #a7aeb9;
+  font-size: 12px;
+}
+
+.buyout-form input {
+  min-width: 0;
+  height: 46px;
+  padding-inline: 12px;
+  border: 1px solid #353b46;
+  border-radius: 0;
+  background: #101217;
+  color: #f5f6f8;
+  outline: 0;
+}
+
+.buyout-form input:focus { border-color: var(--blue); }
+.buyout-form button { align-self: end; min-height: 46px; padding-inline: 18px; }
+
+.buyout-success {
+  display: grid;
+  gap: 6px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--blue);
+}
+
+.buyout-success span { color: #aeb5c0; font-size: 14px; }
+
+.buyout-documents-section,
+.buyout-process {
+  margin-top: 88px;
+}
+
+.buyout-documents-section h2,
+.buyout-process h2 {
+  margin-bottom: 28px;
+  font-size: 28px;
+}
+
+.buyout-documents {
+  overflow: hidden;
+  border-top: 2px solid var(--blue);
+}
+
+.buyout-document-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px 190px;
+  min-height: 66px;
+  border-bottom: 1px solid var(--line);
+}
+
+.buyout-document-row > span {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  border-left: 1px solid var(--line);
+}
+
+.buyout-document-row > span:first-child { border-left: 0; }
+.buyout-document-head { min-height: 46px; color: #aeb5c0; font-size: 12px; font-weight: 650; text-transform: uppercase; }
+.buyout-document-head > span:not(:first-child) { justify-content: center; text-align: center; }
+.buyout-document-row > span:not(:first-child) { justify-content: center; }
+.document-required { color: #67c482; font-size: 30px; font-weight: 400; line-height: 1; }
+.document-optional { color: #9ca4ae; font-size: 13px; }
+
+.buyout-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.buyout-steps article { border-top: 1px solid var(--line); padding-top: 16px; }
+.buyout-steps article > span { color: var(--blue); font-size: 12px; font-weight: 650; }
+.buyout-steps h3 { margin: 28px 0 12px; font-size: 20px; line-height: 1.15; }
+.buyout-steps p { margin: 0; color: #9da5af; font-size: 14px; line-height: 1.55; }
+
 .selected-filter-chip:hover {
   border-color: #525965;
   background: #181b21;
@@ -1838,6 +1949,52 @@ footer strong {
 
   .detail-actions {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-subnav-inner {
+    width: min(100% - 24px, 520px);
+    gap: 18px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .sale-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .buyout-page {
+    padding-block: 42px 76px;
+  }
+
+  .buyout-intro {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-bottom: 44px;
+  }
+
+  .buyout-form {
+    grid-template-columns: 1fr;
+  }
+
+  .buyout-form button {
+    width: 100%;
+  }
+
+  .buyout-documents {
+    overflow-x: auto;
+  }
+
+  .buyout-document-row {
+    width: 680px;
+  }
+
+  .buyout-steps {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .buyout-steps h3 {
+    margin-top: 14px;
   }
 }
 

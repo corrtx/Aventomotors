@@ -82,6 +82,18 @@ test("renders the choose-car page with filters and a large back action", async (
   assert.doesNotMatch(html, /У наявності/i);
 });
 
+test("renders vehicle buyout page", async () => {
+  const response = await render("/sell");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /Оцінимо ваше авто за 20 хвилин/);
+  assert.match(html, /Необхідні документи/);
+  assert.match(html, /Авто на обліку/);
+  assert.match(html, /Авто знято з обліку/);
+  assert.match(html, /Як це працює/);
+});
+
 test("renders a detailed car page with both local photos and actions", async () => {
   const response = await render("/cars/bmw-x5");
   assert.equal(response.status, 200);
