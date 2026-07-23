@@ -789,7 +789,8 @@ footer {
   min-height: 50px;
   align-items: center;
   justify-content: space-between;
-  padding: 0;
+  gap: 12px;
+  padding: 0 20px;
   border: 0;
   background: transparent;
   color: #f3f5f8;
@@ -799,6 +800,7 @@ footer {
 }
 
 .range-chevron {
+  flex: 0 0 auto;
   width: 11px;
   height: 11px;
   margin: -4px 3px 0 12px;
@@ -814,6 +816,7 @@ footer {
 }
 
 .range-summary {
+  flex: 1 1 auto;
   min-width: 0;
   margin-left: auto;
   overflow: hidden;
@@ -854,20 +857,14 @@ footer {
 }
 
 .range-dropdown label {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  align-items: center;
-  gap: 8px;
-  min-height: 54px;
-  color: #8d95a1;
-  font-size: 11px;
-  font-weight: 580;
+  display: block;
+  min-height: 42px;
 }
 
 .range-input-shell {
   display: grid;
   min-height: 36px;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
   border: 1px solid #d4d7dc;
   border-radius: 0;
@@ -875,8 +872,16 @@ footer {
   overflow: hidden;
 }
 
-.range-unit {
+.range-bound {
   padding-left: 10px;
+  color: #9ca1a9;
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.range-unit {
+  padding-left: 8px;
   color: #9ca1a9;
   font-size: 13px;
   font-weight: 620;
@@ -901,8 +906,12 @@ footer {
 }
 
 .range-choice-value {
+  display: flex;
   width: 100%;
   min-height: 36px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding-inline: 10px;
   border: 1px solid #343a45;
   border-radius: 2px;
@@ -911,6 +920,12 @@ footer {
   font-size: 12px;
   text-align: left;
   cursor: pointer;
+}
+
+.range-choice-value > span:first-child {
+  color: #8d95a1;
+  font-size: 11px;
+  font-weight: 650;
 }
 
 .year-choice-list,
@@ -926,6 +941,17 @@ footer {
 
 .brand-choice-list {
   grid-template-columns: 1fr 1fr;
+}
+
+.year-filter.is-open .range-dropdown,
+.brand-filter.is-open .range-dropdown {
+  max-height: 620px;
+}
+
+.year-filter .year-choice-list,
+.brand-filter .brand-choice-list {
+  max-height: none;
+  overflow: visible;
 }
 
 .year-choice-list button,

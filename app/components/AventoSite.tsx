@@ -284,8 +284,8 @@ function RangeFilter({
         <span>{title}</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" />
       </button>
       <div className="range-dropdown">
-        <label><span>Мін.</span><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, мінімум`} type="number" min="0" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
-        <label><span>Макс.</span><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, максимум`} type="number" min="0" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
+        <label><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-bound">Мін.</span><span className="range-unit">{unit}</span><input aria-label={`${title}, мінімум`} type="number" min="0" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
+        <label><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-bound">Макс.</span><span className="range-unit">{unit}</span><input aria-label={`${title}, максимум`} type="number" min="0" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
       </div>
     </div>
   );
@@ -306,21 +306,22 @@ function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue
     <div className={open ? "range-filter year-filter is-open" : "range-filter year-filter"}>
       <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Рік</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
       <div className="range-dropdown">
-        <label><span>Мін.</span><button type="button" className="range-choice-value" onClick={() => setTarget("min")}>{minValue ?? "Будь-який"}</button></label>
-        <label><span>Макс.</span><button type="button" className="range-choice-value" onClick={() => setTarget("max")}>{maxValue ?? "Будь-який"}</button></label>
+        <label><button type="button" className="range-choice-value" onClick={() => setTarget("min")}><span>Мін.</span><span>{minValue ?? "Будь-який"}</span></button></label>
+        <label><button type="button" className="range-choice-value" onClick={() => setTarget("max")}><span>Макс.</span><span>{maxValue ?? "Будь-який"}</span></button></label>
         {target && <div className="year-choice-list" aria-label={target === "min" ? "Оберіть мінімальний рік" : "Оберіть максимальний рік"}><button type="button" onClick={() => chooseYear("")}>Будь-який</button>{years.map((year) => <button className={(target === "min" ? minValue : maxValue) === year ? "is-selected" : ""} type="button" key={year} onClick={() => chooseYear(String(year))}>{year}</button>)}</div>}
       </div>
     </div>
   );
 }
 
-function BrandFilter({ value, onChange }: { value?: string; onChange: (value: string) => void }) {
+function BrandFilter({ values, onChange }: { values?: string[]; onChange: (value: string[]) => void }) {
   const [open, setOpen] = useState(false);
+  const summary = values?.length ? values.map((brand) => `"${brand}"`).join(", ") : "Усі марки";
 
   return (
     <div className={open ? "range-filter brand-filter is-open" : "range-filter brand-filter"}>
-      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Марки</span><span className="range-summary">{value ? `"${value}"` : "Усі марки"}</span><span className="range-chevron" aria-hidden="true" /></button>
-      <div className="range-dropdown brand-choice-list" aria-label="Оберіть марку"><button type="button" className={!value ? "is-selected" : ""} onClick={() => { onChange(""); setOpen(false); }}>Усі марки</button>{brands.map((brand) => <button className={value === brand ? "is-selected" : ""} type="button" key={brand} onClick={() => { onChange(brand); setOpen(false); }}>{brand}</button>)}</div>
+      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Марки</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
+      <div className="range-dropdown brand-choice-list" aria-label="Оберіть марку"><button type="button" className={!values?.length ? "is-selected" : ""} onClick={() => onChange([])}>Усі марки</button>{brands.map((brand) => <button className={values?.includes(brand) ? "is-selected" : ""} type="button" key={brand} onClick={() => onChange(values?.includes(brand) ? values.filter((item) => item !== brand) : [...(values ?? []), brand])}>{brand}</button>)}</div>
     </div>
   );
 }
@@ -420,7 +421,7 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
       </section>
 
       <section className="filters" aria-label="Фільтри автомобілів">
-        <BrandFilter value={filters.brands?.[0]} onChange={(value) => setFilters((current) => ({ ...current, brands: value ? [value] : undefined }))} />
+        <BrandFilter values={filters.brands} onChange={(values) => setFilters((current) => ({ ...current, brands: values.length ? values : undefined }))} />
         <RangeFilter title="Ціна" unit="₴" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
         <YearFilter minValue={filters.minYear} maxValue={filters.maxYear} onMinChange={(value) => setFilter("minYear", value)} onMaxChange={(value) => setFilter("maxYear", value)} />
         <RangeFilter title="Пробіг" unit="км" minValue={filters.minMileage} maxValue={filters.maxMileage} onMinChange={(value) => setFilter("minMileage", value)} onMaxChange={(value) => setFilter("maxMileage", value)} />
