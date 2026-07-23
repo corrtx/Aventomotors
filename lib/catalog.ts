@@ -11,6 +11,10 @@ export type Car = {
   rating: number;
   price: number;
   monthlyPayment: number;
+  topSpeed: number;
+  zeroToHundred: number;
+  isSpecialOffer: boolean;
+  discount?: number;
   coverImage: string;
   gallery: readonly string[];
 };
@@ -24,6 +28,7 @@ export type CarFilters = {
   maxYear?: number;
   minMileage?: number;
   maxMileage?: number;
+  specialOffer?: boolean;
 };
 
 export const cars: Car[] = [
@@ -40,6 +45,10 @@ export const cars: Car[] = [
     rating: 4.9,
     price: 2_390_000,
     monthlyPayment: 32_423,
+    topSpeed: 230,
+    zeroToHundred: 6.5,
+    isSpecialOffer: true,
+    discount: 120_000,
     coverImage: "/cars/bmw-x5-front.png",
     gallery: [
       "/cars/bmw-x5-front.png",
@@ -59,6 +68,10 @@ export const cars: Car[] = [
     rating: 4.8,
     price: 4_750_000,
     monthlyPayment: 64_850,
+    topSpeed: 293,
+    zeroToHundred: 4.2,
+    isSpecialOffer: true,
+    discount: 180_000,
     coverImage: "/cars/porsche-911-front.png",
     gallery: [
       "/cars/porsche-911-front.png",
@@ -107,6 +120,7 @@ export function filterCars(items: Car[], filters: CarFilters) {
     if (filters.maxYear && car.year > filters.maxYear) return false;
     if (filters.minMileage && car.mileage < filters.minMileage) return false;
     if (filters.maxMileage && car.mileage > filters.maxMileage) return false;
+    if (filters.specialOffer && !car.isSpecialOffer) return false;
     return true;
   });
 }

@@ -41,6 +41,17 @@ test("ignores empty filters", () => {
   assert.equal(filterCars(cars, {}).length, cars.length);
 });
 
+test("filters only special offers", () => {
+  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["bmw-x5", "porsche-911"]);
+});
+
+test("ships performance facts for every catalogue car", () => {
+  for (const car of cars) {
+    assert.ok(car.topSpeed > 0);
+    assert.ok(car.zeroToHundred > 0);
+  }
+});
+
 test("returns a car with local card and gallery images", () => {
   const car = getCarById("porsche-911");
 
