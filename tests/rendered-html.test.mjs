@@ -129,6 +129,8 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /scrollIntoView\(\{ behavior: "smooth" \}\)/);
   assert.match(site, /Chevrolet: "https:\/\/cdn\.simpleicons\.org\/chevrolet"/);
   assert.match(site, /range-unit/);
+  assert.match(site, /<span className="range-unit">\{unit\}<\/span><span className="range-bound">Мін\.<\/span>/);
+  assert.match(css, /\.selected-filter-chip:hover/);
   assert.match(site, /selected-filter-chip/);
   assert.match(site, /return `\$\{title\}: \$\{value\(min\)\}–\$\{value\(max\)\}`/);
   assert.match(site, /\+ нижче/);

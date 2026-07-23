@@ -1009,6 +1009,12 @@ footer {
 }
 
 .selected-filter-chip:hover {
+  border-color: var(--blue);
+  background: #17223a;
+  color: #fff;
+}
+
+.selected-filter-chip:hover {
   border-color: #525965;
   background: #181b21;
 }
