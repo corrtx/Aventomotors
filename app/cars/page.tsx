@@ -16,12 +16,14 @@ export default async function CarsPage({ searchParams }: CarsPageProps) {
     typeof params.brand === "string" ? params.brand : undefined;
   const initialMaxPrice =
     typeof params.maxPrice === "string" ? Number(params.maxPrice) : undefined;
+  const initialSpecialOffer = params.specialOffer === "true";
 
   return (
     <AventoSite
       mode="cars"
       initialBrand={initialBrand}
       initialMaxPrice={initialMaxPrice}
+      initialSpecialOffer={initialSpecialOffer}
     />
   );
 }

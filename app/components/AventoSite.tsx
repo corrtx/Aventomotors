@@ -12,6 +12,7 @@ type AventoSiteProps = {
   mode: "home" | "cars";
   initialBrand?: string;
   initialMaxPrice?: number;
+  initialSpecialOffer?: boolean;
 };
 
 export type Action = "credit" | "exchange" | "reserve";
@@ -241,16 +242,26 @@ export function Header() {
   };
 
   return (
-    <header className="site-header">
-      <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
-        <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo-mark-white.png" alt="" /></span>
-        <span className="site-logo-wordmark"><span className="site-logo-avento">AVENTO</span><span>MOTORS</span></span>
-      </Link>
-      <nav aria-label="Головна навігація">
-        <Link href="/cars">Обрати авто</Link>
-        <Link href="/#about" onClick={scrollToAbout}>Про нас</Link>
+    <>
+      <header className="site-header">
+        <Link className="site-logo" href="/" aria-label="Avento Motors — головна">
+          <span className="site-logo-mark" aria-hidden="true"><img src="/avento-logo-mark-white.png" alt="" /></span>
+          <span className="site-logo-wordmark"><span className="site-logo-avento">AVENTO</span><span>MOTORS</span></span>
+        </Link>
+        <nav aria-label="Головна навігація">
+          <Link href="/cars">Обрати авто</Link>
+          <Link href="/#about" onClick={scrollToAbout}>Про нас</Link>
+        </nav>
+      </header>
+      <nav className="catalog-subnav" aria-label="Категорії автомобілів">
+        <div className="catalog-subnav-inner">
+          <Link href="/cars">Усі авто</Link>
+          <Link href="/cars?condition=used">З пробігом</Link>
+          <Link href="/cars?specialOffer=true">Спецпропозиції</Link>
+          <Link href="/sell">Викуп авто</Link>
+        </div>
       </nav>
-    </header>
+    </>
   );
 }
 
@@ -376,8 +387,8 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
   );
 }
 
-function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
-  const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice });
+function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
+  const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, specialOffer: initialSpecialOffer });
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
 
   const setFilter = (name: keyof CarFilters, value: string) => {
@@ -437,13 +448,13 @@ function CarsPage({ initialBrand, initialMaxPrice, onAction }: Omit<AventoSitePr
   );
 }
 
-export function AventoSite({ mode, initialBrand, initialMaxPrice }: AventoSiteProps) {
+export function AventoSite({ mode, initialBrand, initialMaxPrice, initialSpecialOffer }: AventoSiteProps) {
   const [request, setRequest] = useState<{ action: Action; car: Car } | null>(null);
 
   return (
     <div className="site-frame">
       <Header />
-      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} onAction={(action, car) => setRequest({ action, car })} />}</main>
+      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialSpecialOffer={initialSpecialOffer} onAction={(action, car) => setRequest({ action, car })} />}</main>
       <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>

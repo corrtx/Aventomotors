@@ -135,6 +135,28 @@ footer {
   color: #fff;
 }
 
+.catalog-subnav {
+  width: 100%;
+  border-bottom: 1px solid var(--line-soft);
+  background: #0b0d11;
+}
+
+.catalog-subnav-inner {
+  display: flex;
+  width: min(1440px, calc(100% - 48px));
+  min-height: 42px;
+  align-items: center;
+  gap: 28px;
+  margin-inline: auto;
+  color: #9aa2ad;
+  font-size: 12px;
+  font-weight: 580;
+}
+
+.catalog-subnav a:hover {
+  color: #fff;
+}
+
 .hero-carousel {
   position: relative;
   width: 100%;
