@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Car } from "@/lib/catalog";
+import { cars, type Car } from "@/lib/catalog";
 import { Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
 import { CarGallery } from "./CarGallery";
 
@@ -10,6 +10,7 @@ const formatNumber = new Intl.NumberFormat("uk-UA");
 
 export function CarDetailPage({ car }: { car: Car }) {
   const [request, setRequest] = useState<Action | null>(null);
+  const saleCars = cars.filter((item) => item.isSpecialOffer && item.id !== car.id);
 
   return (
     <div className="site-frame">
@@ -48,8 +49,20 @@ export function CarDetailPage({ car }: { car: Car }) {
             <div><dt>Двигун</dt><dd>{car.engine.toFixed(1)} л</dd></div>
             <div><dt>Паливо</dt><dd>{car.fuel}</dd></div>
             <div><dt>Привід</dt><dd>{car.drive}</dd></div>
+            <div><dt>Макс. швидкість</dt><dd>{car.topSpeed} км/год</dd></div>
+            <div><dt>0–100 км/год</dt><dd>{car.zeroToHundred.toFixed(1)} с</dd></div>
           </dl>
         </section>
+
+        {saleCars.length > 0 && <section className="sale-rail">
+          <div className="sale-rail-heading"><h2>Розпродаж</h2>{cars.filter((item) => item.isSpecialOffer).length > 4 && <Link href="/cars?specialOffer=true">Усі спецпропозиції</Link>}</div>
+          <div className="sale-grid">
+            {saleCars.slice(0, 4).map((item) => <Link className="sale-card" href={`/cars/${item.id}`} key={item.id}>
+              <img src={item.coverImage} alt="" />
+              <div><strong>{item.brand} {item.model}</strong><span>Знижка {formatNumber.format(item.discount ?? 0)} ₴</span></div>
+            </Link>)}
+          </div>
+        </section>}
       </main>
 
       <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>

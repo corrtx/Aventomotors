@@ -97,6 +97,9 @@ test("renders a detailed car page with both local photos and actions", async () 
   assert.match(html, /detail-gallery-single/);
   assert.match(html, /detail-actions/);
   assert.match(html, /Безкоштовний резерв до 24 годин/);
+  assert.match(html, /Макс\. швидкість/);
+  assert.match(html, /0–100 км\/год/);
+  assert.match(html, /Розпродаж/);
   assert.doesNotMatch(html, /У наявності/i);
 });
 

@@ -141,6 +141,8 @@ function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: 
           <div><dt>КПП</dt><dd>{car.transmission}</dd></div>
           <div><dt>Двигун</dt><dd>{car.engine.toFixed(1)} л</dd></div>
           <div><dt>Привід</dt><dd>{car.drive}</dd></div>
+          <div><dt>Макс. швидкість</dt><dd>{car.topSpeed} км/год</dd></div>
+          <div><dt>0–100 км/год</dt><dd>{car.zeroToHundred.toFixed(1)} с</dd></div>
         </dl>
       </div>
 
