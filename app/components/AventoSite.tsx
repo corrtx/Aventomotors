@@ -303,6 +303,22 @@ export function RequestModal({
 }
 
 export function Header() {
+  const router = useRouter();
+  useEffect(() => {
+    const handleLegalBack = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest<HTMLAnchorElement>("a.legal-back");
+      if (!link) return;
+      event.preventDefault();
+      if (window.history.length > 1) router.back();
+      else router.push("/");
+    };
+    document.querySelector<HTMLAnchorElement>("a.legal-back")?.replaceChildren("← Назад");
+    document.addEventListener("click", handleLegalBack);
+    return () => document.removeEventListener("click", handleLegalBack);
+  }, [router]);
+
   const scrollToAbout = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const about = document.getElementById("about");

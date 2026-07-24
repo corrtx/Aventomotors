@@ -181,6 +181,9 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /Має бути рівно 9 цифр/);
   assert.match(site, /maxLength=\{9\}/);
   assert.match(site, /function animateScrollTo/);
+  assert.match(site, /handleLegalBack/);
+  assert.match(site, /replaceChildren\("← Назад"\)/);
+  assert.match(site, /router\.back\(\)/);
   assert.match(site, /1100/);
   assert.match(site, /prefers-reduced-motion: reduce/);
   assert.match(site, /<a\n      className=\{compact \? "brand-chip brand-chip-compact" : "brand-chip"\}/);
