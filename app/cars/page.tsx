@@ -17,7 +17,8 @@ export default async function CarsPage({ searchParams }: CarsPageProps) {
   const initialMaxPrice =
     typeof params.maxPrice === "string" ? Number(params.maxPrice) : undefined;
   const initialSpecialOffer = params.specialOffer === "true";
-  const initialMinMileage = params.condition === "used" ? 5 : undefined;
+  const usedCarsPage = params.condition === "used";
+  const initialMinMileage = usedCarsPage ? 1 : undefined;
 
   return (
     <AventoSite
@@ -26,6 +27,7 @@ export default async function CarsPage({ searchParams }: CarsPageProps) {
       initialMaxPrice={initialMaxPrice}
       initialMinMileage={initialMinMileage}
       initialSpecialOffer={initialSpecialOffer}
+      usedCarsPage={usedCarsPage}
     />
   );
 }

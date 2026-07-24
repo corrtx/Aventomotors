@@ -42,7 +42,15 @@ test("ignores empty filters", () => {
 });
 
 test("filters only special offers", () => {
-  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["bmw-x5", "porsche-911", "opel-insignia-grand-sport", "mazda-6-sedan"]);
+  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["opel-insignia-grand-sport", "mazda-6-sedan"]);
+});
+
+test("keeps BMW and Porsche out of the sale when they have no actual discount", () => {
+  for (const id of ["bmw-x5", "porsche-911"]) {
+    const car = getCarById(id);
+    assert.equal(car?.isSpecialOffer, false);
+    assert.equal(car?.discount, undefined);
+  }
 });
 
 test("adds discounted Opel Insignia and new Mazda 6 offers with local galleries", () => {

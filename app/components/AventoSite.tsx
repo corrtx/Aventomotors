@@ -15,6 +15,7 @@ type AventoSiteProps = {
   initialMinMileage?: number;
   initialSpecialOffer?: boolean;
   specialOffersPage?: boolean;
+  usedCarsPage?: boolean;
 };
 
 export type Action = "credit" | "exchange" | "reserve";
@@ -59,7 +60,9 @@ function animateScrollTo(element: HTMLElement) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const headerHeight = document.querySelector<HTMLElement>(".site-header")?.getBoundingClientRect().height ?? 0;
   const subnavHeight = document.querySelector<HTMLElement>(".catalog-subnav")?.getBoundingClientRect().height ?? 0;
-  const destination = Math.max(0, window.scrollY + element.getBoundingClientRect().top - headerHeight - subnavHeight - 24);
+  const rect = element.getBoundingClientRect();
+  const visibleHeight = window.innerHeight - headerHeight - subnavHeight;
+  const destination = Math.max(0, window.scrollY + rect.top + rect.height / 2 - headerHeight - subnavHeight - visibleHeight / 2);
 
   if (reducedMotion) {
     window.scrollTo(0, destination);
@@ -209,8 +212,8 @@ export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action
 
       <div className="car-price">
         <span>Ціна від</span>
+        {car.discount && <s className="car-old-price">{formatNumber.format(car.price + car.discount)} ₴</s>}
         <strong>{formatNumber.format(car.price)} ₴</strong>
-        {car.discount && <small className="car-discount">Знижка {formatNumber.format(car.discount)} ₴</small>}
         <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
       </div>
 
@@ -466,7 +469,7 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
   );
 }
 
-function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
+function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage, usedCarsPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
   const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, minMileage: initialMinMileage, specialOffer: initialSpecialOffer });
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
 
@@ -492,7 +495,7 @@ function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpe
   return (
     <div className="choose-page section-shell">
       <Link className="back-button" href="/">← На головну</Link>
-      <div className="choose-title"><h1>{specialOffersPage ? "Спецпропозиції" : "Обрати авто"}</h1></div>
+      <div className="choose-title"><h1>{specialOffersPage ? "Спецпропозиції" : usedCarsPage ? "Автомобілі з пробігом" : "Обрати авто"}</h1></div>
 
       <section className="brand-grid" aria-label="Усі марки">
         {brands.map((brand) => (
@@ -527,13 +530,13 @@ function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpe
   );
 }
 
-export function AventoSite({ mode, initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage }: AventoSiteProps) {
+export function AventoSite({ mode, initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage, usedCarsPage }: AventoSiteProps) {
   const [request, setRequest] = useState<{ action: Action; car: Car } | null>(null);
 
   return (
     <div className="site-frame">
       <Header />
-      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialMinMileage={initialMinMileage} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
+      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialMinMileage={initialMinMileage} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} usedCarsPage={usedCarsPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
       <Footer />
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>

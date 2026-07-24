@@ -47,8 +47,7 @@ export const cars: Car[] = [
     monthlyPayment: 32_423,
     topSpeed: 230,
     zeroToHundred: 6.5,
-    isSpecialOffer: true,
-    discount: 120_000,
+    isSpecialOffer: false,
     coverImage: "/cars/bmw-x5-front.jpg",
     gallery: [
       "/cars/bmw-x5-front.jpg",
@@ -70,8 +69,7 @@ export const cars: Car[] = [
     monthlyPayment: 64_850,
     topSpeed: 293,
     zeroToHundred: 4.2,
-    isSpecialOffer: true,
-    discount: 180_000,
+    isSpecialOffer: false,
     coverImage: "/cars/porsche-911-front.jpg",
     gallery: [
       "/cars/porsche-911-front.jpg",

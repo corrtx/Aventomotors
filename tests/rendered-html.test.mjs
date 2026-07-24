@@ -214,8 +214,13 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /\.rating-tooltip::after/);
   assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
   assert.doesNotMatch(css, /html\s*\{[^}]*scroll-behavior:\s*smooth/s);
-  assert.match(site, /headerHeight - subnavHeight - 24/);
+  assert.match(site, /rect\.height \/ 2/);
   assert.match(site, /initialMinMileage/);
+  assert.match(site, /usedCarsPage/);
+  assert.match(site, /Автомобілі з пробігом/);
+  assert.match(site, /car-old-price/);
+  assert.doesNotMatch(site, /Знижка \{formatNumber\.format\(car\.discount\)\}/);
+  assert.doesNotMatch(css, /\.footer-phone,\s*\.footer-telegram \{[\s\S]*border-bottom/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 

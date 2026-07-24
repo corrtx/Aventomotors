@@ -29,8 +29,8 @@ export function CarDetailPage({ car }: { car: Car }) {
           <CarGallery car={car} compact />
           <div className="detail-offer">
             <span>Ціна від</span>
+            {car.discount && <s className="car-old-price">{formatNumber.format(car.price + car.discount)} ₴</s>}
             <strong>{formatNumber.format(car.price)} ₴</strong>
-            {car.discount && <small className="car-discount">Знижка {formatNumber.format(car.discount)} ₴</small>}
             <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
             <div className="detail-actions">
               <button className="action-primary" onClick={() => setRequest("credit")}>У кредит</button>
