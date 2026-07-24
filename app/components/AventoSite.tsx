@@ -35,35 +35,36 @@ export function Footer() {
   return <footer>
     <strong>Avento Motors</strong>
     <span>Продаж автомобілів · кредит · обмін · резерв</span>
-    <div className="footer-legal"><Link href="/privacy">Політика конфіденційності</Link><Link href="/payments">Оплата та безпека платежів</Link></div>
+    <div className="footer-contacts"><a href="tel:+380111111111">+380111111111</a><a className="footer-telegram" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer">@wopgq</a><a className="footer-telegram-icon" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer" aria-label="Telegram Avento Motors"><img src="/telegram.png" alt="" /></a></div>
     <span>© 2026</span>
+    <div className="footer-legal"><Link href="/privacy">Політика конфіденційності</Link><Link href="/payments">Оплата та безпека платежів</Link></div>
   </footer>;
 }
 
 const brandImages: Record<string, string> = {
   Audi: "/brands/audi.svg",
   BMW: "/brands/bmw.svg",
-  Chevrolet: "https://cdn.simpleicons.org/chevrolet",
-  Citroën: "https://cdn.simpleicons.org/citroen",
-  Ford: "https://cdn.simpleicons.org/ford",
-  Honda: "https://cdn.simpleicons.org/honda",
+  Chevrolet: "/brands/chevrolet.svg",
+  Citroën: "/brands/citroen.svg",
+  Ford: "/brands/ford.svg",
+  Honda: "/brands/honda.svg",
   Hyundai: "/brands/hyundai.svg",
-  Infiniti: "https://cdn.simpleicons.org/infiniti",
+  Infiniti: "/brands/infiniti.svg",
   Kia: "/brands/kia.svg",
   "Land Rover": "/brands/land-rover.svg",
   Lexus: "/brands/lexus.png",
-  Mazda: "https://cdn.simpleicons.org/mazda",
+  Mazda: "/brands/mazda.svg",
   "Mercedes-Benz": "/brands/mercedes-benz.svg",
-  Mitsubishi: "https://cdn.simpleicons.org/mitsubishi",
-  Nissan: "https://cdn.simpleicons.org/nissan",
-  Opel: "https://cdn.simpleicons.org/opel",
-  Peugeot: "https://cdn.simpleicons.org/peugeot",
+  Mitsubishi: "/brands/mitsubishi.svg",
+  Nissan: "/brands/nissan.svg",
+  Opel: "/brands/opel.svg",
+  Peugeot: "/brands/peugeot.svg",
   Porsche: "/brands/porsche.svg",
-  Renault: "https://cdn.simpleicons.org/renault",
-  Subaru: "https://cdn.simpleicons.org/subaru",
-  Suzuki: "https://cdn.simpleicons.org/suzuki",
+  Renault: "/brands/renault.svg",
+  Subaru: "/brands/subaru.svg",
+  Suzuki: "/brands/suzuki.svg",
   "Škoda": "/brands/skoda.svg",
-  Tesla: "https://cdn.simpleicons.org/tesla",
+  Tesla: "/brands/tesla.svg",
   Toyota: "/brands/toyota.svg",
   Volkswagen: "/brands/volkswagen.svg",
   Volvo: "/brands/volvo.svg",

@@ -164,7 +164,8 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /range-summary/);
   assert.match(site, /className="range-dropdown"/);
   assert.match(site, /scrollIntoView\(\{ behavior: "smooth", block: "center" \}\)/);
-  assert.match(site, /Chevrolet: "https:\/\/cdn\.simpleicons\.org\/chevrolet"/);
+  assert.match(site, /Chevrolet: "\/brands\/chevrolet\.svg"/);
+  assert.match(site, /footer-telegram/);
   assert.match(site, /range-unit/);
   assert.match(site, /placeholder="Мін\."/);
   assert.match(site, /placeholder="Макс\."/);
@@ -202,6 +203,8 @@ test("ships local brand marks and user-provided car photos", async () => {
   await Promise.all([
     access(new URL("../public/brands/bmw.svg", import.meta.url)),
     access(new URL("../public/brands/porsche.svg", import.meta.url)),
+    access(new URL("../public/brands/chevrolet.svg", import.meta.url)),
+    access(new URL("../public/telegram.png", import.meta.url)),
     access(new URL("../public/cars/bmw-x5-front.jpg", import.meta.url)),
     access(new URL("../public/cars/bmw-x5-rear.jpg", import.meta.url)),
     access(new URL("../public/cars/porsche-911-front.jpg", import.meta.url)),

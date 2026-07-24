@@ -1611,7 +1611,7 @@ footer {
   flex-direction: column;
   align-items: center;
   gap: 9px;
-  padding-block: 30px;
+  padding-block: 30px 34px;
   border-top: 1px solid var(--line-soft);
   color: #6f7680;
   font-size: 12px;
@@ -1626,9 +1626,36 @@ footer strong {
 
 .footer-legal {
   display: flex;
-  gap: 18px;
-  margin-top: 4px;
+  width: 100%;
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
 }
+
+.footer-legal a {
+  flex: 1;
+  padding-block: 13px 8px;
+  border-bottom: 1px solid #59616e;
+  color: #9ca5b1;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.footer-legal a + a { margin-left: 12vw; }
+
+.footer-legal a:hover { border-color: var(--blue); color: #fff; }
+
+.footer-contacts {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #b7bec8;
+}
+
+.footer-contacts a { color: inherit; }
+.footer-telegram { border-bottom: 1px solid #7b8490; color: #cdd9fb !important; }
+.footer-telegram:hover { border-color: var(--blue); color: #fff !important; }
+.footer-telegram-icon { display: grid; place-items: center; width: 18px; height: 18px; }
+.footer-telegram-icon img { display: block; width: 18px; height: 18px; object-fit: contain; }
 
 .footer-legal a:hover,
 .privacy-consent a:hover { color: #fff; }
@@ -2045,7 +2072,9 @@ footer strong {
     width: 100%;
   }
 
-  .footer-legal { flex-direction: column; gap: 6px; }
+  .footer-legal { flex-direction: column; border-top: 0; }
+  .footer-legal a { padding-block: 6px; }
+  .footer-legal a + a { margin-left: 0; }
 
   .legal-page { padding-block: 48px 74px; }
 
