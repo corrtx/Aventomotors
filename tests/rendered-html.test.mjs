@@ -61,6 +61,7 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /class="footer-legal"/);
   assert.match(html, /class="footer-telegram"/);
   assert.match(html, /class="footer-telegram-icon"/);
+  assert.match(html, /footer-legal[\s\S]*© 2026/);
   assert.doesNotMatch(html, /hero-facts/);
   assert.doesNotMatch(html, /codex-preview|Новий рівень руху|У наявності/i);
   assert.doesNotMatch(html, />\s*Каталог\s*</i);
@@ -176,6 +177,7 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /<a\n      className=\{compact \? "brand-chip brand-chip-compact" : "brand-chip"\}/);
   assert.match(css, /\.footer-legal \{[\s\S]*border-top: 0;/);
   assert.match(css, /\.footer-telegram-icon img \{[\s\S]*width: 28px;/);
+  assert.match(css, /\.footer-contacts \{[\s\S]*width: fit-content;/);
   assert.match(site, /range-unit/);
   assert.match(site, /placeholder="Мін\."/);
   assert.match(site, /placeholder="Макс\."/);

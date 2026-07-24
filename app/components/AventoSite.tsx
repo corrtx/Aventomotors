@@ -56,8 +56,8 @@ export function Footer() {
     <strong>Avento Motors</strong>
     <span>Продаж автомобілів · кредит · обмін · резерв</span>
     <div className="footer-contacts"><a href="tel:+380111111111">+380111111111</a><a className="footer-telegram" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer">@wopgq</a><a className="footer-telegram-icon" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer" aria-label="Telegram Avento Motors"><img src="/telegram.png" alt="" /></a></div>
-    <span>© 2026</span>
     <div className="footer-legal"><Link href="/privacy">Політика конфіденційності</Link><Link href="/payments">Оплата та безпека платежів</Link></div>
+    <span>© 2026</span>
   </footer>;
 }
 
