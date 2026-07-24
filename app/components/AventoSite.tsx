@@ -31,6 +31,26 @@ export function PrivacyConsent() {
   return <label className="privacy-consent"><input type="checkbox" required /><span>Погоджуюся з <Link href="/privacy">Політикою конфіденційності</Link></span></label>;
 }
 
+export function PhoneField({ label = "Телефон" }: { label?: string }) {
+  const countryCodes = [
+    ["Україна", "+380"],
+    ["Польща", "+48"],
+    ["Німеччина", "+49"],
+    ["Чехія", "+420"],
+  ] as const;
+  const [country, setCountry] = useState<(typeof countryCodes)[number]>(countryCodes[0]);
+
+  return <label className="phone-field">{label}
+    <span className="phone-input-group">
+      <select name="country" value={country[0]} onChange={(event) => setCountry(countryCodes.find(([name]) => name === event.target.value) ?? countryCodes[0])} aria-label="Країна">
+        {countryCodes.map(([name]) => <option key={name} value={name}>{name}</option>)}
+      </select>
+      <span className="phone-code">{country[1]}</span>
+      <input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="Номер телефону" required />
+    </span>
+  </label>;
+}
+
 export function Footer() {
   return <footer>
     <strong>Avento Motors</strong>
@@ -80,14 +100,14 @@ function BrandMark({ brand }: { brand: string }) {
 
 function BrandLink({ brand, compact = false }: { brand: string; compact?: boolean }) {
   return (
-    <Link
+    <a
       className={compact ? "brand-chip brand-chip-compact" : "brand-chip"}
       href={`/cars?brand=${encodeURIComponent(brand)}`}
       aria-label={`Обрати ${brand}`}
     >
       <BrandMark brand={brand} />
       <span>{brand}</span>
-    </Link>
+    </a>
   );
 }
 
@@ -233,7 +253,7 @@ export function RequestModal({
               <span>{car.brand} {car.model}</span>
             </div>
             <label>Ім’я<input name="name" autoComplete="name" required /></label>
-            <label>Телефон<input name="phone" type="tel" autoComplete="tel" placeholder="+380" required /></label>
+            <PhoneField />
             {action === "credit" && (
               <div className="credit-fields">
                 <label>Перший внесок<input name="deposit" type="number" min="0" placeholder="500 000" required /></label>

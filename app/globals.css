@@ -1626,36 +1626,64 @@ footer strong {
 
 .footer-legal {
   display: flex;
-  width: 100%;
-  margin-top: 14px;
-  border-top: 1px solid var(--line);
+  width: fit-content;
+  max-width: 100%;
+  gap: 46px;
+  margin-top: 2px;
+  border-top: 0;
 }
 
 .footer-legal a {
-  flex: 1;
-  padding-block: 13px 8px;
+  padding-block: 7px 5px;
   border-bottom: 1px solid #59616e;
   color: #9ca5b1;
   font-size: 11px;
   text-decoration: none;
 }
 
-.footer-legal a + a { margin-left: 12vw; }
+.footer-legal a + a { margin-left: 0; }
 
 .footer-legal a:hover { border-color: var(--blue); color: #fff; }
 
 .footer-contacts {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 28px;
   align-items: center;
-  gap: 14px;
+  width: min(100%, 370px);
+  gap: 8px;
   color: #b7bec8;
 }
 
 .footer-contacts a { color: inherit; }
+.footer-contacts > a:first-child { justify-self: start; }
 .footer-telegram { border-bottom: 1px solid #7b8490; color: #cdd9fb !important; }
 .footer-telegram:hover { border-color: var(--blue); color: #fff !important; }
-.footer-telegram-icon { display: grid; place-items: center; width: 18px; height: 18px; }
-.footer-telegram-icon img { display: block; width: 18px; height: 18px; object-fit: contain; }
+.footer-telegram-icon { display: grid; place-items: center; width: 28px; height: 28px; }
+.footer-telegram-icon img { display: block; width: 28px; height: 28px; object-fit: contain; }
+
+.phone-input-group {
+  display: grid;
+  grid-template-columns: minmax(88px, 0.8fr) auto minmax(0, 1.3fr);
+  min-width: 0;
+  border: 1px solid #353b46;
+  border-radius: 0;
+  background: #101217;
+  overflow: hidden;
+}
+
+.phone-input-group select,
+.phone-input-group input {
+  min-width: 0;
+  height: 46px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.phone-input-group select { padding: 0 8px; color: #cdd3dc; }
+.phone-code { display: grid; place-items: center; padding-inline: 9px; border-inline: 1px solid #353b46; color: #aeb7c5; font-size: 13px; white-space: nowrap; }
+.phone-input-group input { padding-inline: 11px; }
+.phone-input-group:focus-within { border-color: var(--blue); }
 
 .footer-legal a:hover,
 .privacy-consent a:hover { color: #fff; }

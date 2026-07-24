@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Footer, Header, PrivacyConsent } from "./AventoSite";
+import { Footer, Header, PhoneField, PrivacyConsent } from "./AventoSite";
 
 const documents = [
   ["Паспорт транспортного засобу", true, true],
@@ -49,7 +49,7 @@ export function SellCarPage() {
           ) : (
             <form className="buyout-form" onSubmit={onSubmit}>
               <label>Ім’я<input name="name" autoComplete="name" required /></label>
-              <label>Номер телефону<input name="phone" type="tel" autoComplete="tel" placeholder="+380" required /></label>
+              <PhoneField label="Номер телефону" />
               <PrivacyConsent />
               <button className="buyout-submit" type="submit">Надіслати заявку</button>
             </form>

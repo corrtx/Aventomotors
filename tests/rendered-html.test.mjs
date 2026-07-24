@@ -58,6 +58,9 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /src="\/cars\/porsche-911-front\.jpg"/);
   assert.match(html, /З 2002 року/);
   assert.match(html, /Продаж автомобілів · кредит · обмін · резерв/);
+  assert.match(html, /class="footer-legal"/);
+  assert.match(html, /class="footer-telegram"/);
+  assert.match(html, /class="footer-telegram-icon"/);
   assert.doesNotMatch(html, /hero-facts/);
   assert.doesNotMatch(html, /codex-preview|Новий рівень руху|У наявності/i);
   assert.doesNotMatch(html, />\s*Каталог\s*</i);
@@ -93,6 +96,8 @@ test("renders vehicle buyout page", async () => {
   assert.match(html, /Авто знято з обліку/);
   assert.match(html, /Як це працює/);
   assert.match(html, /Політикою конфіденційності/);
+  assert.match(html, /name="country"/);
+  assert.match(html, /\+380/);
   assert.match(html, /\/buyout\/step-keys-transparent\.png/);
   assert.match(html, /\/buyout\/step-inspection-transparent\.png/);
   assert.match(html, /\/buyout\/step-price-transparent\.png/);
@@ -166,6 +171,11 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /scrollIntoView\(\{ behavior: "smooth", block: "center" \}\)/);
   assert.match(site, /Chevrolet: "\/brands\/chevrolet\.svg"/);
   assert.match(site, /footer-telegram/);
+  assert.match(site, /function PhoneField/);
+  assert.match(site, /<select name="country"/);
+  assert.match(site, /<a\n      className=\{compact \? "brand-chip brand-chip-compact" : "brand-chip"\}/);
+  assert.match(css, /\.footer-legal \{[\s\S]*border-top: 0;/);
+  assert.match(css, /\.footer-telegram-icon img \{[\s\S]*width: 28px;/);
   assert.match(site, /range-unit/);
   assert.match(site, /placeholder="Мін\."/);
   assert.match(site, /placeholder="Макс\."/);
