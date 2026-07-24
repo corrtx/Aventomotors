@@ -22,19 +22,19 @@ test("filters cars by any of several selected brands", () => {
 test("filters cars by maximum price", () => {
   const result = filterCars(cars, { maxPrice: 3_000_000 });
 
-  assert.deepEqual(result.map((car) => car.id), ["bmw-x5"]);
+  assert.deepEqual(result.map((car) => car.id), ["bmw-x5", "opel-insignia-grand-sport", "mazda-6-sedan"]);
 });
 
 test("filters cars by minimum year and maximum mileage", () => {
   const result = filterCars(cars, { minYear: 2023, maxMileage: 20_000 });
 
-  assert.deepEqual(result.map((car) => car.id), ["porsche-911"]);
+  assert.deepEqual(result.map((car) => car.id), ["porsche-911", "mazda-6-sedan"]);
 });
 
 test("filters cars by complete price, year, and mileage ranges", () => {
   assert.deepEqual(filterCars(cars, { minPrice: 3_000_000 }).map((car) => car.id), ["porsche-911"]);
-  assert.deepEqual(filterCars(cars, { maxYear: 2022 }).map((car) => car.id), ["bmw-x5"]);
-  assert.deepEqual(filterCars(cars, { minMileage: 30_000 }).map((car) => car.id), ["bmw-x5"]);
+  assert.deepEqual(filterCars(cars, { maxYear: 2022 }).map((car) => car.id), ["bmw-x5", "opel-insignia-grand-sport"]);
+  assert.deepEqual(filterCars(cars, { minMileage: 30_000 }).map((car) => car.id), ["bmw-x5", "opel-insignia-grand-sport"]);
 });
 
 test("ignores empty filters", () => {
@@ -42,7 +42,22 @@ test("ignores empty filters", () => {
 });
 
 test("filters only special offers", () => {
-  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["bmw-x5", "porsche-911"]);
+  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["bmw-x5", "porsche-911", "opel-insignia-grand-sport", "mazda-6-sedan"]);
+});
+
+test("adds discounted Opel Insignia and new Mazda 6 offers with local galleries", () => {
+  const opel = getCarById("opel-insignia-grand-sport");
+  const mazda = getCarById("mazda-6-sedan");
+
+  assert.equal(opel?.brand, "Opel");
+  assert.equal(opel?.isSpecialOffer, true);
+  assert.ok((opel?.discount ?? 0) > 0);
+  assert.deepEqual(opel?.gallery, ["/cars/opel-insignia-front.jpg", "/cars/opel-insignia-rear.jpg"]);
+  assert.equal(mazda?.brand, "Mazda");
+  assert.equal(mazda?.mileage, 0);
+  assert.equal(mazda?.isSpecialOffer, true);
+  assert.ok((mazda?.discount ?? 0) > 0);
+  assert.deepEqual(mazda?.gallery, ["/cars/mazda-6-front.jpg", "/cars/mazda-6-rear.jpg"]);
 });
 
 test("ships performance facts for every catalogue car", () => {

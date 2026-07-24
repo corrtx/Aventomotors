@@ -210,6 +210,7 @@ export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action
       <div className="car-price">
         <span>Ціна від</span>
         <strong>{formatNumber.format(car.price)} ₴</strong>
+        {car.discount && <small className="car-discount">Знижка {formatNumber.format(car.discount)} ₴</small>}
         <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
       </div>
 

@@ -599,6 +599,13 @@ footer {
   line-height: 1;
 }
 
+.car-discount {
+  margin-top: 8px;
+  color: #8cb4ff;
+  font-size: 11px;
+  font-weight: 620;
+}
+
 .car-price p {
   margin: 20px 0 0;
   color: var(--blue);

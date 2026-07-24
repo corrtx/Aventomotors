@@ -30,6 +30,7 @@ export function CarDetailPage({ car }: { car: Car }) {
           <div className="detail-offer">
             <span>Ціна від</span>
             <strong>{formatNumber.format(car.price)} ₴</strong>
+            {car.discount && <small className="car-discount">Знижка {formatNumber.format(car.discount)} ₴</small>}
             <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
             <div className="detail-actions">
               <button className="action-primary" onClick={() => setRequest("credit")}>У кредит</button>
