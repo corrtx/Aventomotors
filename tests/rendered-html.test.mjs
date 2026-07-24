@@ -92,10 +92,23 @@ test("renders vehicle buyout page", async () => {
   assert.match(html, /Авто на обліку/);
   assert.match(html, /Авто знято з обліку/);
   assert.match(html, /Як це працює/);
+  assert.match(html, /Політикою конфіденційності/);
   assert.match(html, /\/buyout\/step-keys-transparent\.png/);
   assert.match(html, /\/buyout\/step-inspection-transparent\.png/);
   assert.match(html, /\/buyout\/step-price-transparent\.png/);
   assert.match(html, /\/buyout\/step-contract-transparent\.png/);
+});
+
+test("renders privacy and payment policy pages", async () => {
+  const [privacyResponse, paymentResponse] = await Promise.all([render("/privacy"), render("/payments")]);
+  assert.equal(privacyResponse.status, 200);
+  assert.equal(paymentResponse.status, 200);
+
+  const [privacyHtml, paymentHtml] = await Promise.all([privacyResponse.text(), paymentResponse.text()]);
+  assert.match(privacyHtml, /Політика конфіденційності/);
+  assert.match(privacyHtml, /ТОВ «Авенто Моторс»/);
+  assert.match(paymentHtml, /Оплата та безпека платежів/);
+  assert.match(paymentHtml, /Повернення коштів/);
 });
 
 test("renders a detailed car page with both local photos and actions", async () => {
@@ -150,7 +163,7 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /2026/);
   assert.match(site, /range-summary/);
   assert.match(site, /className="range-dropdown"/);
-  assert.match(site, /scrollIntoView\(\{ behavior: "smooth" \}\)/);
+  assert.match(site, /scrollIntoView\(\{ behavior: "smooth", block: "center" \}\)/);
   assert.match(site, /Chevrolet: "https:\/\/cdn\.simpleicons\.org\/chevrolet"/);
   assert.match(site, /range-unit/);
   assert.match(site, /placeholder="Мін\."/);
@@ -179,7 +192,9 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /\.car-card\s*\{[^}]*overflow: visible/s);
   assert.match(css, /\.rating-tooltip::after/);
   assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
-  assert.match(css, /scroll-behavior:\s*smooth/);
+  assert.doesNotMatch(css, /html\s*\{[^}]*scroll-behavior:\s*smooth/s);
+  assert.match(site, /block: "center"/);
+  assert.match(site, /initialMinMileage/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 

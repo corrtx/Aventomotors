@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { cars, type Car } from "@/lib/catalog";
-import { CarCard, Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
+import { CarCard, Footer, Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
 import { CarGallery } from "./CarGallery";
 
 const formatNumber = new Intl.NumberFormat("uk-UA");
@@ -62,7 +62,7 @@ export function CarDetailPage({ car }: { car: Car }) {
         </section>}
       </main>
 
-      <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>
+      <Footer />
       {request && <RequestModal action={request} car={car} onClose={() => setRequest(null)} />}
     </div>
   );

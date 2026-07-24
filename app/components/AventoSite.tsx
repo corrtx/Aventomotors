@@ -12,6 +12,7 @@ type AventoSiteProps = {
   mode: "home" | "cars";
   initialBrand?: string;
   initialMaxPrice?: number;
+  initialMinMileage?: number;
   initialSpecialOffer?: boolean;
   specialOffersPage?: boolean;
 };
@@ -25,6 +26,19 @@ const actionLabels: Record<Action, string> = {
 };
 
 const formatNumber = new Intl.NumberFormat("uk-UA");
+
+export function PrivacyConsent() {
+  return <label className="privacy-consent"><input type="checkbox" required /><span>Погоджуюся з <Link href="/privacy">Політикою конфіденційності</Link></span></label>;
+}
+
+export function Footer() {
+  return <footer>
+    <strong>Avento Motors</strong>
+    <span>Продаж автомобілів · кредит · обмін · резерв</span>
+    <div className="footer-legal"><Link href="/privacy">Політика конфіденційності</Link><Link href="/payments">Оплата та безпека платежів</Link></div>
+    <span>© 2026</span>
+  </footer>;
+}
 
 const brandImages: Record<string, string> = {
   Audi: "/brands/audi.svg",
@@ -226,6 +240,7 @@ export function RequestModal({
               </div>
             )}
             {action === "exchange" && <label>Ваш автомобіль<input name="trade-in-car" placeholder="Марка, модель, рік" required /></label>}
+            <PrivacyConsent />
             <button className="submit-button" type="submit">Надіслати заявку</button>
           </form>
         )}
@@ -242,7 +257,7 @@ export function Header() {
       window.location.assign("/#about");
       return;
     }
-    about.scrollIntoView({ behavior: "smooth" });
+    about.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   return (
@@ -391,8 +406,8 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
   );
 }
 
-function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, specialOffersPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
-  const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, specialOffer: initialSpecialOffer });
+function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
+  const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, minMileage: initialMinMileage, specialOffer: initialSpecialOffer });
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
 
   const setFilter = (name: keyof CarFilters, value: string) => {
@@ -452,14 +467,14 @@ function CarsPage({ initialBrand, initialMaxPrice, initialSpecialOffer, specialO
   );
 }
 
-export function AventoSite({ mode, initialBrand, initialMaxPrice, initialSpecialOffer, specialOffersPage }: AventoSiteProps) {
+export function AventoSite({ mode, initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage }: AventoSiteProps) {
   const [request, setRequest] = useState<{ action: Action; car: Car } | null>(null);
 
   return (
     <div className="site-frame">
       <Header />
-      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
-      <footer><strong>Avento Motors</strong><span>Продаж автомобілів · кредит · обмін · резерв</span><span>© 2026</span></footer>
+      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialMinMileage={initialMinMileage} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
+      <Footer />
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>
   );

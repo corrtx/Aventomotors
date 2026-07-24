@@ -16,7 +16,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: var(--background);
 }
 
@@ -1625,6 +1624,63 @@ footer strong {
   font-weight: 620;
 }
 
+.footer-legal {
+  display: flex;
+  gap: 18px;
+  margin-top: 4px;
+}
+
+.footer-legal a:hover,
+.privacy-consent a:hover { color: #fff; }
+
+.privacy-consent {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 9px !important;
+  color: #929aa6 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.45;
+}
+
+.privacy-consent input {
+  width: 15px !important;
+  min-width: 15px;
+  min-height: 15px !important;
+  height: 15px;
+  margin: 1px 0 0;
+  padding: 0 !important;
+  accent-color: var(--blue);
+}
+
+.privacy-consent a { color: #c8d8ff; text-decoration: underline; text-underline-offset: 2px; }
+
+.legal-page {
+  max-width: 920px;
+  padding-block: 76px 104px;
+}
+
+.legal-page h1 {
+  margin: 0 0 30px;
+  font-size: clamp(38px, 5vw, 66px);
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.legal-page h2 {
+  margin: 42px 0 14px;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+
+.legal-page p {
+  margin: 0;
+  color: #b7bec8;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1988,6 +2044,10 @@ footer strong {
   .buyout-form button {
     width: 100%;
   }
+
+  .footer-legal { flex-direction: column; gap: 6px; }
+
+  .legal-page { padding-block: 48px 74px; }
 
   .buyout-documents {
     overflow-x: auto;
