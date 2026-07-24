@@ -92,6 +92,10 @@ test("renders vehicle buyout page", async () => {
   assert.match(html, /Авто на обліку/);
   assert.match(html, /Авто знято з обліку/);
   assert.match(html, /Як це працює/);
+  assert.match(html, /\/buyout\/step-keys\.png/);
+  assert.match(html, /\/buyout\/step-inspection\.png/);
+  assert.match(html, /\/buyout\/step-price\.png/);
+  assert.match(html, /\/buyout\/step-contract\.png/);
 });
 
 test("renders a detailed car page with both local photos and actions", async () => {
@@ -149,7 +153,9 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /scrollIntoView\(\{ behavior: "smooth" \}\)/);
   assert.match(site, /Chevrolet: "https:\/\/cdn\.simpleicons\.org\/chevrolet"/);
   assert.match(site, /range-unit/);
-  assert.match(site, /<span className="range-unit">\{unit\}<\/span><span className="range-bound">Мін\.<\/span>/);
+  assert.match(site, /placeholder="Мін\."/);
+  assert.match(site, /placeholder="Макс\."/);
+  assert.doesNotMatch(site, /Genesis:/);
   assert.match(css, /\.selected-filter-chip:hover/);
   assert.match(site, /selected-filter-chip/);
   assert.match(site, /return `\$\{title\}: \$\{value\(min\)\}–\$\{value\(max\)\}`/);
@@ -167,6 +173,9 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /max-height: 0/);
   assert.match(css, /\.year-choice-list/);
   assert.match(css, /\.detail-rating-wrap \.rating-tooltip/);
+  assert.doesNotMatch(css, /\.detail-rating-wrap \.rating-tooltip\s*\{[^}]*rotate\(/s);
+  assert.match(css, /\.site-header\s*\{[^}]*position:\s*sticky/s);
+  assert.match(css, /\.catalog-subnav\s*\{[^}]*position:\s*sticky/s);
   assert.match(css, /\.car-card\s*\{[^}]*overflow: visible/s);
   assert.match(css, /\.rating-tooltip::after/);
   assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
@@ -182,5 +191,9 @@ test("ships local brand marks and user-provided car photos", async () => {
     access(new URL("../public/cars/bmw-x5-rear.png", import.meta.url)),
     access(new URL("../public/cars/porsche-911-front.png", import.meta.url)),
     access(new URL("../public/cars/porsche-911-rear.png", import.meta.url)),
+    access(new URL("../public/buyout/step-keys.png", import.meta.url)),
+    access(new URL("../public/buyout/step-inspection.png", import.meta.url)),
+    access(new URL("../public/buyout/step-price.png", import.meta.url)),
+    access(new URL("../public/buyout/step-contract.png", import.meta.url)),
   ]);
 });

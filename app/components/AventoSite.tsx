@@ -32,7 +32,6 @@ const brandImages: Record<string, string> = {
   Chevrolet: "https://cdn.simpleicons.org/chevrolet",
   Citroën: "https://cdn.simpleicons.org/citroen",
   Ford: "https://cdn.simpleicons.org/ford",
-  Genesis: "https://logos-world.net/wp-content/uploads/2021/03/Genesis-Logo.png",
   Honda: "https://cdn.simpleicons.org/honda",
   Hyundai: "/brands/hyundai.svg",
   Infiniti: "https://cdn.simpleicons.org/infiniti",
@@ -296,8 +295,8 @@ function RangeFilter({
         <span>{title}</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" />
       </button>
       <div className="range-dropdown">
-        <label><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><span className="range-bound">Мін.</span><input aria-label={`${title}, мінімум`} type="number" min="0" value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
-        <label><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><span className="range-bound">Макс.</span><input aria-label={`${title}, максимум`} type="number" min="0" value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
+        <label><span className={minValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, мінімум`} type="number" min="0" placeholder="Мін." value={minValue ?? ""} onChange={(event) => onMinChange(event.target.value)} /></span></label>
+        <label><span className={maxValue ? "range-input-shell has-value" : "range-input-shell"}><span className="range-unit">{unit}</span><input aria-label={`${title}, максимум`} type="number" min="0" placeholder="Макс." value={maxValue ?? ""} onChange={(event) => onMaxChange(event.target.value)} /></span></label>
       </div>
     </div>
   );

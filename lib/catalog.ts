@@ -86,7 +86,6 @@ export const brands = [
   "Chevrolet",
   "Citroën",
   "Ford",
-  "Genesis",
   "Honda",
   "Hyundai",
   "Infiniti",
