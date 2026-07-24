@@ -46,16 +46,16 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /class="site-logo-mark"/);
   assert.match(html, /src="\/avento-logo-mark-white\.png"/);
   assert.match(html, /class="[^"]*hero-carousel/);
-  assert.match(html, /avento-bmw-night\.png/);
+  assert.match(html, /avento-bmw-night\.jpg/);
   assert.match(html, /aria-label="Попередній слайд"/);
   assert.match(html, /aria-label="Наступний слайд"/);
   assert.match(html, /class="hero-dots"/);
   assert.match(html, /aria-label="Перейти до банера 1"/);
   assert.match(html, /Щодня ми оновлюємо добірку/);
   assert.match(html, /href="\/cars\/bmw-x5"/);
-  assert.match(html, /src="\/cars\/bmw-x5-front\.png"/);
+  assert.match(html, /src="\/cars\/bmw-x5-front\.jpg"/);
   assert.match(html, /href="\/cars\/porsche-911"/);
-  assert.match(html, /src="\/cars\/porsche-911-front\.png"/);
+  assert.match(html, /src="\/cars\/porsche-911-front\.jpg"/);
   assert.match(html, /З 2002 року/);
   assert.match(html, /Продаж автомобілів · кредит · обмін · резерв/);
   assert.doesNotMatch(html, /hero-facts/);
@@ -92,10 +92,10 @@ test("renders vehicle buyout page", async () => {
   assert.match(html, /Авто на обліку/);
   assert.match(html, /Авто знято з обліку/);
   assert.match(html, /Як це працює/);
-  assert.match(html, /\/buyout\/step-keys\.png/);
-  assert.match(html, /\/buyout\/step-inspection\.png/);
-  assert.match(html, /\/buyout\/step-price\.png/);
-  assert.match(html, /\/buyout\/step-contract\.png/);
+  assert.match(html, /\/buyout\/step-keys-transparent\.png/);
+  assert.match(html, /\/buyout\/step-inspection-transparent\.png/);
+  assert.match(html, /\/buyout\/step-price-transparent\.png/);
+  assert.match(html, /\/buyout\/step-contract-transparent\.png/);
 });
 
 test("renders a detailed car page with both local photos and actions", async () => {
@@ -104,8 +104,8 @@ test("renders a detailed car page with both local photos and actions", async () 
 
   const html = await response.text();
   assert.match(html, /BMW X5 xDrive30d/);
-  assert.match(html, /bmw-x5-front\.png/);
-  assert.match(html, /bmw-x5-rear\.png/);
+  assert.match(html, /bmw-x5-front\.jpg/);
+  assert.match(html, /bmw-x5-rear\.jpg/);
   assert.match(html, /У кредит/);
   assert.match(html, /Обмін/);
   assert.match(html, /Резерв/);
@@ -187,13 +187,13 @@ test("ships local brand marks and user-provided car photos", async () => {
   await Promise.all([
     access(new URL("../public/brands/bmw.svg", import.meta.url)),
     access(new URL("../public/brands/porsche.svg", import.meta.url)),
-    access(new URL("../public/cars/bmw-x5-front.png", import.meta.url)),
-    access(new URL("../public/cars/bmw-x5-rear.png", import.meta.url)),
-    access(new URL("../public/cars/porsche-911-front.png", import.meta.url)),
-    access(new URL("../public/cars/porsche-911-rear.png", import.meta.url)),
-    access(new URL("../public/buyout/step-keys.png", import.meta.url)),
-    access(new URL("../public/buyout/step-inspection.png", import.meta.url)),
-    access(new URL("../public/buyout/step-price.png", import.meta.url)),
-    access(new URL("../public/buyout/step-contract.png", import.meta.url)),
+    access(new URL("../public/cars/bmw-x5-front.jpg", import.meta.url)),
+    access(new URL("../public/cars/bmw-x5-rear.jpg", import.meta.url)),
+    access(new URL("../public/cars/porsche-911-front.jpg", import.meta.url)),
+    access(new URL("../public/cars/porsche-911-rear.jpg", import.meta.url)),
+    access(new URL("../public/buyout/step-keys-transparent.png", import.meta.url)),
+    access(new URL("../public/buyout/step-inspection-transparent.png", import.meta.url)),
+    access(new URL("../public/buyout/step-price-transparent.png", import.meta.url)),
+    access(new URL("../public/buyout/step-contract-transparent.png", import.meta.url)),
   ]);
 });

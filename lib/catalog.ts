@@ -49,10 +49,10 @@ export const cars: Car[] = [
     zeroToHundred: 6.5,
     isSpecialOffer: true,
     discount: 120_000,
-    coverImage: "/cars/bmw-x5-front.png",
+    coverImage: "/cars/bmw-x5-front.jpg",
     gallery: [
-      "/cars/bmw-x5-front.png",
-      "/cars/bmw-x5-rear.png",
+      "/cars/bmw-x5-front.jpg",
+      "/cars/bmw-x5-rear.jpg",
     ],
   },
   {
@@ -72,10 +72,10 @@ export const cars: Car[] = [
     zeroToHundred: 4.2,
     isSpecialOffer: true,
     discount: 180_000,
-    coverImage: "/cars/porsche-911-front.png",
+    coverImage: "/cars/porsche-911-front.jpg",
     gallery: [
-      "/cars/porsche-911-front.png",
-      "/cars/porsche-911-rear.png",
+      "/cars/porsche-911-front.jpg",
+      "/cars/porsche-911-rear.jpg",
     ],
   },
 ];

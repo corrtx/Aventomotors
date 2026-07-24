@@ -236,9 +236,13 @@ export function RequestModal({
 
 export function Header() {
   const scrollToAbout = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (window.location.pathname !== "/") return;
     event.preventDefault();
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    const about = document.getElementById("about");
+    if (!about) {
+      window.location.assign("/#about");
+      return;
+    }
+    about.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -250,7 +254,7 @@ export function Header() {
         </Link>
         <nav aria-label="Головна навігація">
           <Link href="/cars">Обрати авто</Link>
-          <Link href="/#about" onClick={scrollToAbout}>Про нас</Link>
+          <Link href="#about" onClick={scrollToAbout}>Про нас</Link>
         </nav>
       </header>
       <nav className="catalog-subnav" aria-label="Категорії автомобілів">
@@ -338,7 +342,7 @@ function BrandFilter({ values, onChange }: { values?: string[]; onChange: (value
 }
 
 function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }) {
-  const heroSlides = ["/hero/avento-bmw-night.png", "/hero/avento-audi-night.png", "/hero/avento-range-rover-sunset.png"];
+  const heroSlides = ["/hero/avento-bmw-night.jpg", "/hero/avento-audi-night.jpg", "/hero/avento-range-rover-sunset.jpg"];
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {

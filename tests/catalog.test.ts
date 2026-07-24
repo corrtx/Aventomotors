@@ -55,10 +55,10 @@ test("ships performance facts for every catalogue car", () => {
 test("returns a car with local card and gallery images", () => {
   const car = getCarById("porsche-911");
 
-  assert.equal(car?.coverImage, "/cars/porsche-911-front.png");
+  assert.equal(car?.coverImage, "/cars/porsche-911-front.jpg");
   assert.deepEqual(car?.gallery, [
-    "/cars/porsche-911-front.png",
-    "/cars/porsche-911-rear.png",
+    "/cars/porsche-911-front.jpg",
+    "/cars/porsche-911-rear.jpg",
   ]);
 });
 
