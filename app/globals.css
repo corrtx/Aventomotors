@@ -1196,10 +1196,17 @@ footer {
   gap: 28px;
 }
 
-.buyout-steps article { padding-top: 0; }
-.buyout-steps img { display: block; width: 76px; height: 76px; margin: 0 0 20px; object-fit: contain; }
+.buyout-steps article { display: grid; justify-items: center; padding-top: 0; text-align: center; }
+.buyout-steps img {
+  display: block;
+  width: 132px;
+  height: 132px;
+  margin: 0 0 22px;
+  mix-blend-mode: multiply;
+  object-fit: contain;
+}
 .buyout-steps h3 { margin: 0 0 12px; font-size: 20px; line-height: 1.15; }
-.buyout-steps p { margin: 0; color: #9da5af; font-size: 14px; line-height: 1.55; }
+.buyout-steps p { max-width: 290px; margin: 0; color: #9da5af; font-size: 14px; line-height: 1.55; }
 
 .selected-filter-chip:hover {
   border-color: #525965;
@@ -1998,6 +2005,11 @@ footer strong {
 
   .buyout-steps h3 {
     margin-top: 14px;
+  }
+
+  .buyout-steps img {
+    width: 116px;
+    height: 116px;
   }
 }
 
