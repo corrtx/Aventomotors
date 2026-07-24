@@ -610,7 +610,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
 }
 
 .car-actions button,
@@ -1628,8 +1628,8 @@ footer strong {
   display: flex;
   width: fit-content;
   max-width: 100%;
-  gap: 46px;
-  margin-top: 2px;
+  gap: 34px;
+  margin-top: 5px;
   border-top: 0;
 }
 
@@ -1649,16 +1649,18 @@ footer strong {
   display: flex;
   align-items: center;
   width: fit-content;
-  gap: 6px;
+  gap: 8px;
   color: #b7bec8;
 }
 
 .footer-contacts a { color: inherit; }
-.footer-contacts > a:first-child { margin-right: 2px; }
+.footer-phone,
 .footer-telegram { border-bottom: 1px solid #7b8490; color: #cdd9fb !important; }
+.footer-phone:hover { border-color: var(--blue); color: #fff; }
+.footer-contact-divider { width: 3px; height: 3px; border-radius: 50%; background: #59616e; }
 .footer-telegram:hover { border-color: var(--blue); color: #fff !important; }
-.footer-telegram-icon { display: grid; place-items: center; width: 28px; height: 28px; }
-.footer-telegram-icon img { display: block; width: 28px; height: 28px; object-fit: contain; }
+.footer-telegram-icon { display: grid; place-items: center; width: 24px; height: 24px; margin-left: -2px; }
+.footer-telegram-icon img { display: block; width: 24px; height: 24px; object-fit: contain; }
 
 .phone-input-group {
   display: grid;
