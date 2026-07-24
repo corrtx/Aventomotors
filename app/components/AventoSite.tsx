@@ -32,23 +32,51 @@ export function PrivacyConsent() {
 }
 
 export function PhoneField({ label = "Телефон" }: { label?: string }) {
-  const countryCodes = [
-    ["Україна", "+380"],
-    ["Польща", "+48"],
-    ["Німеччина", "+49"],
-    ["Чехія", "+420"],
+  const countries = [
+    ["🇺🇦", "Україна", "+380"], ["🇵🇱", "Польща", "+48"], ["🇩🇪", "Німеччина", "+49"], ["🇨🇿", "Чехія", "+420"],
+    ["🇸🇰", "Словаччина", "+421"], ["🇷🇴", "Румунія", "+40"], ["🇲🇩", "Молдова", "+373"], ["🇱🇹", "Литва", "+370"],
+    ["🇱🇻", "Латвія", "+371"], ["🇪🇪", "Естонія", "+372"], ["🇮🇹", "Італія", "+39"], ["🇪🇸", "Іспанія", "+34"],
+    ["🇫🇷", "Франція", "+33"], ["🇬🇧", "Велика Британія", "+44"], ["🇺🇸", "США", "+1"], ["🇨🇦", "Канада", "+1"],
   ] as const;
-  const [country, setCountry] = useState<(typeof countryCodes)[number]>(countryCodes[0]);
+  const [country, setCountry] = useState<(typeof countries)[number]>(countries[0]);
+  const [number, setNumber] = useState("");
+  const [touched, setTouched] = useState(false);
+  const hasError = touched && number.length !== 9;
 
   return <label className="phone-field">{label}
-    <span className="phone-input-group">
-      <select name="country" value={country[0]} onChange={(event) => setCountry(countryCodes.find(([name]) => name === event.target.value) ?? countryCodes[0])} aria-label="Країна">
-        {countryCodes.map(([name]) => <option key={name} value={name}>{name}</option>)}
+    <span className={hasError ? "phone-input-group has-error" : "phone-input-group"}>
+      <select name="country" value={country[1]} onChange={(event) => setCountry(countries.find(([, name]) => name === event.target.value) ?? countries[0])} aria-label="Країна">
+        {countries.map(([flag, name, code]) => <option key={`${name}-${code}`} value={name}>{flag} {name}</option>)}
       </select>
-      <span className="phone-code">{country[1]}</span>
-      <input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="Номер телефону" required />
+      <span className="phone-code">{country[2]}</span>
+      <input name="phone" type="tel" autoComplete="tel" inputMode="numeric" placeholder="Номер телефону" value={number} maxLength={9} pattern="[0-9]{9}" aria-invalid={hasError || undefined} aria-describedby="phone-error" onChange={(event) => setNumber(event.target.value.replace(/\D/g, "").slice(0, 9))} onBlur={() => setTouched(true)} onInvalid={() => setTouched(true)} required />
     </span>
+    {hasError && <span className="phone-error" id="phone-error" role="alert">Має бути рівно 9 цифр</span>}
   </label>;
+}
+
+function animateScrollTo(element: HTMLElement) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const headerHeight = document.querySelector<HTMLElement>(".site-header")?.getBoundingClientRect().height ?? 0;
+  const subnavHeight = document.querySelector<HTMLElement>(".catalog-subnav")?.getBoundingClientRect().height ?? 0;
+  const destination = Math.max(0, window.scrollY + element.getBoundingClientRect().top - headerHeight - subnavHeight - 24);
+
+  if (reducedMotion) {
+    window.scrollTo(0, destination);
+    return;
+  }
+
+  const start = window.scrollY;
+  const distance = destination - start;
+  const duration = 1100;
+  const startedAt = performance.now();
+  const frame = (now: number) => {
+    const progress = Math.min((now - startedAt) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    window.scrollTo(0, start + distance * eased);
+    if (progress < 1) window.requestAnimationFrame(frame);
+  };
+  window.requestAnimationFrame(frame);
 }
 
 export function Footer() {
@@ -275,10 +303,10 @@ export function Header() {
     event.preventDefault();
     const about = document.getElementById("about");
     if (!about) {
-      window.location.assign("/#about");
+      window.location.assign("/?scrollTo=about");
       return;
     }
-    about.scrollIntoView({ behavior: "smooth", block: "center" });
+    animateScrollTo(about);
   };
 
   return (
@@ -387,6 +415,16 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
     const timer = window.setTimeout(() => setActiveSlide((current) => cycleIndex(current, heroSlides.length, 1)), 4000);
     return () => window.clearTimeout(timer);
   }, [activeSlide, heroSlides.length]);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("scrollTo") !== "about") return;
+    const frame = window.requestAnimationFrame(() => {
+      const about = document.getElementById("about");
+      if (about) animateScrollTo(about);
+      window.history.replaceState(null, "", "/");
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <>

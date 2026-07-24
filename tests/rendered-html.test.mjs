@@ -170,11 +170,17 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /2026/);
   assert.match(site, /range-summary/);
   assert.match(site, /className="range-dropdown"/);
-  assert.match(site, /scrollIntoView\(\{ behavior: "smooth", block: "center" \}\)/);
+  assert.match(site, /window\.requestAnimationFrame\(frame\)/);
   assert.match(site, /Chevrolet: "\/brands\/chevrolet\.svg"/);
   assert.match(site, /footer-telegram/);
   assert.match(site, /function PhoneField/);
   assert.match(site, /<select name="country"/);
+  assert.match(site, /🇺🇦/);
+  assert.match(site, /Має бути рівно 9 цифр/);
+  assert.match(site, /maxLength=\{9\}/);
+  assert.match(site, /function animateScrollTo/);
+  assert.match(site, /1100/);
+  assert.match(site, /prefers-reduced-motion: reduce/);
   assert.match(site, /<a\n      className=\{compact \? "brand-chip brand-chip-compact" : "brand-chip"\}/);
   assert.match(css, /\.footer-legal \{[\s\S]*border-top: 0;/);
   assert.match(css, /\.footer-telegram-icon img \{[\s\S]*width: 24px;/);
@@ -208,7 +214,7 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /\.rating-tooltip::after/);
   assert.match(css, /\.detail-gallery-single\s*\{[^}]*height:/s);
   assert.doesNotMatch(css, /html\s*\{[^}]*scroll-behavior:\s*smooth/s);
-  assert.match(site, /block: "center"/);
+  assert.match(site, /headerHeight - subnavHeight - 24/);
   assert.match(site, /initialMinMileage/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
