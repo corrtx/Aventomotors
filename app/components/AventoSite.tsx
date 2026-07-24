@@ -29,7 +29,7 @@ const actionLabels: Record<Action, string> = {
 const formatNumber = new Intl.NumberFormat("uk-UA");
 
 export function PrivacyConsent() {
-  return <label className="privacy-consent"><input type="checkbox" required /><span>Погоджуюся з <Link href="/privacy">Політикою конфіденційності</Link></span></label>;
+  return <label className="privacy-consent"><input type="checkbox" required /><span>Погоджуюся з <Link href="/privacy" target="_blank" rel="noreferrer">Політикою конфіденційності</Link></span></label>;
 }
 
 export function PhoneField({ label = "Телефон" }: { label?: string }) {
@@ -87,7 +87,7 @@ export function Footer() {
     <strong>Avento Motors</strong>
     <span>Продаж автомобілів · кредит · обмін · резерв</span>
     <div className="footer-contacts"><a className="footer-phone" href="tel:+380111111111">+380111111111</a><span className="footer-contact-divider" aria-hidden="true" /><a className="footer-telegram" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer">@wopgq</a><a className="footer-telegram-icon" href="https://t.me/+LMHLw-S4AzA1Y2Ji" target="_blank" rel="noreferrer" aria-label="Telegram Avento Motors"><img src="/telegram.png" alt="" /></a></div>
-    <div className="footer-legal"><Link href="/privacy">Політика конфіденційності</Link><Link href="/payments">Оплата та безпека платежів</Link></div>
+    <div className="footer-legal"><Link href="/privacy" target="_blank" rel="noreferrer">Політика конфіденційності</Link><Link href="/payments" target="_blank" rel="noreferrer">Оплата та безпека платежів</Link></div>
     <span>© 2026</span>
   </footer>;
 }
@@ -536,7 +536,7 @@ export function AventoSite({ mode, initialBrand, initialMaxPrice, initialMinMile
   return (
     <div className="site-frame">
       <Header />
-      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialMinMileage={initialMinMileage} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} usedCarsPage={usedCarsPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
+      <main>{mode === "home" ? <HomePage onAction={(action, car) => setRequest({ action, car })} /> : <CarsPage key={`cars-${specialOffersPage}-${usedCarsPage}`} initialBrand={initialBrand} initialMaxPrice={initialMaxPrice} initialMinMileage={initialMinMileage} initialSpecialOffer={initialSpecialOffer} specialOffersPage={specialOffersPage} usedCarsPage={usedCarsPage} onAction={(action, car) => setRequest({ action, car })} />}</main>
       <Footer />
       {request && <RequestModal action={request.action} car={request.car} onClose={() => setRequest(null)} />}
     </div>

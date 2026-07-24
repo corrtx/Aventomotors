@@ -163,9 +163,13 @@ export function filterCars(items: Car[], filters: CarFilters) {
     if (filters.maxYear && car.year > filters.maxYear) return false;
     if (filters.minMileage && car.mileage < filters.minMileage) return false;
     if (filters.maxMileage && car.mileage > filters.maxMileage) return false;
-    if (filters.specialOffer && !car.isSpecialOffer) return false;
+    if (filters.specialOffer && !hasDiscount(car)) return false;
     return true;
   });
+}
+
+export function hasDiscount(car: Car) {
+  return typeof car.discount === "number" && car.discount > 0;
 }
 
 export function getCarById(id: string) {

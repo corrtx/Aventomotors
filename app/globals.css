@@ -603,7 +603,7 @@ footer {
   display: block;
   margin-top: 8px;
   color: #737b87;
-  font-size: 13px;
+  font-size: clamp(30px, 3.2vw, 42px);
   font-weight: 560;
   line-height: 1;
   text-decoration-thickness: 1px;
@@ -1526,7 +1526,7 @@ footer {
 
 .detail-offer .car-old-price {
   margin-top: 14px;
-  font-size: 15px;
+  font-size: clamp(46px, 5.5vw, 74px);
 }
 
 .detail-offer > p {
@@ -1674,7 +1674,7 @@ footer strong {
 .footer-contacts a { color: inherit; }
 .footer-phone { color: #cdd9fb !important; }
 .footer-telegram { border-bottom: 1px solid #7b8490; color: #cdd9fb !important; }
-.footer-phone:hover { color: #fff; }
+.footer-phone:hover { color: #fff !important; }
 .footer-contact-divider { width: 3px; height: 3px; border-radius: 50%; background: #59616e; }
 .footer-telegram:hover { border-color: var(--blue); color: #fff !important; }
 .footer-telegram-icon { display: grid; place-items: center; width: 24px; height: 24px; margin-left: -2px; }
@@ -1736,6 +1736,16 @@ footer strong {
   max-width: 920px;
   padding-block: 76px 104px;
 }
+
+.legal-back {
+  display: inline-flex;
+  margin-bottom: 24px;
+  color: #cbd6ed;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.legal-back:hover { color: #fff; }
 
 .legal-page h1 {
   margin: 0 0 30px;

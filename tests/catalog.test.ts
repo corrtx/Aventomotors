@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { cars, cycleIndex, filterCars, getCarById, getGalleryLayout, selectPhotoIndex } from "../lib/catalog.ts";
+import { cars, cycleIndex, filterCars, getCarById, getGalleryLayout, hasDiscount, selectPhotoIndex } from "../lib/catalog.ts";
 
 test("filters cars by brand", () => {
   const result = filterCars(cars, { brand: "BMW" });
@@ -51,6 +51,13 @@ test("keeps BMW and Porsche out of the sale when they have no actual discount", 
     assert.equal(car?.isSpecialOffer, false);
     assert.equal(car?.discount, undefined);
   }
+});
+
+test("uses a real discount as the only source of special-offer eligibility", () => {
+  assert.equal(hasDiscount(getCarById("opel-insignia-grand-sport")!), true);
+  assert.equal(hasDiscount(getCarById("mazda-6-sedan")!), true);
+  assert.equal(hasDiscount(getCarById("bmw-x5")!), false);
+  assert.deepEqual(filterCars(cars, { specialOffer: true }).map((car) => car.id), ["opel-insignia-grand-sport", "mazda-6-sedan"]);
 });
 
 test("adds discounted Opel Insignia and new Mazda 6 offers with local galleries", () => {

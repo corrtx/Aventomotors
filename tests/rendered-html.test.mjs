@@ -114,8 +114,10 @@ test("renders privacy and payment policy pages", async () => {
   const [privacyHtml, paymentHtml] = await Promise.all([privacyResponse.text(), paymentResponse.text()]);
   assert.match(privacyHtml, /Політика конфіденційності/);
   assert.match(privacyHtml, /ТОВ «Авенто Моторс»/);
+  assert.match(privacyHtml, /← На головну/);
   assert.match(paymentHtml, /Оплата та безпека платежів/);
   assert.match(paymentHtml, /Повернення коштів/);
+  assert.match(paymentHtml, /← На головну/);
 });
 
 test("renders a detailed car page with both local photos and actions", async () => {
@@ -219,8 +221,11 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /usedCarsPage/);
   assert.match(site, /Автомобілі з пробігом/);
   assert.match(site, /car-old-price/);
+  assert.match(site, /key=\{`cars-\$\{specialOffersPage\}-\$\{usedCarsPage\}`\}/);
   assert.doesNotMatch(site, /Знижка \{formatNumber\.format\(car\.discount\)\}/);
   assert.doesNotMatch(css, /\.footer-phone,\s*\.footer-telegram \{[\s\S]*border-bottom/);
+  assert.match(css, /\.footer-phone:hover \{ color: #fff !important; \}/);
+  assert.match(css, /\.car-old-price \{[\s\S]*font-size: clamp\(30px,/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 

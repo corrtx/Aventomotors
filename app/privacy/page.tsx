@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Footer, Header } from "@/app/components/AventoSite";
 
 export const metadata: Metadata = { title: "Політика конфіденційності — Avento Motors" };
@@ -18,5 +19,5 @@ const sections = [
 ] as const;
 
 export default function PrivacyPage() {
-  return <div className="site-frame"><Header /><main className="legal-page section-shell"><p className="eyebrow">Дата набрання чинності: 24 липня 2026 року</p><h1>Політика конфіденційності</h1><p>Ця Політика конфіденційності визначає порядок збору, використання, зберігання та захисту персональних даних користувачів вебсайту <strong>Avento Motors</strong>. Використовуючи вебсайт, заповнюючи форми або звертаючись до нас, користувач підтверджує, що ознайомився з цією Політикою.</p>{sections.map(([title, text]) => <section key={title}><h2>{title}</h2><p>{text}</p></section>)}<section><h2>12. Контактна інформація</h2><p><strong>ТОВ «Авенто Моторс»</strong><br />Адреса: м. Київ, вул. Берестейська, 47Б<br />Email: comp@aventomotors.ua<br />Телефон: +380111111111<br />Графік роботи: понеділок — субота, 09:00–20:00</p></section></main><Footer /></div>;
+  return <div className="site-frame"><Header /><main className="legal-page section-shell"><Link className="legal-back" href="/">← На головну</Link><p className="eyebrow">Дата набрання чинності: 24 липня 2026 року</p><h1>Політика конфіденційності</h1><p>Ця Політика конфіденційності визначає порядок збору, використання, зберігання та захисту персональних даних користувачів вебсайту <strong>Avento Motors</strong>. Використовуючи вебсайт, заповнюючи форми або звертаючись до нас, користувач підтверджує, що ознайомився з цією Політикою.</p>{sections.map(([title, text]) => <section key={title}><h2>{title}</h2><p>{text}</p></section>)}<section><h2>12. Контактна інформація</h2><p><strong>ТОВ «Авенто Моторс»</strong><br />Адреса: м. Київ, вул. Берестейська, 47Б<br />Email: comp@aventomotors.ua<br />Телефон: +380111111111<br />Графік роботи: понеділок — субота, 09:00–20:00</p></section></main><Footer /></div>;
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { cars, type Car } from "@/lib/catalog";
+import { cars, hasDiscount, type Car } from "@/lib/catalog";
 import { CarCard, Footer, Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
 import { CarGallery } from "./CarGallery";
 
@@ -10,7 +10,7 @@ const formatNumber = new Intl.NumberFormat("uk-UA");
 
 export function CarDetailPage({ car }: { car: Car }) {
   const [request, setRequest] = useState<Action | null>(null);
-  const saleCars = cars.filter((item) => item.isSpecialOffer && item.id !== car.id);
+  const saleCars = cars.filter((item) => hasDiscount(item) && item.id !== car.id);
 
   return (
     <div className="site-frame">
@@ -56,7 +56,7 @@ export function CarDetailPage({ car }: { car: Car }) {
         </section>
 
         {saleCars.length > 0 && <section className="sale-rail">
-          <div className="sale-rail-heading"><h2>Розпродаж</h2>{cars.filter((item) => item.isSpecialOffer).length > 4 && <Link href="/offers">Усі спецпропозиції</Link>}</div>
+          <div className="sale-rail-heading"><h2>Розпродаж</h2>{cars.filter(hasDiscount).length > 4 && <Link href="/offers">Усі спецпропозиції</Link>}</div>
           <div className="sale-grid">
             {saleCars.slice(0, 4).map((item) => <CarCard car={item} key={item.id} onAction={(action) => setRequest(action)} />)}
           </div>
