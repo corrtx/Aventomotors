@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { cars, hasDiscount, type Car } from "@/lib/catalog";
+import { calculateMonthlyPayment, cars, hasDiscount, type Car } from "@/lib/catalog";
 import { CarCard, Footer, Header, RatingBadge, RequestModal, type Action } from "./AventoSite";
 import { CarGallery } from "./CarGallery";
 
@@ -31,7 +31,7 @@ export function CarDetailPage({ car }: { car: Car }) {
             <span>Ціна від</span>
             {car.discount && <s className="car-old-price">{formatNumber.format(car.price + car.discount)} ₴</s>}
             <strong>{formatNumber.format(car.price)} ₴</strong>
-            <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
+            <p>У кредит від {formatNumber.format(calculateMonthlyPayment(car.price))} ₴/міс.</p>
             <div className="detail-actions">
               <button className="action-primary" onClick={() => setRequest("credit")}>У кредит</button>
               <button onClick={() => setRequest("exchange")}>Обмін</button>

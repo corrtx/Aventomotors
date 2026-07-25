@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { brands, cars, cycleIndex, filterCars, selectPhotoIndex, type Car, type CarFilters } from "@/lib/catalog";
+import { brands, calculateMonthlyPayment, cars, cycleIndex, filterCars, selectPhotoIndex, type Car, type CarFilters } from "@/lib/catalog";
 
 type AventoSiteProps = {
   mode: "home" | "cars";
@@ -171,11 +171,20 @@ function BrandReel() {
 export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action, car: Car) => void }) {
   const router = useRouter();
   const [activePhoto, setActivePhoto] = useState(0);
+  const hasPrefetchedGallery = useRef(false);
   const selectPhoto = (index: number) => setActivePhoto(selectPhotoIndex(index, car.gallery.length));
+  const prefetchGallery = () => {
+    if (hasPrefetchedGallery.current) return;
+    hasPrefetchedGallery.current = true;
+    car.gallery.slice(1).forEach((image) => {
+      const preload = new Image();
+      preload.src = image;
+    });
+  };
 
   return (
     <article className="car-card">
-      <div className="card-photo-area">
+      <div className="card-photo-area" onPointerEnter={prefetchGallery}>
         <Link className="photo-frame" href={`/cars/${car.id}`} aria-label={`Докладніше про ${car.brand} ${car.model}`}>
           <img src={car.gallery[activePhoto] ?? car.coverImage} alt={`${car.brand} ${car.model}`} loading="lazy" />
         </Link>
@@ -214,7 +223,7 @@ export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action
         <span>Ціна від</span>
         {car.discount && <s className="car-old-price">{formatNumber.format(car.price + car.discount)} ₴</s>}
         <strong>{formatNumber.format(car.price)} ₴</strong>
-        <p>У кредит від {formatNumber.format(car.monthlyPayment)} ₴/міс.</p>
+        <p>У кредит від {formatNumber.format(calculateMonthlyPayment(car.price))} ₴/міс.</p>
       </div>
 
       <div className="car-actions">

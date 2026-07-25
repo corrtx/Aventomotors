@@ -153,6 +153,10 @@ export const brands = [
   "Volvo",
 ] as const;
 
+export function calculateMonthlyPayment(price: number) {
+  return Math.round(price * 0.01358 / 50) * 50;
+}
+
 export function filterCars(items: Car[], filters: CarFilters) {
   return items.filter((car) => {
     if (filters.brands?.length && !filters.brands.includes(car.brand)) return false;

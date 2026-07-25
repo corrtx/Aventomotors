@@ -224,11 +224,16 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(site, /usedCarsPage/);
   assert.match(site, /Автомобілі з пробігом/);
   assert.match(site, /car-old-price/);
+  assert.match(site, /calculateMonthlyPayment\(car\.price\)/);
+  assert.match(site, /prefetchGallery/);
+  assert.match(site, /onPointerEnter=\{prefetchGallery\}/);
   assert.match(site, /key=\{`cars-\$\{specialOffersPage\}-\$\{usedCarsPage\}`\}/);
   assert.doesNotMatch(site, /Знижка \{formatNumber\.format\(car\.discount\)\}/);
   assert.doesNotMatch(css, /\.footer-phone,\s*\.footer-telegram \{[\s\S]*border-bottom/);
   assert.match(css, /\.footer-phone:hover \{ color: #fff !important; \}/);
   assert.match(css, /\.car-old-price \{[\s\S]*font-size: clamp\(30px,/);
+  assert.match(css, /\.detail-offer \{[\s\S]*height: 520px;/);
+  assert.match(css, /\.legal-back \{[\s\S]*margin-left:/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 
