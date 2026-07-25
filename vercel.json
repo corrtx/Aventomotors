@@ -1,0 +1,27 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/client",
+  "rewrites": [
+    { "source": "/avento-logo.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/avento-logo.png" },
+    { "source": "/avento-logo-mark.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/avento-logo-mark.png" },
+    { "source": "/avento-logo-mark-white.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/avento-logo-mark-white.png" },
+    { "source": "/telegram.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/telegram.png" },
+    { "source": "/cars/bmw-x5-front.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/bmw-x5-front.jpg" },
+    { "source": "/cars/bmw-x5-rear.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/bmw-x5-rear.jpg" },
+    { "source": "/cars/porsche-911-front.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/porsche-911-front.jpg" },
+    { "source": "/cars/porsche-911-rear.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/porsche-911-rear.jpg" },
+    { "source": "/cars/opel-insignia-front.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/opel-insignia-front.jpg" },
+    { "source": "/cars/opel-insignia-rear.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/opel-insignia-rear.jpg" },
+    { "source": "/cars/mazda-6-front.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/mazda-6-front.jpg" },
+    { "source": "/cars/mazda-6-rear.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/cars/mazda-6-rear.jpg" },
+    { "source": "/hero/avento-bmw-night.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/hero/avento-bmw-night.jpg" },
+    { "source": "/hero/avento-audi-night.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/hero/avento-audi-night.jpg" },
+    { "source": "/hero/avento-range-rover-sunset.jpg", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/hero/avento-range-rover-sunset.jpg" },
+    { "source": "/buyout/step-keys-transparent.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/buyout/step-keys-transparent.png" },
+    { "source": "/buyout/step-inspection-transparent.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/buyout/step-inspection-transparent.png" },
+    { "source": "/buyout/step-price-transparent.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/buyout/step-price-transparent.png" },
+    { "source": "/buyout/step-contract-transparent.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/buyout/step-contract-transparent.png" },
+    { "source": "/brands/lexus.png", "destination": "https://raw.githubusercontent.com/corrtx/Aventomotors/main/public/brands/lexus.png" },
+    { "source": "/:path*", "destination": "/index.html" }
+  ]
+}
