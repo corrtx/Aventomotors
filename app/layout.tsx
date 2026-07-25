@@ -19,8 +19,9 @@ export const metadata: Metadata = {
   },
   description: "Перевірені автомобілі, кредит, обмін і резерв.",
   icons: {
-    icon: "/avento-logo.png",
-    shortcut: "/avento-logo.png",
+    icon: "/avento-logo-mark.png",
+    shortcut: "/avento-logo-mark.png",
+    apple: "/avento-logo-mark.png",
   },
 };
 
