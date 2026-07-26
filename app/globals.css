@@ -765,15 +765,23 @@ footer {
   width: 46px;
   height: 46px;
   flex: 0 0 auto;
+  overflow: hidden;
   border-radius: 12px;
   background: #fff;
 }
 
 .brand-mark img {
   display: block;
-  width: 38px;
-  height: 38px;
+  width: min(38px, 100%);
+  height: min(38px, 100%);
   object-fit: contain;
+}
+
+.brand-chip > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .brand-monogram {
@@ -2223,13 +2231,13 @@ footer strong {
     width: 100vw;
     height: auto;
     min-height: 0;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1.58 / 1;
     margin-left: calc(50% - 50vw);
     margin-bottom: 42px;
   }
 
   .hero-slide img {
-    object-position: center;
+    object-position: 42% center;
   }
 
   .hero-arrow {
