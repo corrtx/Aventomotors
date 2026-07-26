@@ -765,19 +765,21 @@ footer {
   width: 46px;
   height: 46px;
   flex: 0 0 auto;
-  overflow: hidden;
   border-radius: 12px;
   background: #fff;
 }
 
 .brand-mark img {
   display: block;
-  width: min(38px, 100%);
-  height: min(38px, 100%);
+  width: auto;
+  height: auto;
+  max-width: 38px;
+  max-height: 38px;
   object-fit: contain;
 }
 
 .brand-chip > span:last-child {
+  flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2231,7 +2233,7 @@ footer strong {
     width: 100vw;
     height: auto;
     min-height: 0;
-    aspect-ratio: 1.58 / 1;
+    aspect-ratio: 1.42 / 1;
     margin-left: calc(50% - 50vw);
     margin-bottom: 42px;
   }

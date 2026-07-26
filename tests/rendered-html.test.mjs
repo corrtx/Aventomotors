@@ -238,7 +238,7 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.match(css, /\.detail-offer > strong \{[\s\S]*font-size: clamp\(36px, 4\.5vw, 60px\);/);
   assert.match(css, /\.detail-offer \{[\s\S]*height: 520px;/);
   assert.match(css, /\.legal-back \{[\s\S]*margin-left:/);
-  assert.match(css, /@media \(max-width: 768px\)[\s\S]*\.hero-carousel \{[\s\S]*aspect-ratio: 1\.58 \/ 1;/);
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*\.hero-carousel \{[\s\S]*aspect-ratio: 1\.42 \/ 1;/);
   assert.match(css, /\.brand-filter:not\(\.is-open\) \.range-dropdown,[\s\S]*\.year-filter:not\(\.is-open\) \.range-dropdown \{[\s\S]*max-height: 0;/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
