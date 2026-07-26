@@ -35,6 +35,8 @@ test("renders the Avento Motors home page", async () => {
   assert.match(html, /Ціна від/);
   assert.match(html, /У кредит від/);
   assert.match(html, /card-photo-segments/);
+  assert.match(html, /aria-label="Попереднє фото"/);
+  assert.match(html, /aria-label="Наступне фото"/);
   assert.match(html, /Безкоштовний резерв до 24 годин/);
   assert.match(html, /Усі авто/);
   assert.match(html, /З пробігом/);
@@ -232,10 +234,12 @@ test("ships the finished visual system without starter artifacts", async () => {
   assert.doesNotMatch(css, /\.footer-phone,\s*\.footer-telegram \{[\s\S]*border-bottom/);
   assert.match(css, /\.footer-phone:hover \{ color: #fff !important; \}/);
   assert.match(css, /\.car-old-price \{[\s\S]*font-size: clamp\(30px,/);
-  assert.match(css, /\.car-price strong \{[\s\S]*font-size: clamp\(19px, 2\.05vw, 28px\);/);
-  assert.match(css, /\.detail-offer > strong \{[\s\S]*font-size: clamp\(32px, 4vw, 54px\);/);
+  assert.match(css, /\.car-price strong \{[\s\S]*font-size: clamp\(22px, 2\.4vw, 32px\);/);
+  assert.match(css, /\.detail-offer > strong \{[\s\S]*font-size: clamp\(36px, 4\.5vw, 60px\);/);
   assert.match(css, /\.detail-offer \{[\s\S]*height: 520px;/);
   assert.match(css, /\.legal-back \{[\s\S]*margin-left:/);
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*\.hero-carousel \{[\s\S]*aspect-ratio: 16 \/ 9;/);
+  assert.match(css, /\.brand-filter:not\(\.is-open\) \.range-dropdown,[\s\S]*\.year-filter:not\(\.is-open\) \.range-dropdown \{[\s\S]*max-height: 0;/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
 

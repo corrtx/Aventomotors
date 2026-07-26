@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { brands, calculateMonthlyPayment, cars, cycleIndex, filterCars, selectPhotoIndex, type Car, type CarFilters } from "@/lib/catalog";
+import { brands, calculateMonthlyPayment, cars, cycleIndex, filterCars, selectPhotoIndex, toggleOpenFilter, type Car, type CarFilters, type CatalogFilterId } from "@/lib/catalog";
 
 type AventoSiteProps = {
   mode: "home" | "cars";
@@ -181,6 +181,10 @@ export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action
       preload.src = image;
     });
   };
+  const movePhoto = (offset: number) => {
+    prefetchGallery();
+    setActivePhoto((current) => cycleIndex(current, car.gallery.length, offset));
+  };
 
   return (
     <article className="car-card">
@@ -200,6 +204,12 @@ export function CarCard({ car, onAction }: { car: Car; onAction: (action: Action
             />
           ))}
         </div>
+        {car.gallery.length > 1 && (
+          <>
+            <button type="button" className="card-photo-arrow card-photo-arrow-prev" onClick={() => movePhoto(-1)} aria-label="Попереднє фото"><span aria-hidden="true">‹</span></button>
+            <button type="button" className="card-photo-arrow card-photo-arrow-next" onClick={() => movePhoto(1)} aria-label="Наступне фото"><span aria-hidden="true">›</span></button>
+          </>
+        )}
         <div className="card-photo-segments" aria-hidden="true">
           {car.gallery.map((image, index) => <span className={index === activePhoto ? "is-active" : ""} key={image} />)}
         </div>
@@ -369,6 +379,8 @@ function RangeFilter({
   maxValue,
   onMinChange,
   onMaxChange,
+  open,
+  onOpenChange,
 }: {
   title: string;
   unit: "₴" | "км";
@@ -376,8 +388,9 @@ function RangeFilter({
   maxValue?: number;
   onMinChange: (value: string) => void;
   onMaxChange: (value: string) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
-  const [open, setOpen] = useState(Boolean(minValue || maxValue));
   const summary = minValue && maxValue
     ? `${formatNumber.format(minValue)} ${unit} — ${formatNumber.format(maxValue)} ${unit}`
     : minValue
@@ -388,7 +401,7 @@ function RangeFilter({
 
   return (
     <div className={open ? "range-filter is-open" : "range-filter"}>
-      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}>
+      <button type="button" className="range-filter-toggle" onClick={() => onOpenChange(!open)} aria-expanded={open}>
         <span>{title}</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" />
       </button>
       <div className="range-dropdown">
@@ -399,8 +412,7 @@ function RangeFilter({
   );
 }
 
-function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue?: number; maxValue?: number; onMinChange: (value: string) => void; onMaxChange: (value: string) => void }) {
-  const [open, setOpen] = useState(Boolean(minValue || maxValue));
+function YearFilter({ minValue, maxValue, onMinChange, onMaxChange, open, onOpenChange }: { minValue?: number; maxValue?: number; onMinChange: (value: string) => void; onMaxChange: (value: string) => void; open: boolean; onOpenChange: (open: boolean) => void }) {
   const [target, setTarget] = useState<"min" | "max" | null>(null);
   const years = Array.from({ length: 17 }, (_, index) => 2010 + index);
   const summary = minValue && maxValue ? `${minValue} — ${maxValue}` : minValue ? `від ${minValue}` : maxValue ? `до ${maxValue}` : "Будь-який";
@@ -412,7 +424,7 @@ function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue
 
   return (
     <div className={open ? "range-filter year-filter is-open" : "range-filter year-filter"}>
-      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Рік</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
+      <button type="button" className="range-filter-toggle" onClick={() => onOpenChange(!open)} aria-expanded={open}><span>Рік</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
       <div className="range-dropdown">
         <label><button type="button" className="range-choice-value" onClick={() => setTarget("min")}><span>Мін.</span><span>{minValue ?? "Будь-який"}</span></button></label>
         <label><button type="button" className="range-choice-value" onClick={() => setTarget("max")}><span>Макс.</span><span>{maxValue ?? "Будь-який"}</span></button></label>
@@ -422,13 +434,12 @@ function YearFilter({ minValue, maxValue, onMinChange, onMaxChange }: { minValue
   );
 }
 
-function BrandFilter({ values, onChange }: { values?: string[]; onChange: (value: string[]) => void }) {
-  const [open, setOpen] = useState(false);
+function BrandFilter({ values, onChange, open, onOpenChange }: { values?: string[]; onChange: (value: string[]) => void; open: boolean; onOpenChange: (open: boolean) => void }) {
   const summary = values?.length ? values.map((brand) => `"${brand}"`).join(", ") : "Усі марки";
 
   return (
     <div className={open ? "range-filter brand-filter is-open" : "range-filter brand-filter"}>
-      <button type="button" className="range-filter-toggle" onClick={() => setOpen((current) => !current)} aria-expanded={open}><span>Марки</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
+      <button type="button" className="range-filter-toggle" onClick={() => onOpenChange(!open)} aria-expanded={open}><span>Марки</span><span className="range-summary">{summary}</span><span className="range-chevron" aria-hidden="true" /></button>
       <div className="range-dropdown brand-choice-list" aria-label="Оберіть марку"><button type="button" className={!values?.length ? "is-selected" : ""} onClick={() => onChange([])}>Усі марки</button>{brands.map((brand) => <button className={values?.includes(brand) ? "is-selected" : ""} type="button" key={brand} onClick={() => onChange(values?.includes(brand) ? values.filter((item) => item !== brand) : [...(values ?? []), brand])}>{brand}</button>)}</div>
     </div>
   );
@@ -496,7 +507,12 @@ function HomePage({ onAction }: { onAction: (action: Action, car: Car) => void }
 
 function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpecialOffer, specialOffersPage, usedCarsPage, onAction }: Omit<AventoSiteProps, "mode"> & { onAction: (action: Action, car: Car) => void }) {
   const [filters, setFilters] = useState<CarFilters>({ brands: initialBrand ? [initialBrand] : undefined, maxPrice: initialMaxPrice, minMileage: initialMinMileage, specialOffer: initialSpecialOffer });
+  const [openFilter, setOpenFilter] = useState<CatalogFilterId | null>(null);
   const filteredCars = useMemo(() => filterCars(cars, filters), [filters]);
+  const filterDisclosure = (id: CatalogFilterId) => ({
+    open: openFilter === id,
+    onOpenChange: () => setOpenFilter((current) => toggleOpenFilter(current, id)),
+  });
 
   const setFilter = (name: keyof CarFilters, value: string) => {
     setFilters((current) => ({ ...current, [name]: value ? Number.isNaN(Number(value)) ? value : Number(value) : undefined }));
@@ -539,10 +555,10 @@ function CarsPage({ initialBrand, initialMaxPrice, initialMinMileage, initialSpe
       </section>
 
       <section className="filters" aria-label="Фільтри автомобілів">
-        <BrandFilter values={filters.brands} onChange={(values) => setFilters((current) => ({ ...current, brands: values.length ? values : undefined }))} />
-        <RangeFilter title="Ціна" unit="₴" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
-        <YearFilter minValue={filters.minYear} maxValue={filters.maxYear} onMinChange={(value) => setFilter("minYear", value)} onMaxChange={(value) => setFilter("maxYear", value)} />
-        <RangeFilter title="Пробіг" unit="км" minValue={filters.minMileage} maxValue={filters.maxMileage} onMinChange={(value) => setFilter("minMileage", value)} onMaxChange={(value) => setFilter("maxMileage", value)} />
+        <BrandFilter {...filterDisclosure("brands")} values={filters.brands} onChange={(values) => setFilters((current) => ({ ...current, brands: values.length ? values : undefined }))} />
+        <RangeFilter {...filterDisclosure("price")} title="Ціна" unit="₴" minValue={filters.minPrice} maxValue={filters.maxPrice} onMinChange={(value) => setFilter("minPrice", value)} onMaxChange={(value) => setFilter("maxPrice", value)} />
+        <YearFilter {...filterDisclosure("year")} minValue={filters.minYear} maxValue={filters.maxYear} onMinChange={(value) => setFilter("minYear", value)} onMaxChange={(value) => setFilter("maxYear", value)} />
+        <RangeFilter {...filterDisclosure("mileage")} title="Пробіг" unit="км" minValue={filters.minMileage} maxValue={filters.maxMileage} onMinChange={(value) => setFilter("minMileage", value)} onMaxChange={(value) => setFilter("maxMileage", value)} />
       </section>
 
       {selectedFilters.length > 0 && <div className="selected-filters" aria-label="Обрані фільтри">{selectedFilters.map((filter) => <button type="button" className="selected-filter-chip" key={filter.key} onClick={filter.remove}><span>{filter.label}</span><span aria-hidden="true">×</span></button>)}</div>}

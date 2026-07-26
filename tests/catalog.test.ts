@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { calculateMonthlyPayment, cars, cycleIndex, filterCars, getCarById, getGalleryLayout, hasDiscount, selectPhotoIndex } from "../lib/catalog.ts";
+import { calculateMonthlyPayment, cars, cycleIndex, filterCars, getCarById, getGalleryLayout, hasDiscount, selectPhotoIndex, toggleOpenFilter } from "../lib/catalog.ts";
 
 test("filters cars by brand", () => {
   const result = filterCars(cars, { brand: "BMW" });
@@ -117,4 +117,10 @@ test("wraps carousel navigation around both ends", () => {
 test("keeps photo selection within gallery bounds", () => {
   assert.equal(selectPhotoIndex(3, 2), 1);
   assert.equal(selectPhotoIndex(-1, 2), 0);
+});
+
+test("keeps only one catalogue filter open at a time", () => {
+  assert.equal(toggleOpenFilter(null, "price"), "price");
+  assert.equal(toggleOpenFilter("price", "year"), "year");
+  assert.equal(toggleOpenFilter("year", "year"), null);
 });

@@ -31,6 +31,8 @@ export type CarFilters = {
   specialOffer?: boolean;
 };
 
+export type CatalogFilterId = "brands" | "price" | "year" | "mileage";
+
 export const cars: Car[] = [
   {
     id: "bmw-x5",
@@ -195,4 +197,8 @@ export function cycleIndex(current: number, length: number, offset: number) {
 
 export function selectPhotoIndex(index: number, length: number) {
   return length ? Math.min(Math.max(index, 0), length - 1) : 0;
+}
+
+export function toggleOpenFilter(current: CatalogFilterId | null, next: CatalogFilterId) {
+  return current === next ? null : next;
 }
