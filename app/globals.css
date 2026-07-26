@@ -773,8 +773,8 @@ footer {
   display: block;
   width: auto;
   height: auto;
-  max-width: 38px;
-  max-height: 38px;
+  max-width: 30px;
+  max-height: 30px;
   object-fit: contain;
 }
 
@@ -2231,15 +2231,16 @@ footer strong {
 
   .hero-carousel {
     width: 100vw;
-    height: auto;
+    height: clamp(246px, 64vw, 310px);
     min-height: 0;
-    aspect-ratio: 1.42 / 1;
+    aspect-ratio: auto;
     margin-left: calc(50% - 50vw);
     margin-bottom: 42px;
   }
 
   .hero-slide img {
-    object-position: 42% center;
+    object-fit: fill;
+    object-position: center;
   }
 
   .hero-arrow {
